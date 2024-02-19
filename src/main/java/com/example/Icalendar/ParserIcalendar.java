@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.regex.Pattern;
 
 
 public class ParserIcalendar {
@@ -50,57 +51,25 @@ public class ParserIcalendar {
 
             String location = allContent.split(";")[1].split(":")[1];
 
-            String ligne = bufferedReader.readLine();
-            String description="";
-            String content="";
-            boolean ajouter = false;
-            while(ligne.split(";")[0]!="X-ALT-DESC"){
-                String[] lines = ligne.split(";");
-                if(lines.length>1){
-                    for (int i =0 ; i< lines[1].split("\\n").length;i++){
-                        int j = 1 ;
-                        if(i != 0) {
-                            j = j - 1;
-                        }
-                        description = lines[1].split("\\n")[i].split(":")[j];
-                        if(lines[1].split("\\n")[i].split(":").length>1) {
-                            content = lines[1].split("\\n")[i].split(":")[j + 1];
-                        }
-                        ajouter=false;
-                        if(lines[1].split("\\n").length>1 && i < lines[1].split("\\n").length -1){
-                            descriptionEvent.addDescription(description,content);
-                            ajouter=true;
-                        }
-                    }
-                }
-                else{
-                    for (int i=0 ; i<lines[0].split("\n").length ; i++){
-                        if(ajouter==false) {
-                            description = description + lines[0].split("\\n")[i].split(":")[0];
-                            content = content + lines[0].split("\\n")[i].split(":")[1];
-                            ajouter=true;
-                        }
-                        else{
-                            description = lines[0].split("\\n")[i].split(":")[0];
-                            if(lines[0].split("\\n")[i].split(":").length>1) {
-                                content = lines[0].split("\\n")[i].split(":")[1];
-                            }
-                            else{
-                                ajouter = false;
-                            }
-                        }
-                        if(ajouter){
-                            descriptionEvent.addDescription(description,content);
-                        }
-                    }
-                }
-                ligne = bufferedReader.readLine();
+            allContent="";
+            while (!line.split(";")[0].equals("X-ALT-DESC")){
+                allContent=allContent+line;
+                line = bufferedReader.readLine();
+            }
+            descriptionEvent.addDescription(allContent.split(";")[1].split(Pattern.quote("\\n"))[0].split(":")[1],allContent.split(";")[1].split(Pattern.quote("\\n"))[0].split(":")[2]);
+            System.out.println("###########");
+            for (int i = 1 ; i<allContent.split(";")[1].split(Pattern.quote("\\n")).length;i++){
+                String key = allContent.split(";")[1].split(Pattern.quote("\\n"))[i].split(":")[0];
+                String value = allContent.split(";")[1].split(Pattern.quote("\\n"))[i].split(":")[1];
+                System.out.println("key = "+key);
+                System.out.println("value = "+value);
+                System.out.println("###########");
+                descriptionEvent.addDescription(key,value);
             }
             Event event = new Event(dateEvent,summary,location,descriptionEvent);
             apiCalendar.addEvent(event);
             while(!bufferedReader.readLine().equals("BEGIN:VEVENT")){}
         }
-
         return apiCalendar;
     }
 
