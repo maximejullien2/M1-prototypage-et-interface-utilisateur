@@ -25,7 +25,7 @@ public class ParserIcalendar {
         while(!bufferedReader.readLine().equals("BEGIN:VEVENT")){}
         while(!bufferedReader.readLine().equals("END:VCALENDAR")){
             bufferedReader.readLine();
-            String lastModified = bufferedReader.readLine().split(":")[0];
+            String lastModified = bufferedReader.readLine().split(":")[1];
             bufferedReader.readLine();
             String dateStart = bufferedReader.readLine().split(":")[1];
             String dateEnd = bufferedReader.readLine().split(":")[1];
