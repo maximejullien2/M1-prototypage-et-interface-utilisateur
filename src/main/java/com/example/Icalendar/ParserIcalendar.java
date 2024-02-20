@@ -26,11 +26,17 @@ public class ParserIcalendar {
         while(!bufferedReader.readLine().equals("BEGIN:VEVENT")){}
         while(!bufferedReader.readLine().equals("END:VCALENDAR")){
             bufferedReader.readLine();
-            String lastModified = bufferedReader.readLine().split(":")[1];
-            bufferedReader.readLine();
+            String text = bufferedReader.readLine();
+            String lastModified ;
+            if(text.split(":")[0].equals("LAST-MODIFIED")){
+                lastModified = text.split(":")[1];
+                bufferedReader.readLine();
+            }
+            else{
+                lastModified =null;
+            }
             String dateStart = bufferedReader.readLine().split(":")[1];
             String dateEnd = bufferedReader.readLine().split(":")[1];
-
             DateEvent dateEvent = new DateEvent(dateStart,dateEnd,lastModified);
             DescriptionEvent descriptionEvent = new DescriptionEvent();
 
@@ -57,13 +63,13 @@ public class ParserIcalendar {
                 line = bufferedReader.readLine();
             }
             descriptionEvent.addDescription(allContent.split(";")[1].split(Pattern.quote("\\n"))[0].split(":")[1],allContent.split(";")[1].split(Pattern.quote("\\n"))[0].split(":")[2]);
-            System.out.println("###########");
+            //System.out.println("###########");
             for (int i = 1 ; i<allContent.split(";")[1].split(Pattern.quote("\\n")).length;i++){
                 String key = allContent.split(";")[1].split(Pattern.quote("\\n"))[i].split(":")[0];
                 String value = allContent.split(";")[1].split(Pattern.quote("\\n"))[i].split(":")[1];
-                System.out.println("key = "+key);
+                /*System.out.println("key = "+key);
                 System.out.println("value = "+value);
-                System.out.println("###########");
+                System.out.println("###########");*/
                 descriptionEvent.addDescription(key,value);
             }
             Event event = new Event(dateEvent,summary,location,descriptionEvent);
@@ -73,15 +79,4 @@ public class ParserIcalendar {
         return apiCalendar;
     }
 
-    public HashMap<String,String> parseDataOnMultyLine(BufferedReader bufferedReader,String stopword,int position) throws IOException {
-        HashMap<String,String> output = new HashMap<String,String>();
-        String allContent="";
-        String line = bufferedReader.readLine();
-        while (!line.split(":")[0].equals(stopword)){
-            allContent=allContent+line;
-            line = bufferedReader.readLine();
-        }
-        output.put(allContent.split(";")[0],allContent.split(";")[0].split(":")[1]);
-        return output;
-    }
 }
