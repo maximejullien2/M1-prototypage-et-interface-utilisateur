@@ -1,8 +1,6 @@
 package com.example.Icalendar;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class DateEvent {
 
@@ -21,16 +19,17 @@ public class DateEvent {
         this.startDate= LocalDateTime.parse(startDate);
 
         if(lastModified!=null) {
-            lastModified = lastModified.substring(0, 4) + "-" + lastModified.substring(4, 6) + "-" + lastModified.substring(6, 11) + ":"
-                    + lastModified.substring(11, 13) + ":" + lastModified.substring(13, 15);
+            lastModified = lastModified.substring(0, 4) + "-" + lastModified.substring(4, 6) + "-" +
+                    lastModified.substring(6, 11) + ":"+ lastModified.substring(11, 13) + ":" + lastModified.substring(13, 15);
             this.lastModified = LocalDateTime.parse(lastModified);
         }
         else {
             this.lastModified=LocalDateTime.now();
         }
+
         if(endDate.length()>8){
             endDate = endDate.substring(0,4)+"-"+endDate.substring(4,6)+"-"+endDate.substring(6,11)+":"
-                +endDate.substring(11,13)+":"+endDate.substring(13,15);
+                    +endDate.substring(11,13)+":"+endDate.substring(13,15);
 
         }
         else{
