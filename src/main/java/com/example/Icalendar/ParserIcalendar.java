@@ -116,6 +116,8 @@ public class ParserIcalendar {
         String location = allContent.split(";")[1].split(":")[1];
         allContent = "";
         while (!line.split(";")[0].equals("X-ALT-DESC")) {
+            if (line.substring(0,1).equals(" "))
+                line = line.substring(1);
             allContent = allContent + line;
             line = bufferedReader.readLine();
         }
@@ -123,6 +125,14 @@ public class ParserIcalendar {
         for (int i = 1; i < allContent.split(";")[1].split(Pattern.quote("\\n")).length; i++) {
             String key = allContent.split(";")[1].split(Pattern.quote("\\n"))[i].split(":")[0];
             String value = allContent.split(";")[1].split(Pattern.quote("\\n"))[i].split(":")[1];
+            if(value.indexOf("=")!=-1){
+                if(value.charAt(value.indexOf("=")-1)!=' '){
+                    value = value.substring(0,value.indexOf("="))+" "+value.substring(value.indexOf("="));
+                }
+                if(value.charAt(value.indexOf("=")+1)!=' '){
+                    value = value.substring(0,value.indexOf("=")+1)+" "+value.substring(value.indexOf("=")+1);
+                }
+            }
             descriptionEvent.addDescription(key, value);
         }
         while (!bufferedReader.readLine().equals("BEGIN:VEVENT")) {}
