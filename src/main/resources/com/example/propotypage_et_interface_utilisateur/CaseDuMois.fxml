@@ -7,9 +7,9 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Text?>
 
-<VBox prefHeight="114.0" prefWidth="117.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fillWidth="false" prefHeight="115.0" prefWidth="125.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.propotypage_et_interface_utilisateur.CaseDuMoisController">
    <children>
-      <HBox prefHeight="100.0" prefWidth="200.0">
+      <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-spacing: 10;">
          <children>
             <Text fx:id="nombreSeanceId" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
             <Text fx:id="jourID" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
@@ -32,4 +32,7 @@
          </VBox.margin>
       </FlowPane>
    </children>
+   <padding>
+      <Insets right="10.0" />
+   </padding>
 </VBox>

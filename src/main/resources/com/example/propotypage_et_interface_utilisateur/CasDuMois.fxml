@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="443.0" prefWidth="635.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="1072.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.propotypage_et_interface_utilisateur.CasDuMoisController">
    <children>
-      <FlowPane fx:id="JourMois" layoutY="59.0" prefHeight="228.0" prefWidth="635.0" />
+      <FlowPane fx:id="jourMois" layoutY="59.0" prefHeight="228.0" prefWidth="635.0" />
       <GridPane prefHeight="58.0" prefWidth="635.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -32,8 +32,9 @@
             <Pane prefHeight="58.0" prefWidth="147.0" style="-fx-border-color: black;" GridPane.columnIndex="1" />
             <Pane prefHeight="58.0" prefWidth="147.0" style="-fx-border-color: black;" GridPane.columnIndex="2" />
             <Pane prefHeight="58.0" prefWidth="147.0" style="-fx-border-color: black;" GridPane.columnIndex="3" />
-            <Pane prefHeight="58.0" prefWidth="147.0" style="-fx-border-color: black;" GridPane.columnIndex="4" />
+            <Pane prefHeight="58.0" prefWidth="372.0" style="-fx-border-color: black;" GridPane.columnIndex="4" />
          </children>
       </GridPane>
+      <Text layoutX="661.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="4684688648668+646868486486846846864867468" />
    </children>
 </AnchorPane>
