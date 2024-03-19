@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="anchorPane" cache="true" cacheShape="false" centerShape="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mouseTransparent="true" prefHeight="67.5" prefWidth="128.0" scaleShape="false" style="-fx-background-color: blue; -fx-border-color: black;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.propotypage_et_interface_utilisateur.CaseDeLaSemaineController">
+   <children>
+      <Text fx:id="heureEtType" layoutX="2.0" layoutY="26.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" text="08h30-10h00\TPPPPPPPPPPP" wrappingWidth="131.00000023841858">
+         <font>
+            <Font size="9.0" />
+         </font></Text>
+      <Text fx:id="salle" layoutX="3.0" layoutY="11.0" strokeType="OUTSIDE" strokeWidth="0.0" text="111111111111111111111" wrappingWidth="121.12646527617471">
+         <font>
+            <Font size="9.0" />
+         </font></Text>
+      <Text fx:id="cours" layoutX="2.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cours:UCE 2 PROTOTYPAGE ET INTERFAC">
+         <font>
+            <Font size="9.0" />
+         </font></Text>
+      <Text fx:id="professeur" layoutX="2.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Prof:MDHAFFAR Salima/Pierre FRANCIS">
+         <font>
+            <Font size="9.0" />
+         </font></Text>
+      <Text fx:id="groupeOuPromotion" layoutX="2.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TD:M1-IA-IL-CLA/M1-IA-ALT">
+         <font>
+            <Font size="9.0" />
+         </font></Text>
+   </children>
+</AnchorPane>
