@@ -32,8 +32,8 @@ public class CasDuJourController implements Initializable {
                 FXMLLoader fxmlLoader = new FXMLLoader(test);
                 AnchorPane anchorPane = fxmlLoader.load();
                 casePourLeJourController = fxmlLoader.getController();
-                casePourLeJourController.setNombreDeCase(2);
-                casePourLeJourController.setInformation("C130000000000000000000000","08h00-09h30\\TP",
+                casePourLeJourController.setNombreDeCase(9);
+                casePourLeJourController.setInformation("C1300000000000000000000000000000000000000","08h00-09h30\\TP",
                         "Cours:UCE 3 Interface et prototypage","Prof:MDHAFFAR Salima",
                         "TD:M1-IA-IL-CLA/M1-IA-ALT");
                 vBox.getChildren().add(anchorPane);

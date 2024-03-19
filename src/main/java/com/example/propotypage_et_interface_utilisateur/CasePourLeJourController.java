@@ -2,7 +2,6 @@ package com.example.propotypage_et_interface_utilisateur;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
@@ -13,7 +12,7 @@ public class CasePourLeJourController implements Initializable {
     @FXML
     AnchorPane anchorPane;
     @FXML
-    Label salle;
+    Text salle;
     @FXML
     Text heureEtType;
     @FXML
@@ -28,28 +27,32 @@ public class CasePourLeJourController implements Initializable {
         this.nombreDeCase = nombreDeCase;
     }
     public void setInformation(String salle,String heureEtType,String cours,String professeur,String groupeOuPromotion){
-        if (salle.length()>21/nombreDeCase){
-            salle = salle.substring(0,20/nombreDeCase);
-        }
-        if(heureEtType.length()>23/nombreDeCase){
-            heureEtType = heureEtType.substring(0,22/nombreDeCase);
-        }
-        this.heureEtType.setText(heureEtType);
-        if(cours.length()>23/nombreDeCase){
-            cours = cours.substring(0,22/nombreDeCase);
-        }
-        this.cours.setText(cours);
-        if(professeur.length()>24/nombreDeCase){
-            professeur = professeur.substring(0,23/nombreDeCase);
-        }
-        this.professeur.setText(professeur);
-        if(groupeOuPromotion.length()>25/nombreDeCase){
-            groupeOuPromotion = groupeOuPromotion.substring(0,24/nombreDeCase);
-        }
-        this.groupeOuPromotion.setText(groupeOuPromotion);
         this.anchorPane.setPrefWidth(638/nombreDeCase);
         this.salle.setText(salle);
-
+        while (this.salle.getLayoutBounds().getWidth()>this.anchorPane.getPrefWidth()-10){
+            salle = salle.substring(0,salle.length()-1);
+            this.salle.setText(salle);
+        }
+        this.heureEtType.setText(heureEtType);
+        while (this.heureEtType.getLayoutBounds().getWidth()>this.anchorPane.getPrefWidth()-10 && heureEtType.length()>0){
+            heureEtType = heureEtType.substring(0,heureEtType.length()-1);
+            this.heureEtType.setText(heureEtType);
+        }
+        this.cours.setText(cours);
+        while (this.cours.getLayoutBounds().getWidth()>this.anchorPane.getPrefWidth()-10){
+            cours = cours.substring(0,cours.length()-1);
+            this.cours.setText(cours);
+        }
+        this.professeur.setText(professeur);
+        while (this.professeur.getLayoutBounds().getWidth()>this.anchorPane.getPrefWidth()-10){
+            professeur = professeur.substring(0,professeur.length()-1);
+            this.professeur.setText(professeur);
+        }
+        this.groupeOuPromotion.setText(groupeOuPromotion);
+        while (this.groupeOuPromotion.getLayoutBounds().getWidth()>this.anchorPane.getPrefWidth()-10){
+            groupeOuPromotion = groupeOuPromotion.substring(0,groupeOuPromotion.length()-1);
+            this.groupeOuPromotion.setText(groupeOuPromotion);
+        }
     }
     public void setOpacity(double value){
         this.anchorPane.setOpacity(value);
