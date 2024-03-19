@@ -25,7 +25,7 @@ public class CalendrierController implements Initializable {
         this.choiceBox.getItems().add("Semaine");
         this.choiceBox.getItems().add("Mois");
         this.choiceBox.getSelectionModel().select(0);
-        URL test = CasDuSemaineController.class.getResource("CasDuSemaine.fxml");
+        URL test = CasDuJourController.class.getResource("CasDuJour.fxml");
         try {
             calendrier.getChildren().add(new FXMLLoader().load(test));
         } catch (IOException e) {
