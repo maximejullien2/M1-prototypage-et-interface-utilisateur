@@ -22,7 +22,7 @@ public class CaseDeLaSemaineController implements Initializable {
     @FXML
     Text groupeOuPromotion;
 
-    Integer nombreDeCase;
+    Integer nombreDeCase = 1;
     public void setNombreDeCase(Integer nombreDeCase){
         this.nombreDeCase = nombreDeCase;
     }
