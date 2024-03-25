@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="anchorPane" cache="true" cacheShape="false" centerShape="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mouseTransparent="true" prefHeight="67.5" prefWidth="638.0" scaleShape="false" style="-fx-background-color: blue; -fx-border-color: black;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.propotypage_et_interface_utilisateur.CasePourLeJourController">
+   <children>
+      <Text fx:id="heureEtType" layoutX="2.0" layoutY="26.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" text="1232131" AnchorPane.leftAnchor="2.0">
+         <font>
+            <Font size="9.0" />
+         </font></Text>
+      <Text fx:id="cours" layoutX="2.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cours:UCE 2 PROTOTYPAGE ET INTERFAC" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="447.14453125">
+         <font>
+            <Font size="9.0" />
+         </font></Text>
+      <Text fx:id="professeur" layoutX="2.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Prof:MDHAFFAR Salima/Pierre FRANCIS" AnchorPane.leftAnchor="3.0">
+         <font>
+            <Font size="9.0" />
+         </font></Text>
+      <Text fx:id="groupeOuPromotion" layoutX="2.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TD:M1-IA-IL-CLA/M1-IA-ALT" AnchorPane.leftAnchor="3.0">
+         <font>
+            <Font size="9.0" />
+         </font></Text>
+      <Text fx:id="salle" layoutX="501.0" layoutY="13.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1111111111111111" textAlignment="RIGHT" AnchorPane.rightAnchor="4.6640625" />
+   </children>
+</AnchorPane>

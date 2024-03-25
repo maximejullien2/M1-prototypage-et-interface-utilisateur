@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox fx:id="vBox" alignment="TOP_RIGHT" fillWidth="false" prefHeight="144.0" prefWidth="115.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.propotypage_et_interface_utilisateur.CaseDuMoisController">
+   <children>
+      <HBox fx:id="hBox" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Text fx:id="nombreSeanceId" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text fx:id="jourID" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+               <HBox.margin>
+                  <Insets left="49.0" />
+               </HBox.margin>
+            </Text>
+         </children>
+      </HBox>
+      <FlowPane fx:id="flowPane" prefHeight="300.0" prefWidth="200.0">
+         <VBox.margin>
+            <Insets top="50.0" />
+         </VBox.margin>
+      </FlowPane>
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" />
+   </padding>
+</VBox>
