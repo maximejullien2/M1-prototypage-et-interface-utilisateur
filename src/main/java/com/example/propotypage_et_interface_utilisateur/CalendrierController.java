@@ -21,15 +21,27 @@ public class CalendrierController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.choiceBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
+                URL test ;
+                if (number2.intValue()==0)
+                    test = CasDuJourController.class.getResource("CasDuJour.fxml");
+                else if(number2.intValue()==1)
+                    test = CasDuSemaineController.class.getResource("CasDuSemaine.fxml");
+                else
+                    test = CasDuMoisController.class.getResource("CasDuMois.fxml");
+                try {
+                    calendrier.getChildren().clear();
+                    calendrier.getChildren().add(new FXMLLoader().load(test));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         this.choiceBox.getItems().add("Jour");
         this.choiceBox.getItems().add("Semaine");
         this.choiceBox.getItems().add("Mois");
         this.choiceBox.getSelectionModel().select(0);
-        URL test = CasDuJourController.class.getResource("CasDuJour.fxml");
-        try {
-            calendrier.getChildren().add(new FXMLLoader().load(test));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

@@ -15,6 +15,18 @@ public class CasDuSemaineController implements Initializable{
     @FXML
     VBox vBoxLundi;
 
+    @FXML
+    VBox vBoxMardi;
+
+    @FXML
+    VBox vBoxMercredi;
+
+    @FXML
+    VBox vBoxJeudi;
+
+    @FXML
+    VBox vBoxVendredi;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         URL test = CaseDeLaSemaineController.class.getResource("CaseDeLaSemaine.fxml");
