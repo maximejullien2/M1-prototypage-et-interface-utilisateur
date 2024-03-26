@@ -10,7 +10,7 @@
          <font>
             <Font size="9.0" />
          </font></Text>
-      <Text fx:id="salle" layoutX="3.0" layoutY="11.0" strokeType="OUTSIDE" strokeWidth="0.0" text="111111111111111111111" wrappingWidth="121.12646527617471">
+      <Text fx:id="salle" layoutX="3.0" layoutY="11.0" strokeType="OUTSIDE" strokeWidth="0.0" text="111111111111111111111" textAlignment="RIGHT" AnchorPane.rightAnchor="4.664">
          <font>
             <Font size="9.0" />
          </font></Text>

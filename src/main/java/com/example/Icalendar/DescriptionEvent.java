@@ -6,6 +6,10 @@ import java.util.HashMap;
  * Object who represent description for an Event
  */
 public class DescriptionEvent {
+    public HashMap<String, String> getListDescription() {
+        return listDescription;
+    }
+
     /**
      * List of description for an Event
      */
@@ -25,6 +29,11 @@ public class DescriptionEvent {
      * @param value Value of this description.
      */
     public void addDescription(String key , String value){
+        System.out.println("Description key :"+key+",value :"+value);
         this.listDescription.put(key,value);
+    }
+
+    public String getDescription(String key){
+        return this.listDescription.get(key);
     }
 }

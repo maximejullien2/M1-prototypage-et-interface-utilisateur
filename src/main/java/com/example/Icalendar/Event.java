@@ -28,4 +28,19 @@ public class Event {
         this.descriptionEvent = descriptionEvent;
     }
 
+    public DateEvent getDateEvent() {
+        return dateEvent;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public DescriptionEvent getDescriptionEvent() {
+        return descriptionEvent;
+    }
 }

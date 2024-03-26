@@ -37,4 +37,16 @@ public class DateEvent {
         }
         this.endDate = LocalDateTime.parse(endDate);
     }
+
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
+    public LocalDateTime getLastModified() {
+        return lastModified;
+    }
+
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
 }
