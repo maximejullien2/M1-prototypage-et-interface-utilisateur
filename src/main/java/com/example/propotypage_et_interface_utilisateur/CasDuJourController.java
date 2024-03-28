@@ -5,11 +5,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -20,7 +23,7 @@ public class CasDuJourController implements Initializable {
     @FXML
     Text jour;
 
-    List<Event> list;
+    ArrayList<ArrayList<ArrayList<Event>>> list;
 
     String day;
 
@@ -35,26 +38,54 @@ public class CasDuJourController implements Initializable {
             casePourLeJourController.setHeigth(3);
             vBox.getChildren().add(anchorPane2);
             for (int i=0 ; i< list.size() ; i++) {
-                FXMLLoader fxmlLoader = new FXMLLoader(test);
-                AnchorPane anchorPane = fxmlLoader.load();
-                casePourLeJourController = fxmlLoader.getController();
-                casePourLeJourController.setNombreDeCase(1);
-                for (int j =0 ; j<list.get(i).getDescriptionEvent().getListDescription().keySet().toArray().length;j++){
-                    System.out.println(list.get(i).getDescriptionEvent().getListDescription().keySet().toArray()[j]);
+                if (list.get(i)!=null) {
+                    HBox hBox = new HBox();
+                    for (int j = 0 ; j < list.get(i).size() ; j++){
+                        VBox vBox1 = new VBox();
+                        for(int q=0 ; q < list.get(i).get(j).size();q++){
+                            if (list.get(i).get(j).get(q)==null){
+                                FXMLLoader fxmlLoader = new FXMLLoader(test);
+                                AnchorPane anchorPane = fxmlLoader.load();
+                                casePourLeJourController = fxmlLoader.getController();
+                                casePourLeJourController.setNombreDeCase(list.get(i).size());
+                                casePourLeJourController.setOpacity(0);
+                                casePourLeJourController.setHeigth(3);
+                                vBox1.getChildren().add(anchorPane);
+                            }
+                            else{
+                                FXMLLoader fxmlLoader = new FXMLLoader(test);
+                                AnchorPane anchorPane = fxmlLoader.load();
+                                casePourLeJourController = fxmlLoader.getController();
+                                casePourLeJourController.setNombreDeCase(list.get(i).size());
+                                casePourLeJourController.setHeigth((double)90/ChronoUnit.MINUTES.between(list.get(i).get(j).get(q).getDateEvent().getStartDate(), list.get(i).get(j).get(q).getDateEvent().getEndDate()));
+                                Event event = list.get(i).get(j).get(q);
+                                casePourLeJourController.setInformation(event.getDescriptionEvent().getDescription("Salle "), Integer.toString(event.getDateEvent().getStartDate().getHour()) + "h" + Integer.toString(event.getDateEvent().getStartDate().getMinute()) + "-" +
+                                                Integer.toString(event.getDateEvent().getEndDate().getHour()) + "h" + Integer.toString(event.getDateEvent().getEndDate().getMinute())
+                                                + "\\" + event.getDescriptionEvent().getDescription("Type "),
+                                        event.getDescriptionEvent().getDescription("Matière "), event.getDescriptionEvent().getDescription("Enseignant "),
+                                        event.getDescriptionEvent().getDescription("TD "));
+                                vBox1.getChildren().add(anchorPane);
+                            }
+                        }
+                        hBox.getChildren().add(vBox1);
+                    }
+                    vBox.getChildren().add(hBox);
                 }
-                casePourLeJourController.setInformation(list.get(i).getDescriptionEvent().getDescription("Salle "),Integer.toString(list.get(i).getDateEvent().getStartDate().getHour())+"h"+Integer.toString(list.get(i).getDateEvent().getStartDate().getMinute())+"-"+
-                                Integer.toString(list.get(i).getDateEvent().getEndDate().getHour())+"h"+Integer.toString(list.get(i).getDateEvent().getEndDate().getMinute())
-                                +"\\"+list.get(i).getDescriptionEvent().getDescription("Type "),
-                        list.get(i).getDescriptionEvent().getDescription("Matière "),list.get(i).getDescriptionEvent().getDescription("Enseignant "),
-                        list.get(i).getDescriptionEvent().getDescription("TD "));
-                vBox.getChildren().add(anchorPane);
+                else {
+                    FXMLLoader fxmlLoader = new FXMLLoader(test);
+                    AnchorPane anchorPane = fxmlLoader.load();
+                    casePourLeJourController = fxmlLoader.getController();
+                    casePourLeJourController.setOpacity(0);
+                    casePourLeJourController.setHeigth(3);
+                    vBox.getChildren().add(anchorPane);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void setList(List<Event> list) {
+    public void setList(ArrayList<ArrayList<ArrayList<Event>>> list) {
         this.list = list;
     }
 

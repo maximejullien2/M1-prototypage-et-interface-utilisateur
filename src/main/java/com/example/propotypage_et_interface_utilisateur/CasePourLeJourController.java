@@ -57,7 +57,7 @@ public class CasePourLeJourController implements Initializable {
     public void setOpacity(double value){
         this.anchorPane.setOpacity(value);
     }
-    public void setHeigth(int valueADiviser){
+    public void setHeigth(double valueADiviser){
         this.anchorPane.setPrefHeight(this.anchorPane.getPrefHeight()/valueADiviser);
     }
     @Override

@@ -38,7 +38,7 @@ public class CalendrierController implements Initializable {
                 AnchorPane anchorPane;
                 if (number2.intValue()==0) {
                     test = CasDuJourController.class.getResource("CasDuJour.fxml");
-                    ArrayList<Event> output = apiCalendar.getEventDay(LocalDateTime.now().minusDays(1));
+                    ArrayList<ArrayList<ArrayList<Event>>> output = apiCalendar.getEventDay(LocalDateTime.now().minusDays(9));
                     fxmlLoader =new FXMLLoader(test);
                     try {
                         anchorPane = fxmlLoader.load();

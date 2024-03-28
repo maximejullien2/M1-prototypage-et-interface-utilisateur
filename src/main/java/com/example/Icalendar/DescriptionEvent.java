@@ -29,7 +29,6 @@ public class DescriptionEvent {
      * @param value Value of this description.
      */
     public void addDescription(String key , String value){
-        System.out.println("Description key :"+key+",value :"+value);
         this.listDescription.put(key,value);
     }
 

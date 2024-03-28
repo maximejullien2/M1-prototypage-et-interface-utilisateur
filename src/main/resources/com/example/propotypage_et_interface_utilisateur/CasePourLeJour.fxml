@@ -4,7 +4,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="anchorPane" cache="true" cacheShape="false" centerShape="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mouseTransparent="true" prefHeight="67.5" prefWidth="638.0" scaleShape="false" style="-fx-background-color: blue; -fx-border-color: black;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.propotypage_et_interface_utilisateur.CasePourLeJourController">
+<AnchorPane fx:id="anchorPane" cache="true" cacheShape="false" centerShape="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mouseTransparent="true" prefHeight="67.5" prefWidth="638.0" scaleShape="false" style="-fx-background-color: cyan; -fx-border-color: black;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.propotypage_et_interface_utilisateur.CasePourLeJourController">
    <children>
       <Text fx:id="heureEtType" layoutX="2.0" layoutY="26.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" text="1232131" AnchorPane.leftAnchor="2.0">
          <font>
