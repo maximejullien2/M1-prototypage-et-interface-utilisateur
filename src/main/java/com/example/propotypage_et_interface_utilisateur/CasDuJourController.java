@@ -33,10 +33,7 @@ public class CasDuJourController implements Initializable {
         try {
             FXMLLoader fxmlLoader2 = new FXMLLoader(test);
             AnchorPane anchorPane2 = fxmlLoader2.load();
-            CasePourLeJourController casePourLeJourController = fxmlLoader2.getController();
-            casePourLeJourController.setOpacity(0.0);
-            casePourLeJourController.setHeigth(3);
-            vBox.getChildren().add(anchorPane2);
+            CasePourLeJourController casePourLeJourController ;
             for (int i=0 ; i< list.size() ; i++) {
                 if (list.get(i)!=null) {
                     HBox hBox = new HBox();

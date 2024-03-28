@@ -1,8 +1,7 @@
 package com.example.Icalendar;
 
-import java.time.Clock;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
+
 
 public class DateEvent {
 
@@ -64,5 +63,17 @@ public class DateEvent {
 
     public LocalDateTime getEndDate() {
         return endDate;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setLastModified(LocalDateTime lastModified) {
+        this.lastModified = lastModified;
+    }
+
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
     }
 }
