@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox fx:id="vBox" alignment="TOP_RIGHT" fillWidth="false" prefHeight="144.0" prefWidth="115.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.propotypage_et_interface_utilisateur.CaseDuMoisController">
+<VBox fx:id="vBox" alignment="TOP_RIGHT" fillWidth="false" prefHeight="81.0" prefWidth="115.0" style="-fx-border-color: black; -fx-border-width: 0.2;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.propotypage_et_interface_utilisateur.CaseDuMoisController">
    <children>
       <HBox fx:id="hBox" prefHeight="100.0" prefWidth="200.0">
          <children>
@@ -18,9 +18,9 @@
             </Text>
          </children>
       </HBox>
-      <FlowPane fx:id="flowPane" prefHeight="300.0" prefWidth="200.0">
+      <FlowPane fx:id="flowPane" prefHeight="300.0" prefWidth="95.0">
          <VBox.margin>
-            <Insets top="50.0" />
+            <Insets top="10.0" />
          </VBox.margin>
       </FlowPane>
    </children>

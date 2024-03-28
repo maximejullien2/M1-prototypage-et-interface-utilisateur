@@ -91,8 +91,8 @@ public class ApiCalendar {
         if (arrayList != null){
             LocalDateTime dateStar = arrayList.get(0).getDateEvent().getStartDate();
             for (int i =0 ; i< nombreCase ; i++) {
-                ArrayList<Event> colonne = new ArrayList<>();
-                if (arrayList.size() != 0) {
+                if (!arrayList.isEmpty()) {
+                    ArrayList<Event> colonne = new ArrayList<>();
                     colonne.add(arrayList.get(0));
                     arrayList.remove(0);
                     int position = 0;
@@ -106,10 +106,8 @@ public class ApiCalendar {
                             }
                             colonne.add(arrayList.get(j));
                             arrayList.remove(j);
-                            if (j != 0) {
-                                position = position + 1;
-                                j = j - 1;
-                            }
+                            position = position + 1;
+                            j = j - 1;
                         }
                         j = j + 1;
                     }
@@ -138,5 +136,34 @@ public class ApiCalendar {
             dateTime = dateTime.plusDays(1);
         }
         return arrayList;
+    }
+
+    public ArrayList<ArrayList<ArrayList<ArrayList<Event>>>> getEventMounth(LocalDateTime dateTime){
+        ArrayList<ArrayList<ArrayList<ArrayList<Event>>>> arrayList = new ArrayList<ArrayList<ArrayList<ArrayList<Event>>>>();
+        int month = dateTime.getMonth().getValue();
+        if (dateTime.getDayOfMonth()>1){
+            dateTime = dateTime.minusDays(dateTime.getDayOfMonth()-1);
+        }
+        if (dateTime.getDayOfWeek().getValue()>1){
+            dateTime = dateTime.minusDays(dateTime.getDayOfWeek().getValue()-1);
+        }
+        while (month>=dateTime.getMonth().getValue()) {
+            for (int i = 0; i < 5; i++) {
+                arrayList.add(getEventDay(dateTime));
+                dateTime = dateTime.plusDays(1);
+            }
+            dateTime = dateTime.plusDays(2);
+        }
+        return arrayList;
+    }
+
+    public LocalDateTime getDateMounth(LocalDateTime dateTime){
+        if (dateTime.getDayOfMonth()>1){
+            dateTime = dateTime.minusDays(dateTime.getDayOfMonth()-1);
+        }
+        if (dateTime.getDayOfWeek().getValue()>1){
+            dateTime = dateTime.minusDays(dateTime.getDayOfWeek().getValue()-1);
+        }
+        return dateTime;
     }
 }

@@ -3,6 +3,8 @@ package com.example.propotypage_et_interface_utilisateur;
 import com.example.Icalendar.ApiCalendar;
 import com.example.Icalendar.Event;
 import com.example.Icalendar.ParserIcalendar;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -17,11 +19,15 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class CalendrierController implements Initializable {
     @FXML
     ChoiceBox choiceBox;
+
+    @FXML
+    AnchorPane anchorPane;
 
     @FXML
     Pane calendrier;
@@ -31,6 +37,11 @@ public class CalendrierController implements Initializable {
 
     @FXML
     Button buttonBefore;
+
+    @FXML
+    Button buttonTheme;
+
+    static StringProperty couleur = new SimpleStringProperty("white");
 
     ApiCalendar apiCalendar;
 
@@ -75,6 +86,25 @@ public class CalendrierController implements Initializable {
         }
     }
 
+    private void affichageMois(){
+        URL test ;
+        FXMLLoader fxmlLoader;
+        AnchorPane anchorPane;
+        test = CasDuMoisController.class.getResource("CasDuMois.fxml");
+        ArrayList<ArrayList<ArrayList<ArrayList<Event>>>> output = apiCalendar.getEventMounth(localDateTime);
+        fxmlLoader =new FXMLLoader(test);
+        try {
+            anchorPane = fxmlLoader.load();
+            CasDuMoisController controller = fxmlLoader.getController();
+            controller.setArrayList(output);
+            controller.setDateTime(apiCalendar.getDateMounth(localDateTime));
+            controller.affichage();
+            calendrier.getChildren().clear();
+            calendrier.getChildren().add(anchorPane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         localDateTime = LocalDateTime.now();
@@ -91,15 +121,7 @@ public class CalendrierController implements Initializable {
                     affichageSemaine();
                 }
                 else {
-                    test = CasDuMoisController.class.getResource("CasDuMois.fxml");
-                        fxmlLoader = new FXMLLoader(test);
-                    try {
-                        anchorPane = fxmlLoader.load();
-                        calendrier.getChildren().clear();
-                        calendrier.getChildren().add(anchorPane);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    affichageMois();
                 }
             }
         });
@@ -132,6 +154,7 @@ public class CalendrierController implements Initializable {
         }
         else {
             localDateTime = localDateTime.plusMonths(1);
+            affichageMois();
         }
     }
 
@@ -151,6 +174,18 @@ public class CalendrierController implements Initializable {
         }
         else {
             localDateTime = localDateTime.minusMonths(1);
+            affichageMois();
         }
+    }
+
+    @FXML
+    public void buttonThemeOnMouseClicked(){
+        if (Objects.equals(CalendrierController.couleur.get(), "black")){
+            CalendrierController.couleur.set("white");
+        }
+        else{
+            CalendrierController.couleur.set("black");
+        }
+        anchorPane.setStyle("-fx-background-color:"+CalendrierController.couleur.get()+";");
     }
 }

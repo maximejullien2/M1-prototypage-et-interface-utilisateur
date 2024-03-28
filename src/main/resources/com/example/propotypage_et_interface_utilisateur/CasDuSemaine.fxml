@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="811.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.propotypage_et_interface_utilisateur.CasDuSemaineController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="698.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.propotypage_et_interface_utilisateur.CasDuSemaineController">
    <children>
-      <GridPane layoutX="57.0" prefHeight="58.0" prefWidth="638.0">
+      <GridPane fx:id="gridPane" layoutX="57.0" prefHeight="58.0" prefWidth="638.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -22,32 +22,47 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Lundi" textAlignment="CENTER" wrappingWidth="125.7294921875" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mardi" textAlignment="CENTER" wrappingWidth="124.7294921875" GridPane.columnIndex="1" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mercredi" textAlignment="CENTER" wrappingWidth="126.7294921875" GridPane.columnIndex="2" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Jeudi" textAlignment="CENTER" wrappingWidth="126.7294921875" GridPane.columnIndex="3" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Vendredi" textAlignment="CENTER" wrappingWidth="127.7294921875" GridPane.columnIndex="4" />
-            <Pane prefHeight="58.0" prefWidth="683.0" style="-fx-border-color: black;" />
-            <Pane prefHeight="58.0" prefWidth="147.0" style="-fx-border-color: black;" GridPane.columnIndex="1" />
-            <Pane prefHeight="58.0" prefWidth="147.0" style="-fx-border-color: black;" GridPane.columnIndex="2" />
-            <Pane prefHeight="58.0" prefWidth="147.0" style="-fx-border-color: black;" GridPane.columnIndex="3" />
-            <Pane prefHeight="58.0" prefWidth="138.0" style="-fx-border-color: black;" GridPane.columnIndex="4" />
+            <Text fx:id="lundi" strokeType="OUTSIDE" strokeWidth="0.0" text="Lundi" textAlignment="CENTER" wrappingWidth="125.7294921875" />
+            <Text fx:id="mardi" strokeType="OUTSIDE" strokeWidth="0.0" text="Mardi" textAlignment="CENTER" wrappingWidth="124.7294921875" GridPane.columnIndex="1" />
+            <Text fx:id="mercredi" strokeType="OUTSIDE" strokeWidth="0.0" text="Mercredi" textAlignment="CENTER" wrappingWidth="126.7294921875" GridPane.columnIndex="2" />
+            <Text fx:id="jeudi" strokeType="OUTSIDE" strokeWidth="0.0" text="Jeudi" textAlignment="CENTER" wrappingWidth="126.7294921875" GridPane.columnIndex="3" />
+            <Text fx:id="vendredi" strokeType="OUTSIDE" strokeWidth="0.0" text="Vendredi" textAlignment="CENTER" wrappingWidth="127.7294921875" GridPane.columnIndex="4" />
+            <Pane fx:id="paneLundi" prefHeight="58.0" prefWidth="683.0" style="-fx-border-color: black;">
+               <children>
+                  <Text fx:id="jourLundi" layoutX="53.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+               </children></Pane>
+            <Pane fx:id="paneMardi" prefHeight="58.0" prefWidth="147.0" style="-fx-border-color: black;" GridPane.columnIndex="1">
+               <children>
+                  <Text fx:id="jourMardi" layoutX="53.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+               </children></Pane>
+            <Pane fx:id="paneMercredi" prefHeight="58.0" prefWidth="147.0" style="-fx-border-color: black;" GridPane.columnIndex="2">
+               <children>
+                  <Text fx:id="jourMercredi" layoutX="53.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+               </children></Pane>
+            <Pane fx:id="paneJeudi" prefHeight="58.0" prefWidth="147.0" style="-fx-border-color: black;" GridPane.columnIndex="3">
+               <children>
+                  <Text fx:id="jourJeudi" layoutX="53.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+               </children></Pane>
+            <Pane fx:id="paneVendredi" prefHeight="58.0" prefWidth="138.0" style="-fx-border-color: black;" GridPane.columnIndex="4">
+               <children>
+                  <Text fx:id="jourVendredi" layoutX="53.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+               </children></Pane>
          </children>
       </GridPane>
-      <Pane layoutY="1.0" prefHeight="601.0" prefWidth="57.0" style="-fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="754.0" AnchorPane.topAnchor="0.0">
+      <Pane fx:id="paneHeure" layoutY="1.0" prefHeight="601.0" prefWidth="57.0" style="-fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="754.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Text layoutX="10.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="08:00" />
-            <Text layoutX="10.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="09:00" />
-            <Text layoutX="10.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="10:00" />
-            <Text layoutX="10.0" layoutY="198.0" strokeType="OUTSIDE" strokeWidth="0.0" text="11:00" />
-            <Text layoutX="10.0" layoutY="243.0" strokeType="OUTSIDE" strokeWidth="0.0" text="12:00" />
-            <Text layoutX="10.0" layoutY="288.0" strokeType="OUTSIDE" strokeWidth="0.0" text="13:00" wrappingWidth="37.4638671875" />
-            <Text layoutX="10.0" layoutY="333.0" strokeType="OUTSIDE" strokeWidth="0.0" text="14:00" wrappingWidth="37.4638671875" />
-            <Text layoutX="10.0" layoutY="378.0" strokeType="OUTSIDE" strokeWidth="0.0" text="15:00" wrappingWidth="37.4638671875" />
-            <Text layoutX="10.0" layoutY="423.0" strokeType="OUTSIDE" strokeWidth="0.0" text="16:00" wrappingWidth="37.4638671875" />
-            <Text layoutX="10.0" layoutY="468.0" strokeType="OUTSIDE" strokeWidth="0.0" text="17:00" wrappingWidth="37.4638671875" />
-            <Text layoutX="10.0" layoutY="513.0" strokeType="OUTSIDE" strokeWidth="0.0" text="18:00" wrappingWidth="37.4638671875" />
-            <Text layoutX="10.0" layoutY="558.0" strokeType="OUTSIDE" strokeWidth="0.0" text="19:00" wrappingWidth="37.4638671875" />
+            <Text fx:id="heure8" layoutX="10.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="08:00" />
+            <Text fx:id="heure9" layoutX="10.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="09:00" />
+            <Text fx:id="heure10" layoutX="10.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="10:00" />
+            <Text fx:id="heure11" layoutX="10.0" layoutY="198.0" strokeType="OUTSIDE" strokeWidth="0.0" text="11:00" />
+            <Text fx:id="heure12" layoutX="10.0" layoutY="243.0" strokeType="OUTSIDE" strokeWidth="0.0" text="12:00" />
+            <Text fx:id="heure13" layoutX="10.0" layoutY="288.0" strokeType="OUTSIDE" strokeWidth="0.0" text="13:00" wrappingWidth="37.4638671875" />
+            <Text fx:id="heure14" layoutX="10.0" layoutY="333.0" strokeType="OUTSIDE" strokeWidth="0.0" text="14:00" wrappingWidth="37.4638671875" />
+            <Text fx:id="heure15" layoutX="10.0" layoutY="378.0" strokeType="OUTSIDE" strokeWidth="0.0" text="15:00" wrappingWidth="37.4638671875" />
+            <Text fx:id="heure16" layoutX="10.0" layoutY="423.0" strokeType="OUTSIDE" strokeWidth="0.0" text="16:00" wrappingWidth="37.4638671875" />
+            <Text fx:id="heure17" layoutX="10.0" layoutY="468.0" strokeType="OUTSIDE" strokeWidth="0.0" text="17:00" wrappingWidth="37.4638671875" />
+            <Text fx:id="heure18" layoutX="10.0" layoutY="513.0" strokeType="OUTSIDE" strokeWidth="0.0" text="18:00" wrappingWidth="37.4638671875" />
+            <Text fx:id="heure19" layoutX="10.0" layoutY="558.0" strokeType="OUTSIDE" strokeWidth="0.0" text="19:00" wrappingWidth="37.4638671875" />
          </children></Pane>
       <Pane layoutX="57.0" layoutY="57.0" prefHeight="544.0" prefWidth="127.6" style="-fx-border-color: black;">
          <children>

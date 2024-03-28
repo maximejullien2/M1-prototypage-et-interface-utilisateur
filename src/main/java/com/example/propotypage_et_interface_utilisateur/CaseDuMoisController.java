@@ -49,7 +49,7 @@ public class CaseDuMoisController implements Initializable {
             FlowPane.setMargin(circle,new Insets(0,0,0,10));
         }
         Tooltip tooltip = new Tooltip(tooltipMessage);
-        tooltip.setPrefWidth(100);
+        tooltip.setPrefWidth(200);
         tooltip.setWrapText(true);
         tooltip.setShowDelay(Duration.seconds(0.1));
         tooltip.setHideDelay(Duration.seconds(0.1));
