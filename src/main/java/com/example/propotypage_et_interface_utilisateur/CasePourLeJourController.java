@@ -53,12 +53,32 @@ public class CasePourLeJourController implements Initializable {
             groupeOuPromotion = groupeOuPromotion.substring(0,groupeOuPromotion.length()-1);
             this.groupeOuPromotion.setText(groupeOuPromotion);
         }
+        disableText();
     }
     public void setOpacity(double value){
         this.anchorPane.setOpacity(value);
     }
     public void setHeigth(double valueADiviser){
         this.anchorPane.setPrefHeight(this.anchorPane.getPrefHeight()/valueADiviser);
+    }
+
+    private void disableText(){
+        double height = this.anchorPane.getPrefHeight();
+        if (this.salle.getLayoutY()>height){
+            this.salle.setVisible(false);
+        }
+        if (this.heureEtType.getLayoutY()>height){
+            this.heureEtType.setVisible(false);
+        }
+        if (this.cours.getLayoutY()>height){
+            this.cours.setVisible(false);
+        }
+        if (this.professeur.getLayoutY()>height){
+            this.professeur.setVisible(false);
+        }
+        if (this.groupeOuPromotion.getLayoutY()>height){
+            this.groupeOuPromotion.setVisible(false);
+        }
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

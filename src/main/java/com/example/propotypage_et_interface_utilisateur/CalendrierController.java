@@ -60,13 +60,13 @@ public class CalendrierController implements Initializable {
         URL test ;
         FXMLLoader fxmlLoader;
         AnchorPane anchorPane;
-        test = CasDuJourController.class.getResource("CasDuJour.fxml");
+        test = CasDuSemaineController.class.getResource("CasDuSemaine.fxml");
         ArrayList<ArrayList<ArrayList<ArrayList<Event>>>> output = apiCalendar.getEventWeek(localDateTime);
         fxmlLoader =new FXMLLoader(test);
         try {
             anchorPane = fxmlLoader.load();
             CasDuSemaineController controller = fxmlLoader.getController();
-            controller.setList(output);
+            controller.setArrayList(output);
             controller.affichage();
             calendrier.getChildren().clear();
             calendrier.getChildren().add(anchorPane);
@@ -88,15 +88,7 @@ public class CalendrierController implements Initializable {
                     affichageJour();
                 }
                 else if(number2.intValue()==1) {
-                    test = CasDuSemaineController.class.getResource("CasDuSemaine.fxml");
-                    fxmlLoader = new FXMLLoader(test);
-                    try {
-                        anchorPane = fxmlLoader.load();
-                        calendrier.getChildren().clear();
-                        calendrier.getChildren().add(anchorPane);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    affichageSemaine();
                 }
                 else {
                     test = CasDuMoisController.class.getResource("CasDuMois.fxml");
@@ -136,6 +128,7 @@ public class CalendrierController implements Initializable {
             affichageJour();
         } else if (this.choiceBox.getSelectionModel().isSelected(1)) {
             localDateTime = localDateTime.plusDays(7);
+            affichageSemaine();
         }
         else {
             localDateTime = localDateTime.plusMonths(1);
@@ -154,6 +147,7 @@ public class CalendrierController implements Initializable {
             affichageJour();
         } else if (this.choiceBox.getSelectionModel().isSelected(1)) {
             localDateTime = localDateTime.minusDays(7);
+            affichageSemaine();
         }
         else {
             localDateTime = localDateTime.minusMonths(1);

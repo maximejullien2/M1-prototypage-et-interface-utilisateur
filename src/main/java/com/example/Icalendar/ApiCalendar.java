@@ -64,15 +64,7 @@ public class ApiCalendar {
             int nombreColonne = 1;
             int nbColonneinit = 1;
             while (j < output.size()){
-                System.out.println(output.get(tester).getDateEvent().getStartDate());
-                System.out.println(output.get(tester).getDateEvent().getEndDate());
-                System.out.println(output.get(j).getDateEvent().getStartDate());
-                System.out.println(output.get(j).getDateEvent().getEndDate());
-                System.out.println(augmenter);
-                System.out.println(nombreColonne);
-                System.out.println("{{{{}}}}}}}}");
                 if (output.get(j).getDateEvent().getStartDate().isAfter(output.get(tester).getDateEvent().getEndDate()) || output.get(j).getDateEvent().getStartDate().isEqual(output.get(tester).getDateEvent().getEndDate())){
-                    System.out.println("-----------------------------------------------");
                     break;
                 }
                 if (j != tester && (output.get(j).getDateEvent().getEndDate().isAfter(output.get(tester).getDateEvent().getEndDate()) || (output.get(j).getDateEvent().getEndDate().isEqual(output.get(tester).getDateEvent().getEndDate()) && nombreColonne == nbColonneinit)||output.get(j).getDateEvent().getStartDate().isEqual(output.get(tester).getDateEvent().getStartDate()))){
@@ -81,15 +73,12 @@ public class ApiCalendar {
                     augmenter = 0;
                     nbColonneinit = nombreColonne;
                 } else if (j != tester && augmenter == 0 && output.get(j).getDateEvent().getEndDate().isBefore(output.get(tester).getDateEvent().getEndDate()) && output.get(j).getDateEvent().getStartDate().isAfter(output.get(tester).getDateEvent().getStartDate())) {
-                    System.out.println("Je suis rentrée dedans");
                     nombreColonne = nombreColonne + 1;
                     augmenter = 1;
                 }
                 listATrier.add(output.get(j));
                 j=j+1;
             }
-            System.out.println(nombreColonne);
-            System.out.println("66666666666666666666666666666666666666");
             trueOutput.add(getManyEvent(listATrier,nombreColonne));
             i=j-1;
             date = output.get(tester).getDateEvent().getEndDate();
@@ -100,10 +89,8 @@ public class ApiCalendar {
     private ArrayList<ArrayList<Event>> getManyEvent(ArrayList<Event> arrayList ,int nombreCase){
         ArrayList<ArrayList<Event>> listArrayList = new ArrayList<ArrayList<Event>>();
         if (arrayList != null){
-            System.out.println(nombreCase);
             LocalDateTime dateStar = arrayList.get(0).getDateEvent().getStartDate();
             for (int i =0 ; i< nombreCase ; i++) {
-                System.out.println(arrayList);
                 ArrayList<Event> colonne = new ArrayList<>();
                 if (arrayList.size() != 0) {
                     colonne.add(arrayList.get(0));

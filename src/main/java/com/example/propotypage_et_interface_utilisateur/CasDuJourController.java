@@ -31,8 +31,6 @@ public class CasDuJourController implements Initializable {
         jour.setText(this.day);
         URL test = CasePourLeJourController.class.getResource("CasePourLeJour.fxml");
         try {
-            FXMLLoader fxmlLoader2 = new FXMLLoader(test);
-            AnchorPane anchorPane2 = fxmlLoader2.load();
             CasePourLeJourController casePourLeJourController ;
             for (int i=0 ; i< list.size() ; i++) {
                 if (list.get(i)!=null) {
