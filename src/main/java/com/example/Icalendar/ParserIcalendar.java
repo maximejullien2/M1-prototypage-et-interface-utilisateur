@@ -70,7 +70,7 @@ public class ParserIcalendar {
     private Event creatEvent(BufferedReader bufferedReader,DateEvent dateEvent) throws IOException {
         String allContent="";
         String line = bufferedReader.readLine();
-        while (!line.split(";")[0].equals("LOCATION") && !line.equals("END:VEVENT")){
+        while (!line.split(";")[0].equals("LOCATION") && !line.split(";")[0].equals("DESCRIPTION") && !line.equals("END:VEVENT")){
             allContent=allContent+line;
             line = bufferedReader.readLine();
         }
