@@ -1,28 +1,79 @@
 package com.example.propotypage_et_interface_utilisateur;
 
 import com.example.Icalendar.Event;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class CasDuMoisController {
+public class CasDuMoisController implements Initializable{
 
     @FXML
     FlowPane jourMois;
 
+    @FXML
+    Pane paneLundi;
+
+    @FXML
+    Pane paneMardi;
+
+    @FXML
+    Pane paneMercredi;
+
+    @FXML
+    Pane paneJeudi;
+
+    @FXML
+    Pane paneVendredi;
+
+    @FXML
+    Text lundi;
+
+    @FXML
+    Text mardi;
+
+    @FXML
+    Text mercredi;
+
+    @FXML
+    Text jeudi;
+
+    @FXML
+    Text vendredi;
+    private void setColor(String couleur){
+        Color color;
+        if (couleur=="black"){
+            color = Color.BLACK;
+        }
+        else{
+            color = Color.WHITE;
+        }
+        lundi.setFill(color);
+        mardi.setFill(color);
+        mercredi.setFill(color);
+        jeudi.setFill(color);
+        vendredi.setFill(color);
+        paneLundi.setStyle("-fx-border-color:"+couleur+";");
+        paneMardi.setStyle("-fx-border-color:"+couleur+";");
+        paneMercredi.setStyle("-fx-border-color:"+couleur+";");
+        paneJeudi.setStyle("-fx-border-color:"+couleur+";");
+        paneVendredi.setStyle("-fx-border-color:"+couleur+";");
+    }
     ArrayList<ArrayList<ArrayList<ArrayList<Event>>>> arrayList;
 
     public void setDateTime(LocalDateTime dateTime) {
@@ -89,6 +140,10 @@ public class CasDuMoisController {
                 else
                     dateTime = dateTime.plusDays(3);
             }
+            if (Objects.equals(CalendrierController.couleur.get(), "black"))
+                setColor("white");
+            else
+                setColor("black");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -131,5 +186,14 @@ public class CasDuMoisController {
     public void setArrayList(ArrayList<ArrayList<ArrayList<ArrayList<Event>>>> arrayList) {
         this.arrayList = arrayList;
     }
-
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        StringProperty stringProperty = CalendrierController.couleur;
+        stringProperty.addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                setColor(s);
+            }
+        });
+    }
 }

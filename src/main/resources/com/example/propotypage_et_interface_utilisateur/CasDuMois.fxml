@@ -23,16 +23,16 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Lundi" textAlignment="CENTER" wrappingWidth="125.7294921875" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mardi" textAlignment="CENTER" wrappingWidth="124.7294921875" GridPane.columnIndex="1" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mercredi" textAlignment="CENTER" wrappingWidth="126.7294921875" GridPane.columnIndex="2" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Jeudi" textAlignment="CENTER" wrappingWidth="126.7294921875" GridPane.columnIndex="3" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Vendredi" textAlignment="CENTER" wrappingWidth="127.7294921875" GridPane.columnIndex="4" />
-            <Pane prefHeight="58.0" prefWidth="683.0" style="-fx-border-color: black;" />
-            <Pane prefHeight="58.0" prefWidth="147.0" style="-fx-border-color: black;" GridPane.columnIndex="1" />
-            <Pane prefHeight="58.0" prefWidth="147.0" style="-fx-border-color: black;" GridPane.columnIndex="2" />
-            <Pane prefHeight="58.0" prefWidth="147.0" style="-fx-border-color: black;" GridPane.columnIndex="3" />
-            <Pane prefHeight="58.0" prefWidth="372.0" style="-fx-border-color: black;" GridPane.columnIndex="4" />
+            <Text fx:id="lundi" strokeType="OUTSIDE" strokeWidth="0.0" text="Lundi" textAlignment="CENTER" wrappingWidth="125.7294921875" />
+            <Text fx:id="mardi" strokeType="OUTSIDE" strokeWidth="0.0" text="Mardi" textAlignment="CENTER" wrappingWidth="124.7294921875" GridPane.columnIndex="1" />
+            <Text fx:id="mercredi" strokeType="OUTSIDE" strokeWidth="0.0" text="Mercredi" textAlignment="CENTER" wrappingWidth="126.7294921875" GridPane.columnIndex="2" />
+            <Text fx:id="jeudi" strokeType="OUTSIDE" strokeWidth="0.0" text="Jeudi" textAlignment="CENTER" wrappingWidth="126.7294921875" GridPane.columnIndex="3" />
+            <Text fx:id="vendredi" strokeType="OUTSIDE" strokeWidth="0.0" text="Vendredi" textAlignment="CENTER" wrappingWidth="127.7294921875" GridPane.columnIndex="4" />
+            <Pane fx:id="paneLundi" prefHeight="58.0" prefWidth="683.0" style="-fx-border-color: black;" />
+            <Pane fx:id="paneMardi" prefHeight="58.0" prefWidth="147.0" style="-fx-border-color: black;" GridPane.columnIndex="1" />
+            <Pane fx:id="paneMercredi" prefHeight="58.0" prefWidth="147.0" style="-fx-border-color: black;" GridPane.columnIndex="2" />
+            <Pane fx:id="paneJeudi" prefHeight="58.0" prefWidth="147.0" style="-fx-border-color: black;" GridPane.columnIndex="3" />
+            <Pane fx:id="paneVendredi" prefHeight="58.0" prefWidth="372.0" style="-fx-border-color: black;" GridPane.columnIndex="4" />
          </children>
       </GridPane>
    </children>
