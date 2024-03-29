@@ -41,7 +41,31 @@ public class CalendrierController implements Initializable {
     @FXML
     Button buttonTheme;
 
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
+
+    public void setModeConnexion(String modeConnexion) {
+        this.modeConnexion = modeConnexion;
+    }
+
+    /**
+     * Favoris , personnel , formation,salle
+     */
+    String mode;
+
+    /**
+     * Enseignant ou Eleve
+     */
+    String modeConnexion;
+
+    public static void setCouleur(String couleur) {
+        CalendrierController.couleur.set(couleur);
+    }
+
     static StringProperty couleur = new SimpleStringProperty("white");
+
+
 
     ApiCalendar apiCalendar;
 
