@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="anchorPane" cache="true" cacheShape="false" centerShape="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mouseTransparent="true" prefHeight="67.5" prefWidth="638.0" scaleShape="false" style="-fx-background-color: cyan; -fx-border-color: black;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.propotypage_et_interface_utilisateur.CasePourLeJourController">
+   <children>
+      <Text fx:id="salle" layoutX="501.0" layoutY="13.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="RIGHT" AnchorPane.rightAnchor="4.6640625" />
+      <VBox fx:id="vBox" layoutX="4.0" layoutY="17.0" prefHeight="38.0" prefWidth="100.0" AnchorPane.leftAnchor="3.0" />
+   </children>
+</AnchorPane>
