@@ -13,10 +13,7 @@ import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class ConnexionController implements Initializable {
     @FXML
@@ -60,6 +57,11 @@ public class ConnexionController implements Initializable {
         for (int i=0 ; i<list.size();i++){
             if (Objects.equals(list.get(i).get("mailAdresse"), mailAdresse.getText()) &&
                     Objects.equals(list.get(i).get("password"), password.getText())){
+                    File file = new File("src/main/resources/com/example/connexion/connected.txt");
+                    FileWriter fileWriter = new FileWriter(file,false);
+                    BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+                    bufferedWriter.write(Integer.toString(i));
+                    bufferedWriter.close();
                     Stage stage = (Stage) connexionButton.getScene().getWindow();
                     FXMLLoader fxmlLoader = new FXMLLoader(CalendrierController.class.getResource("Calendrier.fxml"));
                     AnchorPane anchorPane = fxmlLoader.load();
