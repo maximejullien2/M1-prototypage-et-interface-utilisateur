@@ -52,6 +52,8 @@ public class CalendrierApplication extends Application {
             CalendrierController controller = fxmlLoader.getController();
             controller.setMode("favoris");
             controller.setModeConnexion(list.get(Integer.parseInt(id)).get("type"));
+            controller.setList(list);
+            controller.setIdListe(Integer.parseInt(id));
             stage.setTitle("Calendrier");
             Scene scene = new Scene(anchorPane);
             stage.setScene(scene);

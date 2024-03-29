@@ -68,6 +68,8 @@ public class ConnexionController implements Initializable {
                     CalendrierController controller = fxmlLoader.getController();
                     controller.setMode("favoris");
                     controller.setModeConnexion(list.get(i).get("type"));
+                    controller.setList(list);
+                    controller.setIdListe(i);
                     stage.setTitle("Calendrier");
                     Scene scene = new Scene(anchorPane);
                     stage.setScene(scene);
