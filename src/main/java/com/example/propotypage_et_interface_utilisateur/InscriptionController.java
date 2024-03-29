@@ -109,6 +109,16 @@ public class InscriptionController implements Initializable {
         bufferedWriter.newLine();
         bufferedWriter.write("password:"+this.password.getText());
         bufferedWriter.newLine();
+        File file1 = new File("src/main/resources/com/example/connexion/"+this.mailAdresse.getText());
+        file1.mkdir();
+        file1 = new File("src/main/resources/com/example/connexion/"+this.mailAdresse.getText()+"/favoris");
+        file1.mkdir();
+        file1 = new File("src/main/resources/com/example/connexion/"+this.mailAdresse.getText()+"/salle");
+        file1.mkdir();
+        file1 = new File("src/main/resources/com/example/connexion/"+this.mailAdresse.getText()+"/formation");
+        file1.mkdir();
+        file1 = new File("src/main/resources/com/example/connexion/"+this.mailAdresse.getText()+"/personnel");
+        file1.mkdir();
         return bufferedWriter;
     }
 

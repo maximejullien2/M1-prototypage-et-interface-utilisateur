@@ -12,17 +12,31 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class CalendrierController implements Initializable {
+    public TextField urlTextField;
+    public Text urlText;
+    public TextField nameEdtTextField;
+    public Text nameEdtText;
+    public Button addEdtButton;
     @FXML
     ChoiceBox choiceBox;
 
@@ -50,7 +64,7 @@ public class CalendrierController implements Initializable {
     }
 
     /**
-     * Favoris , personnel , formation,salle
+     * favoris , personnel , formation,salle
      */
     String mode;
 
@@ -58,6 +72,19 @@ public class CalendrierController implements Initializable {
      * Enseignant ou Eleve
      */
     String modeConnexion;
+
+    public void setList(ArrayList<HashMap<String, String>> list) {
+        this.list = list;
+    }
+
+    ArrayList<HashMap<String,String>> list;
+
+    public void setIdListe(int idListe) {
+        this.idListe = idListe;
+    }
+
+    int idListe;
+
 
     public static void setCouleur(String couleur) {
         CalendrierController.couleur.set(couleur);
@@ -135,9 +162,6 @@ public class CalendrierController implements Initializable {
         this.choiceBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
-                URL test ;
-                FXMLLoader fxmlLoader;
-                AnchorPane anchorPane;
                 if (number2.intValue()==0) {
                     affichageJour();
                 }
@@ -211,5 +235,18 @@ public class CalendrierController implements Initializable {
             CalendrierController.couleur.set("black");
         }
         anchorPane.setStyle("-fx-background-color:"+CalendrierController.couleur.get()+";");
+    }
+
+    @FXML
+    public void addEdtOnMouseClicked() throws IOException {
+        if (!Objects.equals(nameEdtTextField.getText(), "") && !Objects.equals(urlTextField.getText(), "")){
+            InputStream in = null;
+            try {
+                in = new URL(urlTextField.getText()).openStream();
+                Files.copy(in, Paths.get("src/main/resources/com/example/connexion/"+this.list.get(this.idListe).get("mailAdresse")+"/"+mode+"/"+nameEdtTextField.getText()+".ics"), StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                System.out.println("Erreur");
+            }
+        }
     }
 }
