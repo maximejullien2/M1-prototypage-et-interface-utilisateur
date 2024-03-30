@@ -187,7 +187,7 @@ public class CalendrierController implements Initializable {
                         apiCalendar = new ParserIcalendar().parse("src/main/resources/com/example/connexion/" + list.get(idListe).get("mailAdresse") + "/" + mode + "/" + selectionEdtComboBox.getItems().get(number2.intValue()).toString() + ".ics");
                     }
                     else {
-                        apiCalendar = new ParserIcalendar().parse("src/main/resources/com/example/Icalendar/test.ics");
+                        apiCalendar = new ParserIcalendar().parse("src/main/resources/com/example/Icalendar/vide.ics");
                     }
                         int identifiant = choiceBox.getSelectionModel().getSelectedIndex();
                         if (identifiant == 0){
@@ -226,7 +226,7 @@ public class CalendrierController implements Initializable {
         this.choiceBox.getItems().add("Mois");
         this.choiceBox.setVisibleRowCount(3);
         try {
-            this.apiCalendar = new ParserIcalendar().parse("src/main/resources/com/example/Icalendar/test.ics");
+            this.apiCalendar = new ParserIcalendar().parse("src/main/resources/com/example/Icalendar/vide.ics");
         } catch (IOException e) {
             e.printStackTrace();
         }
