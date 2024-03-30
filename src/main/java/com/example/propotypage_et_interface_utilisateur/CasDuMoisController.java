@@ -85,7 +85,6 @@ public class CasDuMoisController implements Initializable{
     public void affichage(){
         URL test = CasDuMoisController.class.getResource("CaseDuMois.fxml");
         try {
-            CaseDuMoisController casePourLeJourController ;
             for (int pointeur = 0 ; pointeur<arrayList.size(); pointeur++) {
                 ArrayList<ArrayList<ArrayList<Event>>> list = arrayList.get(pointeur);
                 FXMLLoader fxmlLoader = new FXMLLoader(test);

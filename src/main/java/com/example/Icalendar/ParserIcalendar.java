@@ -19,7 +19,9 @@ public class ParserIcalendar {
      */
     public ApiCalendar createCalendar(BufferedReader bufferedReader) throws IOException {
         ApiCalendar apiCalendar = new ApiCalendar();
-        while(!bufferedReader.readLine().equals("BEGIN:VEVENT")){}
+        String line = bufferedReader.readLine();
+        while(!line.equals("BEGIN:VEVENT") && !line.equals("END:VCALENDAR")){
+            line = bufferedReader.readLine();}
         while(bufferedReader.readLine()!=null){
             DateEvent dateEvent = this.createDateEvent(bufferedReader);
             apiCalendar.addEvent(creatEvent(bufferedReader,dateEvent));

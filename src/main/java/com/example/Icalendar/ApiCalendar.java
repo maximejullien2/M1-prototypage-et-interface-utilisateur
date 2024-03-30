@@ -38,7 +38,7 @@ public class ApiCalendar {
     public ArrayList<ArrayList<ArrayList<Event>>> getEventDay(LocalDateTime dateTime){
         ArrayList<Event> output = new ArrayList<Event>();
         for(int i = 0 ; i< this.listApiCalendar.size(); i++){
-            if (this.listApiCalendar.get(i).getDateEvent().getStartDate().getDayOfYear() == dateTime.getDayOfYear()){
+            if (this.listApiCalendar.get(i).getDateEvent().getStartDate().getDayOfYear() == dateTime.getDayOfYear() && this.listApiCalendar.get(i).getDateEvent().getStartDate().getYear() == dateTime.getYear()){
                 output.add(this.listApiCalendar.get(i));
             }
         }
@@ -144,15 +144,37 @@ public class ApiCalendar {
         if (dateTime.getDayOfMonth()>1){
             dateTime = dateTime.minusDays(dateTime.getDayOfMonth()-1);
         }
+        if (dateTime.getDayOfWeek().getValue()==6 || dateTime.getDayOfWeek().getValue()==7){
+            dateTime = dateTime.plusDays(8-dateTime.getDayOfWeek().getValue());
+        }
         if (dateTime.getDayOfWeek().getValue()>1){
             dateTime = dateTime.minusDays(dateTime.getDayOfWeek().getValue()-1);
         }
-        while (month>=dateTime.getMonth().getValue()) {
+        boolean conditionWhile ;
+        if (month==12){
+            conditionWhile = dateTime.getMonth().getValue()!=1;
+        }
+        else{
+            if (month!=1)
+                conditionWhile = dateTime.getMonth().getValue()-month<=0;
+            else
+                conditionWhile = dateTime.getMonth().getValue() != 2;
+        }
+        while (conditionWhile) {
             for (int i = 0; i < 5; i++) {
                 arrayList.add(getEventDay(dateTime));
                 dateTime = dateTime.plusDays(1);
             }
             dateTime = dateTime.plusDays(2);
+            if (month==12){
+                conditionWhile = dateTime.getMonth().getValue()!=1;
+            }
+            else{
+                if (month!=1)
+                    conditionWhile = dateTime.getMonth().getValue()-month<=0;
+                else
+                    conditionWhile = dateTime.getMonth().getValue() != 2;
+            }
         }
         return arrayList;
     }
@@ -160,6 +182,9 @@ public class ApiCalendar {
     public LocalDateTime getDateMounth(LocalDateTime dateTime){
         if (dateTime.getDayOfMonth()>1){
             dateTime = dateTime.minusDays(dateTime.getDayOfMonth()-1);
+        }
+        if (dateTime.getDayOfWeek().getValue()==6 || dateTime.getDayOfWeek().getValue()==7){
+            dateTime = dateTime.plusDays(8-dateTime.getDayOfWeek().getValue());
         }
         if (dateTime.getDayOfWeek().getValue()>1){
             dateTime = dateTime.minusDays(dateTime.getDayOfWeek().getValue()-1);

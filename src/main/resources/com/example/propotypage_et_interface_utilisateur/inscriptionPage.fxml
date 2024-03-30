@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="438.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.propotypage_et_interface_utilisateur.InscriptionController">
+   <children>
+      <Text fx:id="inscriptionText" layoutX="166.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Page d'inscription">
+         <font>
+            <Font size="34.0" />
+         </font>
+      </Text>
+      <Text fx:id="mailAdresseText" layoutX="174.0" layoutY="195.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adresse mail" />
+      <Text fx:id="passwordText" layoutX="174.0" layoutY="260.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mots de passe" />
+      <TextField fx:id="mailAdresse" layoutX="176.0" layoutY="202.0" prefHeight="25.0" prefWidth="237.0" />
+      <PasswordField fx:id="password" layoutX="176.0" layoutY="264.0" prefHeight="25.0" prefWidth="237.0" />
+      <Text fx:id="nameText" layoutX="174.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nom" />
+      <Text fx:id="firstNameText" layoutX="174.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Prenom" />
+      <TextField fx:id="name" layoutX="176.0" layoutY="73.0" prefHeight="25.0" prefWidth="237.0" />
+      <TextField fx:id="firstName" layoutX="176.0" layoutY="135.0" prefHeight="25.0" prefWidth="237.0" />
+      <Button fx:id="inscriptionButton" layoutX="222.0" layoutY="350.0" mnemonicParsing="false" onMouseClicked="#inscriptionOnMouseClicked" prefHeight="83.0" prefWidth="133.0" text="Button" />
+      <Text fx:id="errorText" layoutX="277.0" layoutY="336.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text layoutX="176.0" layoutY="312.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type de compte :" />
+      <CheckBox fx:id="ensignantCheckbox" layoutX="277.0" layoutY="299.0" mnemonicParsing="false" text="Ensignant" onMouseClicked="#enseignantOnMouseClicked"/>
+      <CheckBox fx:id="eleveCheckbox" layoutX="364.0" layoutY="299.0" mnemonicParsing="false" text="Eleve" onMouseClicked="#eleveOnMouseClicked"/>
+   </children>
+</AnchorPane>
