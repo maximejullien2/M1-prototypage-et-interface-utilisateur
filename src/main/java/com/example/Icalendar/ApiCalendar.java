@@ -121,19 +121,13 @@ public class ApiCalendar {
                     arrayList.remove(0);
                     int position = 0;
                     int j = 0;
-                    System.out.println("ààààààààààààààààààààààààààààà");
                     while (j < arrayList.size()) {
-                        System.out.println("----------------------------");
-                        System.out.println("j "+j+" size:"+arrayList.size());
-                        System.out.println(colonne.get(position).getDateEvent().getEndDate());
-                        System.out.println(arrayList.get(j).getDateEvent().getEndDate());
                         if (!colonne.get(position).getDateEvent().getEndDate().isAfter(arrayList.get(j).getDateEvent().getStartDate()) || colonne.get(position).getDateEvent().getEndDate().isEqual(arrayList.get(j).getDateEvent().getStartDate())) {
                             int nb = 0;
                             while (nb < Duration.between(colonne.get(position).getDateEvent().getEndDate(), arrayList.get(j).getDateEvent().getStartDate()).toMinutes() / 30) {
                                 colonne.add(null);
                                 nb = nb + 1;
                             }
-                            System.out.println("je suis passée");
                             colonne.add(arrayList.get(j));
                             arrayList.remove(j);
                             position = position + nb+1;
