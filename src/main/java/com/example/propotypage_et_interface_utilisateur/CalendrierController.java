@@ -18,6 +18,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -94,6 +95,8 @@ public class CalendrierController implements Initializable {
 
     int idListe;
 
+    @FXML
+    Text mouthText;
 
     public static void setCouleur(String couleur) {
         CalendrierController.couleur.set(couleur);
@@ -108,6 +111,7 @@ public class CalendrierController implements Initializable {
     LocalDateTime localDateTime;
 
     String[] jour = {"Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"};
+    String[] mois = {"Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Aout","Sepctembre","Octobre","Novembre","Decembre"};
     private void affichageJour(){
         URL test ;
         FXMLLoader fxmlLoader;
@@ -120,6 +124,7 @@ public class CalendrierController implements Initializable {
             CasDuJourController controller = fxmlLoader.getController();
             controller.setList(output);
             controller.setDay(this.jour[this.localDateTime.getDayOfWeek().getValue()-1]+" "+this.localDateTime.getDayOfMonth());
+            this.mouthText.setText(this.mois[this.localDateTime.getMonth().getValue()-1]+" "+this.localDateTime.getYear());
             controller.affichage();
             calendrier.getChildren().clear();
             calendrier.getChildren().add(anchorPane);
@@ -141,6 +146,7 @@ public class CalendrierController implements Initializable {
             controller.affichage();
             calendrier.getChildren().clear();
             calendrier.getChildren().add(anchorPane);
+            this.mouthText.setText(this.mois[this.localDateTime.getMonth().getValue()-1]+" "+this.localDateTime.getYear());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -161,6 +167,7 @@ public class CalendrierController implements Initializable {
             controller.affichage();
             calendrier.getChildren().clear();
             calendrier.getChildren().add(anchorPane);
+            this.mouthText.setText(this.mois[this.localDateTime.getMonth().getValue()-1]+" "+this.localDateTime.getYear());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -272,9 +279,17 @@ public class CalendrierController implements Initializable {
     public void buttonThemeOnMouseClicked(){
         if (Objects.equals(CalendrierController.couleur.get(), "black")){
             CalendrierController.couleur.set("white");
+            this.mouthText.setFill(Color.BLACK);
+            this.urlText.setFill(Color.BLACK);
+            this.nameEdtText.setFill(Color.BLACK);
+            this.selectionEdtText.setFill(Color.BLACK);
         }
         else{
             CalendrierController.couleur.set("black");
+            this.mouthText.setFill(Color.WHITE);
+            this.urlText.setFill(Color.WHITE);
+            this.nameEdtText.setFill(Color.WHITE);
+            this.selectionEdtText.setFill(Color.WHITE);
         }
         anchorPane.setStyle("-fx-background-color:"+CalendrierController.couleur.get()+";");
     }

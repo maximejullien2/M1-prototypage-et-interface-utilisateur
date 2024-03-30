@@ -26,5 +26,6 @@
       <Button fx:id="formationButton" layoutX="184.0" layoutY="27.0" mnemonicParsing="false" onMouseClicked="#formationOnMouseClicked" text="Formation" />
       <Button fx:id="personnelOnMouseClicked" layoutX="352.0" layoutY="27.0" mnemonicParsing="false" onMouseClicked="#personnelOnMouseClicked" text="Personnel" />
       <Button fx:id="salleButton" layoutX="266.0" layoutY="27.0" mnemonicParsing="false" onMouseClicked="#salleOnMouseClicked" text="Salle" />
+      <Text fx:id="mouthText" layoutX="586.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" />
    </children>
 </AnchorPane>
