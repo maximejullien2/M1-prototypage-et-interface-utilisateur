@@ -35,11 +35,29 @@ public class ApiCalendar {
         this.listApiCalendar.add(event);
     }
 
-    public ArrayList<ArrayList<ArrayList<Event>>> getEventDay(LocalDateTime dateTime){
+    public ArrayList<ArrayList<ArrayList<Event>>> getEventDay(LocalDateTime dateTime, HashMap<String,String> filtresList){
         ArrayList<Event> output = new ArrayList<Event>();
         for(int i = 0 ; i< this.listApiCalendar.size(); i++){
             if (this.listApiCalendar.get(i).getDateEvent().getStartDate().getDayOfYear() == dateTime.getDayOfYear() && this.listApiCalendar.get(i).getDateEvent().getStartDate().getYear() == dateTime.getYear()){
                 output.add(this.listApiCalendar.get(i));
+            }
+        }
+        if (filtresList!=null) {
+            for (int i = 0; i < filtresList.size(); i++) {
+                ArrayList<Event> output2 = new ArrayList<Event>();
+                for (int j = 0; j < output.size(); j++) {
+                    String filtreValue = (String) filtresList.keySet().toArray()[i];
+                    if (output.get(j).getDescriptionEvent().getDescription(filtreValue) != null) {
+                        for (int q = 0 ; q<output.get(j).getDescriptionEvent().getDescription(filtreValue).split(Pattern.quote("\\,")).length;q++) {
+                            if (output.get(j).getDescriptionEvent().getDescription(filtreValue).split(Pattern.quote("\\,"))[q].replaceAll(" ", "")
+                                    .toLowerCase().contains(filtresList.get(filtreValue).replaceAll(" ", "").toLowerCase())) {
+                                output2.add(output.get(j));
+                                break;
+                            }
+                        }
+                    }
+                }
+                output = output2;
             }
         }
         LocalDateTime date = dateTime.withHour(8).withMinute(0).withSecond(0).withNano(0);
@@ -111,7 +129,7 @@ public class ApiCalendar {
                         }
                         j = j + 1;
                     }
-                    if (colonne.size() != 0) {
+                    if (!colonne.isEmpty()) {
                         int valeur = 0;
                         while (dateStar.isBefore(colonne.get(valeur).getDateEvent().getStartDate())) {
                             dateStar = dateStar.plusMinutes(30);
@@ -126,19 +144,19 @@ public class ApiCalendar {
         return listArrayList;
     }
 
-    public ArrayList<ArrayList<ArrayList<ArrayList<Event>>>> getEventWeek(LocalDateTime dateTime){
+    public ArrayList<ArrayList<ArrayList<ArrayList<Event>>>> getEventWeek(LocalDateTime dateTime, HashMap<String,String> filtresList){
         ArrayList<ArrayList<ArrayList<ArrayList<Event>>>> arrayList = new ArrayList<ArrayList<ArrayList<ArrayList<Event>>>>();
         while (dateTime.getDayOfWeek().getValue()>1){
             dateTime = dateTime.minusDays(1);
         }
         for (int i = 0 ; i < 5 ; i++){
-            arrayList.add(getEventDay(dateTime));
+            arrayList.add(getEventDay(dateTime,filtresList));
             dateTime = dateTime.plusDays(1);
         }
         return arrayList;
     }
 
-    public ArrayList<ArrayList<ArrayList<ArrayList<Event>>>> getEventMounth(LocalDateTime dateTime){
+    public ArrayList<ArrayList<ArrayList<ArrayList<Event>>>> getEventMounth(LocalDateTime dateTime, HashMap<String,String> filtresList){
         ArrayList<ArrayList<ArrayList<ArrayList<Event>>>> arrayList = new ArrayList<ArrayList<ArrayList<ArrayList<Event>>>>();
         int month = dateTime.getMonth().getValue();
         if (dateTime.getDayOfMonth()>1){
@@ -162,7 +180,7 @@ public class ApiCalendar {
         }
         while (conditionWhile) {
             for (int i = 0; i < 5; i++) {
-                arrayList.add(getEventDay(dateTime));
+                arrayList.add(getEventDay(dateTime,filtresList));
                 dateTime = dateTime.plusDays(1);
             }
             dateTime = dateTime.plusDays(2);

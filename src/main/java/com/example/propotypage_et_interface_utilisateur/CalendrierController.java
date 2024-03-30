@@ -47,6 +47,10 @@ public class CalendrierController implements Initializable {
     public Button formationButton;
     public Button personnelOnMouseClicked;
     public Button salleButton;
+    public TextField typeCoursTextField;
+    public TextField salleTextField;
+    public TextField groupeTextField;
+    public TextField matiereTextField;
     @FXML
     ComboBox choiceBox;
 
@@ -110,6 +114,7 @@ public class CalendrierController implements Initializable {
 
     LocalDateTime localDateTime;
 
+    HashMap<String,String> filtres = new HashMap<String,String>();
     String[] jour = {"Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"};
     String[] mois = {"Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Aout","Sepctembre","Octobre","Novembre","Decembre"};
     private void affichageJour(){
@@ -117,7 +122,7 @@ public class CalendrierController implements Initializable {
         FXMLLoader fxmlLoader;
         AnchorPane anchorPane;
         test = CasDuJourController.class.getResource("CasDuJour.fxml");
-        ArrayList<ArrayList<ArrayList<Event>>> output = apiCalendar.getEventDay(localDateTime);
+        ArrayList<ArrayList<ArrayList<Event>>> output = apiCalendar.getEventDay(localDateTime,filtres);
         fxmlLoader =new FXMLLoader(test);
         try {
             anchorPane = fxmlLoader.load();
@@ -137,7 +142,7 @@ public class CalendrierController implements Initializable {
         FXMLLoader fxmlLoader;
         AnchorPane anchorPane;
         test = CasDuSemaineController.class.getResource("CasDuSemaine.fxml");
-        ArrayList<ArrayList<ArrayList<ArrayList<Event>>>> output = apiCalendar.getEventWeek(localDateTime);
+        ArrayList<ArrayList<ArrayList<ArrayList<Event>>>> output = apiCalendar.getEventWeek(localDateTime,filtres);
         fxmlLoader =new FXMLLoader(test);
         try {
             anchorPane = fxmlLoader.load();
@@ -157,7 +162,7 @@ public class CalendrierController implements Initializable {
         FXMLLoader fxmlLoader;
         AnchorPane anchorPane;
         test = CasDuMoisController.class.getResource("CasDuMois.fxml");
-        ArrayList<ArrayList<ArrayList<ArrayList<Event>>>> output = apiCalendar.getEventMounth(localDateTime);
+        ArrayList<ArrayList<ArrayList<ArrayList<Event>>>> output = apiCalendar.getEventMounth(localDateTime,filtres);
         fxmlLoader =new FXMLLoader(test);
         try {
             anchorPane = fxmlLoader.load();
@@ -372,6 +377,32 @@ public class CalendrierController implements Initializable {
     @FXML
     public void aujourdhuiOnMouseClicked() {
         this.localDateTime = LocalDateTime.now();
+        int identifiant = choiceBox.getSelectionModel().getSelectedIndex();
+        if (identifiant == 0){
+            affichageJour();
+        } else if (identifiant == 1) {
+            affichageSemaine();
+        }
+        else{
+            affichageMois();
+        }
+    }
+
+    @FXML
+    public void filtreOnMouseClicked() {
+        this.filtres.clear();
+        if (!Objects.equals(this.matiereTextField.getText(), "")){
+            this.filtres.put("Matière ",this.matiereTextField.getText());
+        }
+        if (!Objects.equals(this.groupeTextField.getText(), "")){
+            this.filtres.put("TD ",this.groupeTextField.getText());
+        }
+        if (!Objects.equals(this.salleTextField.getText(), "")){
+            this.filtres.put("Salle ",this.salleTextField.getText());
+        }
+        if (!Objects.equals(this.typeCoursTextField.getText(), "")){
+            this.filtres.put("Type ",this.typeCoursTextField.getText());
+        }
         int identifiant = choiceBox.getSelectionModel().getSelectedIndex();
         if (identifiant == 0){
             affichageJour();
