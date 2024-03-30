@@ -70,6 +70,7 @@ public class ConnexionController implements Initializable {
                     controller.setModeConnexion(list.get(i).get("type"));
                     controller.setList(list);
                     controller.setIdListe(i);
+                    controller.creationListEdt();
                     stage.setTitle("Calendrier");
                     Scene scene = new Scene(anchorPane);
                     stage.setScene(scene);

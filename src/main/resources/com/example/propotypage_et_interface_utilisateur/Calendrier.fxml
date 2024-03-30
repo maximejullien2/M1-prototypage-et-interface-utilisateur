@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="646.0" prefWidth="1283.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.propotypage_et_interface_utilisateur.CalendrierController">
+<AnchorPane fx:id="anchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="761.0" prefWidth="1045.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.propotypage_et_interface_utilisateur.CalendrierController">
    <children>
-      <Pane fx:id="calendrier" layoutX="240.0" layoutY="116.0" prefHeight="401.0" prefWidth="1020.0" />
-      <ChoiceBox fx:id="choiceBox" layoutX="588.0" layoutY="52.0" prefWidth="150.0" />
+      <Pane fx:id="calendrier" layoutX="240.0" layoutY="116.0" prefHeight="401.0" prefWidth="791.0" />
       <Button fx:id="buttonAfter" layoutX="984.0" layoutY="65.0" mnemonicParsing="false" onMouseClicked="#buttonAfterOnMouseClicked" text="Futur" />
       <Button fx:id="buttonBefore" layoutX="240.0" layoutY="65.0" mnemonicParsing="false" onMouseClicked="#buttonBeforeOnMouseClicked" text="Passée" />
       <Button fx:id="buttonTheme" layoutX="46.0" layoutY="412.0" mnemonicParsing="false" onMouseClicked="#buttonThemeOnMouseClicked" text="Changement de theme" />
@@ -19,5 +18,9 @@
       <TextField fx:id="nameEdtTextField" layoutX="80.0" layoutY="148.0" />
       <Text fx:id="nameEdtText" layoutX="18.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nom EDT" />
       <Button fx:id="addEdtButton" layoutX="75.0" layoutY="182.0" mnemonicParsing="false" onMouseClicked="#addEdtOnMouseClicked" text="Ajouter EDT" />
+      <Button fx:id="deconnexionButton" layoutX="932.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#deconnexionOnMouseClicked" text="Déconnexion" />
+      <ComboBox fx:id="choiceBox" layoutX="586.0" layoutY="39.0" prefWidth="150.0" />
+      <ComboBox fx:id="selectionEdtComboBox" layoutX="66.0" layoutY="263.0" prefWidth="150.0" />
+      <Text fx:id="selectionEdtText" layoutX="13.0" layoutY="252.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Selectionnez votre edt :" />
    </children>
 </AnchorPane>

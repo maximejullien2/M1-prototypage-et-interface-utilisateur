@@ -83,7 +83,7 @@ public class InscriptionController implements Initializable {
             Stage stage = (Stage) inscriptionButton.getScene().getWindow();
             FXMLLoader fxmlLoader = new FXMLLoader(ConnexionController.class.getResource("pageConnexion.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
-            stage.setTitle("Calendrier");
+            stage.setTitle("Page de Connexion");
             stage.setScene(scene);
         }
     }

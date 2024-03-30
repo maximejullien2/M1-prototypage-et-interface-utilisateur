@@ -10,16 +10,18 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -37,8 +39,11 @@ public class CalendrierController implements Initializable {
     public TextField nameEdtTextField;
     public Text nameEdtText;
     public Button addEdtButton;
+    public Button deconnexionButton;
+    public ComboBox selectionEdtComboBox;
+    public Text selectionEdtText;
     @FXML
-    ChoiceBox choiceBox;
+    ComboBox choiceBox;
 
     @FXML
     AnchorPane anchorPane;
@@ -156,6 +161,32 @@ public class CalendrierController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    public void creationListEdt(){
+        File dossier = new File("src/main/resources/com/example/connexion/"+this.list.get(this.idListe).get("mailAdresse")+"/"+this.mode+"/");
+        for (int i = 0; i < Objects.requireNonNull(dossier.listFiles()).length; i++){
+            this.selectionEdtComboBox.getItems().add(Objects.requireNonNull(dossier.listFiles())[i].getName().split("\\.")[0]);
+        }
+        this.selectionEdtComboBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
+                try {
+                    apiCalendar = new ParserIcalendar().parse("src/main/resources/com/example/connexion/"+list.get(idListe).get("mailAdresse")+"/"+mode+"/"+selectionEdtComboBox.getItems().get(number2.intValue()).toString()+".ics");
+                    int identifiant = choiceBox.getSelectionModel().getSelectedIndex();
+                    if (identifiant == 0){
+                        affichageJour();
+                    } else if (identifiant == 1) {
+                        affichageSemaine();
+                    }
+                    else{
+                        affichageMois();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         localDateTime = LocalDateTime.now();
@@ -176,6 +207,7 @@ public class CalendrierController implements Initializable {
         this.choiceBox.getItems().add("Jour");
         this.choiceBox.getItems().add("Semaine");
         this.choiceBox.getItems().add("Mois");
+        this.choiceBox.setVisibleRowCount(3);
         try {
             this.apiCalendar = new ParserIcalendar().parse("src/main/resources/com/example/Icalendar/test.ics");
         } catch (IOException e) {
@@ -244,9 +276,23 @@ public class CalendrierController implements Initializable {
             try {
                 in = new URL(urlTextField.getText()).openStream();
                 Files.copy(in, Paths.get("src/main/resources/com/example/connexion/"+this.list.get(this.idListe).get("mailAdresse")+"/"+mode+"/"+nameEdtTextField.getText()+".ics"), StandardCopyOption.REPLACE_EXISTING);
+                this.selectionEdtComboBox.getItems().add(nameEdtTextField.getText());
             } catch (IOException e) {
                 System.out.println("Erreur");
             }
         }
+    }
+
+    @FXML
+    public void deconnexionOnMouseClicked() throws IOException {
+        File file = new File("src/main/resources/com/example/connexion/connected.txt");
+        FileWriter fileWriter = new FileWriter(file,false);
+        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+        bufferedWriter.close();
+        Stage stage = (Stage) deconnexionButton.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(ConnexionController.class.getResource("pageConnexion.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setTitle("Page de Connexion");
+        stage.setScene(scene);
     }
 }

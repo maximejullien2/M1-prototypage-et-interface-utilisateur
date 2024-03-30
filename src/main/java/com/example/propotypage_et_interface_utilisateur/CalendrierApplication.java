@@ -54,6 +54,7 @@ public class CalendrierApplication extends Application {
             controller.setModeConnexion(list.get(Integer.parseInt(id)).get("type"));
             controller.setList(list);
             controller.setIdListe(Integer.parseInt(id));
+            controller.creationListEdt();
             stage.setTitle("Calendrier");
             Scene scene = new Scene(anchorPane);
             stage.setScene(scene);
