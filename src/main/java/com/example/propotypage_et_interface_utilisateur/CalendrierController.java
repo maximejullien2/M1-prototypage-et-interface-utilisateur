@@ -47,6 +47,15 @@ public class CalendrierController implements Initializable {
     public Button formationButton;
     public Button personnelOnMouseClicked;
     public Button salleButton;
+    public TextField typeCoursTextField;
+    public TextField salleTextField;
+    public TextField groupeTextField;
+    public TextField matiereTextField;
+    public Text definirFiltreText;
+    public Text matiereText;
+    public Text groupeText;
+    public Text salleText;
+    public Text typeText;
     @FXML
     ComboBox choiceBox;
 
@@ -110,6 +119,7 @@ public class CalendrierController implements Initializable {
 
     LocalDateTime localDateTime;
 
+    HashMap<String,String> filtres = new HashMap<String,String>();
     String[] jour = {"Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"};
     String[] mois = {"Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Aout","Sepctembre","Octobre","Novembre","Decembre"};
     private void affichageJour(){
@@ -117,7 +127,7 @@ public class CalendrierController implements Initializable {
         FXMLLoader fxmlLoader;
         AnchorPane anchorPane;
         test = CasDuJourController.class.getResource("CasDuJour.fxml");
-        ArrayList<ArrayList<ArrayList<Event>>> output = apiCalendar.getEventDay(localDateTime);
+        ArrayList<ArrayList<ArrayList<Event>>> output = apiCalendar.getEventDay(localDateTime,filtres);
         fxmlLoader =new FXMLLoader(test);
         try {
             anchorPane = fxmlLoader.load();
@@ -137,12 +147,18 @@ public class CalendrierController implements Initializable {
         FXMLLoader fxmlLoader;
         AnchorPane anchorPane;
         test = CasDuSemaineController.class.getResource("CasDuSemaine.fxml");
-        ArrayList<ArrayList<ArrayList<ArrayList<Event>>>> output = apiCalendar.getEventWeek(localDateTime);
+        ArrayList<ArrayList<ArrayList<ArrayList<Event>>>> output = apiCalendar.getEventWeek(localDateTime,filtres);
         fxmlLoader =new FXMLLoader(test);
         try {
+            LocalDateTime localDateTime1 = localDateTime.minusDays(localDateTime.getDayOfWeek().getValue()-1);
             anchorPane = fxmlLoader.load();
             CasDuSemaineController controller = fxmlLoader.getController();
             controller.setArrayList(output);
+            controller.setJourLundi(Integer.toString(localDateTime1.getDayOfMonth()));
+            controller.setJourMardi(Integer.toString(localDateTime1.plusDays(1).getDayOfMonth()));
+            controller.setJourMercredi(Integer.toString(localDateTime1.plusDays(2).getDayOfMonth()));
+            controller.setJourJeudi(Integer.toString(localDateTime1.plusDays(3).getDayOfMonth()));
+            controller.setJourVendredi(Integer.toString(localDateTime1.plusDays(4).getDayOfMonth()));
             controller.affichage();
             calendrier.getChildren().clear();
             calendrier.getChildren().add(anchorPane);
@@ -157,7 +173,7 @@ public class CalendrierController implements Initializable {
         FXMLLoader fxmlLoader;
         AnchorPane anchorPane;
         test = CasDuMoisController.class.getResource("CasDuMois.fxml");
-        ArrayList<ArrayList<ArrayList<ArrayList<Event>>>> output = apiCalendar.getEventMounth(localDateTime);
+        ArrayList<ArrayList<ArrayList<ArrayList<Event>>>> output = apiCalendar.getEventMounth(localDateTime,filtres);
         fxmlLoader =new FXMLLoader(test);
         try {
             anchorPane = fxmlLoader.load();
@@ -283,6 +299,11 @@ public class CalendrierController implements Initializable {
             this.urlText.setFill(Color.BLACK);
             this.nameEdtText.setFill(Color.BLACK);
             this.selectionEdtText.setFill(Color.BLACK);
+            this.definirFiltreText.setFill(Color.BLACK);
+            this.matiereText.setFill(Color.BLACK);
+            this.groupeText.setFill(Color.BLACK);
+            this.salleText.setFill(Color.BLACK);
+            this.typeText.setFill(Color.BLACK);
         }
         else{
             CalendrierController.couleur.set("black");
@@ -290,6 +311,11 @@ public class CalendrierController implements Initializable {
             this.urlText.setFill(Color.WHITE);
             this.nameEdtText.setFill(Color.WHITE);
             this.selectionEdtText.setFill(Color.WHITE);
+            this.definirFiltreText.setFill(Color.WHITE);
+            this.matiereText.setFill(Color.WHITE);
+            this.groupeText.setFill(Color.WHITE);
+            this.salleText.setFill(Color.WHITE);
+            this.typeText.setFill(Color.WHITE);
         }
         anchorPane.setStyle("-fx-background-color:"+CalendrierController.couleur.get()+";");
     }
@@ -372,6 +398,32 @@ public class CalendrierController implements Initializable {
     @FXML
     public void aujourdhuiOnMouseClicked() {
         this.localDateTime = LocalDateTime.now();
+        int identifiant = choiceBox.getSelectionModel().getSelectedIndex();
+        if (identifiant == 0){
+            affichageJour();
+        } else if (identifiant == 1) {
+            affichageSemaine();
+        }
+        else{
+            affichageMois();
+        }
+    }
+
+    @FXML
+    public void filtreOnMouseClicked() {
+        this.filtres.clear();
+        if (!Objects.equals(this.matiereTextField.getText(), "")){
+            this.filtres.put("Matière ",this.matiereTextField.getText());
+        }
+        if (!Objects.equals(this.groupeTextField.getText(), "")){
+            this.filtres.put("TD ",this.groupeTextField.getText());
+        }
+        if (!Objects.equals(this.salleTextField.getText(), "")){
+            this.filtres.put("Salle ",this.salleTextField.getText());
+        }
+        if (!Objects.equals(this.typeCoursTextField.getText(), "")){
+            this.filtres.put("Type ",this.typeCoursTextField.getText());
+        }
         int identifiant = choiceBox.getSelectionModel().getSelectedIndex();
         if (identifiant == 0){
             affichageJour();

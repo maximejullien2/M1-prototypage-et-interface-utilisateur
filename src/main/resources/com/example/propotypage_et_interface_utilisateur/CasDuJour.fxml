@@ -37,11 +37,11 @@
             <Text fx:id="heure17" layoutX="10.0" layoutY="468.0" strokeType="OUTSIDE" strokeWidth="0.0" text="17:00" wrappingWidth="37.4638671875" />
             <Text fx:id="heure18" layoutX="10.0" layoutY="513.0" strokeType="OUTSIDE" strokeWidth="0.0" text="18:00" wrappingWidth="37.4638671875" />
             <Text fx:id="heure19" layoutX="10.0" layoutY="558.0" strokeType="OUTSIDE" strokeWidth="0.0" text="19:00" wrappingWidth="37.4638671875" />
-            <Line endX="750.0" layoutX="73.0" layoutY="103.0" startX="-16.0" />
-            <Line endX="750.0" layoutX="73.0" layoutY="148.0" startX="-16.0" />
+            <Line endX="620.0" layoutX="73.0" layoutY="103.0" startX="-16.0" />
+            <Line endX="620.0" layoutX="73.0" layoutY="148.0" startX="-16.0" />
             <Line endX="620.0" layoutX="73.0" layoutY="193.0" startX="-16.0" />
             <Line endX="620.0" layoutX="73.0" layoutY="238.0" startX="-16.0" />
-            <Line endX="750.0" layoutX="73.0" layoutY="283.0" startX="-16.0" />
+            <Line endX="620.0" layoutX="73.0" layoutY="283.0" startX="-16.0" />
             <Line endX="620.0" layoutX="73.0" layoutY="328.0" startX="-16.0" />
             <Line endX="620.0" layoutX="73.0" layoutY="373.0" startX="-16.0" />
             <Line endX="620.0" layoutX="73.0" layoutY="418.0" startX="-16.0" />

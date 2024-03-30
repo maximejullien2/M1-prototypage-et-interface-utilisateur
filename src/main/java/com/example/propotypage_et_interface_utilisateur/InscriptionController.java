@@ -48,7 +48,6 @@ public class InscriptionController implements Initializable {
         this.mailAdresse.setStyle("");
         this.eleveCheckbox.setStyle("");
         this.ensignantCheckbox.setStyle("");
-        System.out.println("ttttttt"+this.name.getText());
         if (Objects.equals(this.name.getText(), "")){
             this.name.setStyle("-fx-border-color: red;");
         }
