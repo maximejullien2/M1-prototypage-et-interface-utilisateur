@@ -42,6 +42,10 @@ public class CalendrierController implements Initializable {
     public Button deconnexionButton;
     public ComboBox selectionEdtComboBox;
     public Text selectionEdtText;
+    public Button favorisButton;
+    public Button formationButton;
+    public Button personnelOnMouseClicked;
+    public Button salleButton;
     @FXML
     ComboBox choiceBox;
 
@@ -163,6 +167,7 @@ public class CalendrierController implements Initializable {
     }
 
     public void creationListEdt(){
+        this.selectionEdtComboBox.getItems().clear();
         File dossier = new File("src/main/resources/com/example/connexion/"+this.list.get(this.idListe).get("mailAdresse")+"/"+this.mode+"/");
         for (int i = 0; i < Objects.requireNonNull(dossier.listFiles()).length; i++){
             this.selectionEdtComboBox.getItems().add(Objects.requireNonNull(dossier.listFiles())[i].getName().split("\\.")[0]);
@@ -171,16 +176,21 @@ public class CalendrierController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
                 try {
-                    apiCalendar = new ParserIcalendar().parse("src/main/resources/com/example/connexion/"+list.get(idListe).get("mailAdresse")+"/"+mode+"/"+selectionEdtComboBox.getItems().get(number2.intValue()).toString()+".ics");
-                    int identifiant = choiceBox.getSelectionModel().getSelectedIndex();
-                    if (identifiant == 0){
-                        affichageJour();
-                    } else if (identifiant == 1) {
-                        affichageSemaine();
+                    if (number2.intValue()>=0) {
+                        apiCalendar = new ParserIcalendar().parse("src/main/resources/com/example/connexion/" + list.get(idListe).get("mailAdresse") + "/" + mode + "/" + selectionEdtComboBox.getItems().get(number2.intValue()).toString() + ".ics");
                     }
-                    else{
-                        affichageMois();
+                    else {
+                        apiCalendar = new ParserIcalendar().parse("src/main/resources/com/example/Icalendar/test.ics");
                     }
+                        int identifiant = choiceBox.getSelectionModel().getSelectedIndex();
+                        if (identifiant == 0){
+                            affichageJour();
+                        } else if (identifiant == 1) {
+                            affichageSemaine();
+                        }
+                        else{
+                            affichageMois();
+                        }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -294,5 +304,53 @@ public class CalendrierController implements Initializable {
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Page de Connexion");
         stage.setScene(scene);
+    }
+
+    @FXML
+    public void favorisOnMouseClicked() {
+        if (!Objects.equals(this.mode, "favoris")){
+            this.mode = "favoris";
+            this.selectionEdtComboBox.getItems().clear();
+            File dossier = new File("src/main/resources/com/example/connexion/"+this.list.get(this.idListe).get("mailAdresse")+"/"+this.mode+"/");
+            for (int i = 0; i < Objects.requireNonNull(dossier.listFiles()).length; i++){
+                this.selectionEdtComboBox.getItems().add(Objects.requireNonNull(dossier.listFiles())[i].getName().split("\\.")[0]);
+            }
+        }
+    }
+
+    @FXML
+    public void formationOnMouseClicked() {
+        if (!Objects.equals(this.mode, "formation")){
+            this.mode = "formation";
+            this.selectionEdtComboBox.getItems().clear();
+            File dossier = new File("src/main/resources/com/example/connexion/"+this.list.get(this.idListe).get("mailAdresse")+"/"+this.mode+"/");
+            for (int i = 0; i < Objects.requireNonNull(dossier.listFiles()).length; i++){
+                this.selectionEdtComboBox.getItems().add(Objects.requireNonNull(dossier.listFiles())[i].getName().split("\\.")[0]);
+            }
+        }
+    }
+
+    @FXML
+    public void personnelOnMouseClicked() {
+        if (!Objects.equals(this.mode, "personnel")){
+            this.mode = "personnel";
+            this.selectionEdtComboBox.getItems().clear();
+            File dossier = new File("src/main/resources/com/example/connexion/"+this.list.get(this.idListe).get("mailAdresse")+"/"+this.mode+"/");
+            for (int i = 0; i < Objects.requireNonNull(dossier.listFiles()).length; i++){
+                this.selectionEdtComboBox.getItems().add(Objects.requireNonNull(dossier.listFiles())[i].getName().split("\\.")[0]);
+            }
+        }
+    }
+
+    @FXML
+    public void salleOnMouseClicked() {
+        if (!Objects.equals(this.mode, "salle")){
+            this.mode = "salle";
+            this.selectionEdtComboBox.getItems().clear();
+            File dossier = new File("src/main/resources/com/example/connexion/"+this.list.get(this.idListe).get("mailAdresse")+"/"+this.mode+"/");
+            for (int i = 0; i < Objects.requireNonNull(dossier.listFiles()).length; i++){
+                this.selectionEdtComboBox.getItems().add(Objects.requireNonNull(dossier.listFiles())[i].getName().split("\\.")[0]);
+            }
+        }
     }
 }
