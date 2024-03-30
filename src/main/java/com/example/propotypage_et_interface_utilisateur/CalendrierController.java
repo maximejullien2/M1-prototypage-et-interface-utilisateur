@@ -135,7 +135,7 @@ public class CalendrierController implements Initializable {
             controller.setList(output);
             controller.setDay(this.jour[this.localDateTime.getDayOfWeek().getValue()-1]+" "+this.localDateTime.getDayOfMonth());
             this.mouthText.setText(this.mois[this.localDateTime.getMonth().getValue()-1]+" "+this.localDateTime.getYear());
-            controller.affichage();
+            controller.affichage(this.mode,this.modeConnexion);
             calendrier.getChildren().clear();
             calendrier.getChildren().add(anchorPane);
         } catch (IOException e) {
@@ -159,7 +159,7 @@ public class CalendrierController implements Initializable {
             controller.setJourMercredi(Integer.toString(localDateTime1.plusDays(2).getDayOfMonth()));
             controller.setJourJeudi(Integer.toString(localDateTime1.plusDays(3).getDayOfMonth()));
             controller.setJourVendredi(Integer.toString(localDateTime1.plusDays(4).getDayOfMonth()));
-            controller.affichage();
+            controller.affichage(this.mode,this.modeConnexion);
             calendrier.getChildren().clear();
             calendrier.getChildren().add(anchorPane);
             this.mouthText.setText(this.mois[this.localDateTime.getMonth().getValue()-1]+" "+this.localDateTime.getYear());
@@ -180,7 +180,7 @@ public class CalendrierController implements Initializable {
             CasDuMoisController controller = fxmlLoader.getController();
             controller.setArrayList(output);
             controller.setDateTime(apiCalendar.getDateMounth(localDateTime));
-            controller.affichage();
+            controller.affichage(this.mode,this.modeConnexion);
             calendrier.getChildren().clear();
             calendrier.getChildren().add(anchorPane);
             this.mouthText.setText(this.mois[this.localDateTime.getMonth().getValue()-1]+" "+this.localDateTime.getYear());

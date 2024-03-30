@@ -5,20 +5,27 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
+import java.awt.*;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
+
+import static java.awt.Desktop.getDesktop;
 
 public class CasDuJourController implements Initializable {
     @FXML
@@ -75,7 +82,7 @@ public class CasDuJourController implements Initializable {
 
     String day;
 
-    public void affichage(){
+    public void affichage(String mode,String userPriviledge){
         StringProperty essai = CalendrierController.couleur;
         essai.addListener(new ChangeListener<String>() {
             @Override
@@ -148,6 +155,21 @@ public class CasDuJourController implements Initializable {
                     casePourLeJourController.setOpacity(0);
                     casePourLeJourController.setHeigth(3.065);
                     vBox.getChildren().add(anchorPane);
+                }
+            }
+            for (int i =0 ; i<vBox.getChildren().size();i++){
+                if (vBox.getChildren().get(i).getOpacity()!=0.0 && Objects.equals(mode, "formation")){
+                vBox.getChildren().get(i).setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        Desktop desktop = getDesktop();
+                        try {
+                            desktop.mail(new URI("mailto:maxime.jullien2@alumni.univ-avignon.fr"));
+                        } catch (IOException | URISyntaxException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
                 }
             }
         } catch (IOException e) {

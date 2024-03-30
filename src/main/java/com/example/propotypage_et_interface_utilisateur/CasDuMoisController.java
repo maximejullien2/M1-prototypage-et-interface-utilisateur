@@ -82,7 +82,7 @@ public class CasDuMoisController implements Initializable{
 
     LocalDateTime dateTime;
 
-    public void affichage(){
+    public void affichage(String mode,String userPriviledge){
         URL test = CasDuMoisController.class.getResource("CaseDuMois.fxml");
         try {
             for (int pointeur = 0 ; pointeur<arrayList.size(); pointeur++) {
@@ -114,7 +114,7 @@ public class CasDuMoisController implements Initializable{
                                         tootlipText = tootlipText +"Type :" +event.getDescriptionEvent().getDescription("Type ") + "\n";
                                     if (event.getDescriptionEvent().getDescription("Mémo ")!= null)
                                         tootlipText = tootlipText +"Mémo :" +event.getDescriptionEvent().getDescription("Mémo ") + "\n";
-                                    caseDuMoisController.addCircle(tootlipText);
+                                    caseDuMoisController.addCircle(tootlipText,mode,userPriviledge);
                                 }
                             }
                         }

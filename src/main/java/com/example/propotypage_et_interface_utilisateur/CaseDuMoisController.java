@@ -3,11 +3,13 @@ package com.example.propotypage_et_interface_utilisateur;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -18,10 +20,16 @@ import javafx.scene.text.Text;
 import javafx.stage.PopupWindow;
 import javafx.util.Duration;
 
+import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
+
+import static java.awt.Desktop.getDesktop;
 
 public class CaseDuMoisController implements Initializable {
 
@@ -58,9 +66,22 @@ public class CaseDuMoisController implements Initializable {
         else
             setColor("white");    }
 
-    void addCircle(String tooltipMessage){
+    void addCircle(String tooltipMessage,String mode,String userPriviledge){
         Circle circle = new Circle(7, Paint.valueOf("CYAN"));
         circle.setStroke(Paint.valueOf("BLACK"));
+        if (Objects.equals(mode, "formation")) {
+            circle.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    Desktop desktop = getDesktop();
+                    try {
+                        desktop.mail(new URI("mailto:maxime.jullien2@alumni.univ-avignon.fr"));
+                    } catch (IOException | URISyntaxException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            });
+        }
         if(flowPane.getChildren().size()%8!=0){
             FlowPane.setMargin(circle,new Insets(0,0,0,10));
         }

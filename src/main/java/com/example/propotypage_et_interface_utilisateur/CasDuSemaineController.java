@@ -4,19 +4,26 @@ import com.example.Icalendar.Event;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
+import java.awt.*;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
+
+import static java.awt.Desktop.getDesktop;
 
 public class CasDuSemaineController {
     @FXML
@@ -194,7 +201,7 @@ public class CasDuSemaineController {
         setColorPaneVBox(color);
     }
     ArrayList<ArrayList<ArrayList<ArrayList<Event>>>> arrayList;
-    public void affichage(){
+    public void affichage(String mode,String userPriviledge){
         URL test = CaseDeLaSemaineController.class.getResource("CaseDeLaSemaine.fxml");
         StringProperty essai = CalendrierController.couleur;
         essai.addListener(new ChangeListener<String>() {
@@ -245,6 +252,23 @@ public class CasDuSemaineController {
                         casePourLeJourController.setOpacity(0);
                         casePourLeJourController.setHeigth(3);
                         vBox[pointeur].getChildren().add(anchorPane);
+                    }
+                }
+            }
+            for (int j=0 ; j<5;j++) {
+                for (int i = 0; i < vBox[j].getChildren().size(); i++) {
+                    if (vBox[j].getChildren().get(i).getOpacity() != 0.0 && Objects.equals(mode, "formation")) {
+                        vBox[j].getChildren().get(i).setOnMouseClicked(new EventHandler<MouseEvent>() {
+                            @Override
+                            public void handle(MouseEvent event) {
+                                Desktop desktop = getDesktop();
+                                try {
+                                    desktop.mail(new URI("mailto:maxime.jullien2@alumni.univ-avignon.fr"));
+                                } catch (IOException | URISyntaxException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                        });
                     }
                 }
             }
