@@ -38,7 +38,7 @@ public class ApiCalendar {
     public ArrayList<ArrayList<ArrayList<Event>>> getEventDay(LocalDateTime dateTime){
         ArrayList<Event> output = new ArrayList<Event>();
         for(int i = 0 ; i< this.listApiCalendar.size(); i++){
-            if (this.listApiCalendar.get(i).getDateEvent().getStartDate().getDayOfYear() == dateTime.getDayOfYear()){
+            if (this.listApiCalendar.get(i).getDateEvent().getStartDate().getDayOfYear() == dateTime.getDayOfYear() && this.listApiCalendar.get(i).getDateEvent().getStartDate().getYear() == dateTime.getYear()){
                 output.add(this.listApiCalendar.get(i));
             }
         }

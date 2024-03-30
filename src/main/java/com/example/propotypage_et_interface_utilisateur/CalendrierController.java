@@ -368,4 +368,18 @@ public class CalendrierController implements Initializable {
             }
         }
     }
+
+    @FXML
+    public void aujourdhuiOnMouseClicked() {
+        this.localDateTime = LocalDateTime.now();
+        int identifiant = choiceBox.getSelectionModel().getSelectedIndex();
+        if (identifiant == 0){
+            affichageJour();
+        } else if (identifiant == 1) {
+            affichageSemaine();
+        }
+        else{
+            affichageMois();
+        }
+    }
 }
