@@ -4,7 +4,9 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 /**
  * Represent Object we will use to stock data for the calendar
@@ -85,8 +87,12 @@ public class ApiCalendar {
                 if (output.get(j).getDateEvent().getStartDate().isAfter(output.get(tester).getDateEvent().getEndDate()) || output.get(j).getDateEvent().getStartDate().isEqual(output.get(tester).getDateEvent().getEndDate())){
                     break;
                 }
-                if (j != tester && (output.get(j).getDateEvent().getEndDate().isAfter(output.get(tester).getDateEvent().getEndDate()) || (output.get(j).getDateEvent().getEndDate().isEqual(output.get(tester).getDateEvent().getEndDate()) && nombreColonne == nbColonneinit)||output.get(j).getDateEvent().getStartDate().isEqual(output.get(tester).getDateEvent().getStartDate()))){
-                    tester = j;
+                if (j != tester && (output.get(j).getDateEvent().getEndDate().isAfter(output.get(tester).getDateEvent().getEndDate()) ||
+                        (output.get(j).getDateEvent().getEndDate().isEqual(output.get(tester).getDateEvent().getEndDate()) && nombreColonne == nbColonneinit)  ||
+                        (output.get(j).getDateEvent().getStartDate().isEqual(output.get(tester).getDateEvent().getStartDate()) ))){
+                    if (output.get(j).getDateEvent().getEndDate().isAfter(output.get(tester).getDateEvent().getEndDate())) {
+                        tester = j;
+                    }
                     nombreColonne = nombreColonne + 1;
                     augmenter = 0;
                     nbColonneinit = nombreColonne;
@@ -115,16 +121,22 @@ public class ApiCalendar {
                     arrayList.remove(0);
                     int position = 0;
                     int j = 0;
+                    System.out.println("ààààààààààààààààààààààààààààà");
                     while (j < arrayList.size()) {
+                        System.out.println("----------------------------");
+                        System.out.println("j "+j+" size:"+arrayList.size());
+                        System.out.println(colonne.get(position).getDateEvent().getEndDate());
+                        System.out.println(arrayList.get(j).getDateEvent().getEndDate());
                         if (!colonne.get(position).getDateEvent().getEndDate().isAfter(arrayList.get(j).getDateEvent().getStartDate()) || colonne.get(position).getDateEvent().getEndDate().isEqual(arrayList.get(j).getDateEvent().getStartDate())) {
                             int nb = 0;
                             while (nb < Duration.between(colonne.get(position).getDateEvent().getEndDate(), arrayList.get(j).getDateEvent().getStartDate()).toMinutes() / 30) {
                                 colonne.add(null);
                                 nb = nb + 1;
                             }
+                            System.out.println("je suis passée");
                             colonne.add(arrayList.get(j));
                             arrayList.remove(j);
-                            position = position + 1;
+                            position = position + nb+1;
                             j = j - 1;
                         }
                         j = j + 1;

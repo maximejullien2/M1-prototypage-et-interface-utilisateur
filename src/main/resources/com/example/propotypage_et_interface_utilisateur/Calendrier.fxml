@@ -29,14 +29,14 @@
       <Text fx:id="mouthText" layoutX="586.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" />
       <Button layoutX="361.0" layoutY="65.0" mnemonicParsing="false" onMouseClicked="#aujourdhuiOnMouseClicked" text="Aujourd'hui " />
       <Button layoutX="89.0" layoutY="482.0" mnemonicParsing="false" onMouseClicked="#filtreOnMouseClicked" text="Filtrer" />
-      <Text layoutX="59.0" layoutY="321.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Définissez vos filtres:" />
-      <Text layoutX="38.0" layoutY="356.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Matière :" />
+      <Text fx:id="definirFiltreText" layoutX="59.0" layoutY="321.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Définissez vos filtres:" />
+      <Text fx:id="matiereText" layoutX="38.0" layoutY="356.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Matière :" />
       <TextField fx:id="matiereTextField" layoutX="86.0" layoutY="339.0" />
-      <Text layoutX="39.0" layoutY="391.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Groupe :" />
+      <Text fx:id="groupeText" layoutX="39.0" layoutY="391.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Groupe :" />
       <TextField fx:id="groupeTextField" layoutX="87.0" layoutY="374.0" />
-      <Text layoutX="54.0" layoutY="429.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Salle :" />
+      <Text fx:id="salleText" layoutX="54.0" layoutY="429.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Salle :" />
       <TextField fx:id="salleTextField" layoutX="88.0" layoutY="412.0" />
-      <Text layoutX="7.0" layoutY="462.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type de cours :" />
+      <Text fx:id="typeText" layoutX="7.0" layoutY="462.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type de cours :" />
       <TextField fx:id="typeCoursTextField" layoutX="89.0" layoutY="445.0" />
    </children>
 </AnchorPane>

@@ -51,6 +51,11 @@ public class CalendrierController implements Initializable {
     public TextField salleTextField;
     public TextField groupeTextField;
     public TextField matiereTextField;
+    public Text definirFiltreText;
+    public Text matiereText;
+    public Text groupeText;
+    public Text salleText;
+    public Text typeText;
     @FXML
     ComboBox choiceBox;
 
@@ -145,9 +150,15 @@ public class CalendrierController implements Initializable {
         ArrayList<ArrayList<ArrayList<ArrayList<Event>>>> output = apiCalendar.getEventWeek(localDateTime,filtres);
         fxmlLoader =new FXMLLoader(test);
         try {
+            LocalDateTime localDateTime1 = localDateTime.minusDays(localDateTime.getDayOfWeek().getValue()-1);
             anchorPane = fxmlLoader.load();
             CasDuSemaineController controller = fxmlLoader.getController();
             controller.setArrayList(output);
+            controller.setJourLundi(Integer.toString(localDateTime1.getDayOfMonth()));
+            controller.setJourMardi(Integer.toString(localDateTime1.plusDays(1).getDayOfMonth()));
+            controller.setJourMercredi(Integer.toString(localDateTime1.plusDays(2).getDayOfMonth()));
+            controller.setJourJeudi(Integer.toString(localDateTime1.plusDays(3).getDayOfMonth()));
+            controller.setJourVendredi(Integer.toString(localDateTime1.plusDays(4).getDayOfMonth()));
             controller.affichage();
             calendrier.getChildren().clear();
             calendrier.getChildren().add(anchorPane);
@@ -288,6 +299,11 @@ public class CalendrierController implements Initializable {
             this.urlText.setFill(Color.BLACK);
             this.nameEdtText.setFill(Color.BLACK);
             this.selectionEdtText.setFill(Color.BLACK);
+            this.definirFiltreText.setFill(Color.BLACK);
+            this.matiereText.setFill(Color.BLACK);
+            this.groupeText.setFill(Color.BLACK);
+            this.salleText.setFill(Color.BLACK);
+            this.typeText.setFill(Color.BLACK);
         }
         else{
             CalendrierController.couleur.set("black");
@@ -295,6 +311,11 @@ public class CalendrierController implements Initializable {
             this.urlText.setFill(Color.WHITE);
             this.nameEdtText.setFill(Color.WHITE);
             this.selectionEdtText.setFill(Color.WHITE);
+            this.definirFiltreText.setFill(Color.WHITE);
+            this.matiereText.setFill(Color.WHITE);
+            this.groupeText.setFill(Color.WHITE);
+            this.salleText.setFill(Color.WHITE);
+            this.typeText.setFill(Color.WHITE);
         }
         anchorPane.setStyle("-fx-background-color:"+CalendrierController.couleur.get()+";");
     }

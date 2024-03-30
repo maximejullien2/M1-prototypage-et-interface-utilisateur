@@ -26,7 +26,7 @@ public class CasePourLeJourController implements Initializable {
 
     Integer nombreDeCase = 1;
     public void setNombreDeCase(Integer nombreDeCase){
-        this.nombreDeCase = nombreDeCase;
+        this.nombreDeCase = nombreDeCase;this.anchorPane.setPrefWidth(638/this.nombreDeCase);
     }
     public void setInformation(HashMap<String,String> hashMap, String horraire){
         this.anchorPane.setPrefWidth(638/nombreDeCase);

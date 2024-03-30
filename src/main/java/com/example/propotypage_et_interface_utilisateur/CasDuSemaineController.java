@@ -105,6 +105,26 @@ public class CasDuSemaineController {
     @FXML
     Text vendredi;
 
+    public void setJourLundi(String text) {
+        this.jourLundi.setText(text);
+    }
+
+    public void setJourMardi(String text) {
+        this.jourMardi.setText(text);
+    }
+
+    public void setJourMercredi(String text) {
+        this.jourMercredi.setText(text);
+    }
+
+    public void setJourJeudi(String text) {
+        this.jourJeudi.setText(text);
+    }
+
+    public void setJourVendredi(String text) {
+        this.jourVendredi.setText(text);
+    }
+
     @FXML
     Text jourLundi;
 
@@ -186,7 +206,6 @@ public class CasDuSemaineController {
         try {
             CaseDeLaSemaineController casePourLeJourController ;
             VBox[] vBox = {vBoxLundi,vBoxMardi,vBoxMercredi,vBoxJeudi,vBoxVendredi};
-            Text[] texts = {jourLundi,jourMardi,jourMercredi,jourJeudi,jourVendredi};
             for (int pointeur = 0 ; pointeur<arrayList.size(); pointeur++) {
                 ArrayList<ArrayList<ArrayList<Event>>> list = arrayList.get(pointeur);
                 for (int i = 0; i < list.size(); i++) {
@@ -204,7 +223,6 @@ public class CasDuSemaineController {
                                     casePourLeJourController.setHeigth(3);
                                     vBox1.getChildren().add(anchorPane);
                                 } else {
-                                    texts[pointeur].setText(Integer.toString(list.get(i).get(j).get(q).getDateEvent().getStartDate().getDayOfMonth()));
                                     FXMLLoader fxmlLoader = new FXMLLoader(test);
                                     AnchorPane anchorPane = fxmlLoader.load();
                                     casePourLeJourController = fxmlLoader.getController();

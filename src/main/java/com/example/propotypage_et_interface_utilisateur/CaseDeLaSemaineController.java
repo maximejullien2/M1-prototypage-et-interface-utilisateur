@@ -27,6 +27,7 @@ public class CaseDeLaSemaineController implements Initializable {
     Integer nombreDeCase = 1;
     public void setNombreDeCase(Integer nombreDeCase){
         this.nombreDeCase = nombreDeCase;
+        this.anchorPane.setPrefWidth(128/nombreDeCase);
     }
 
     private void disableText(){
