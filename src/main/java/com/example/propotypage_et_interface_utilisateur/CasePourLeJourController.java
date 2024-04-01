@@ -8,13 +8,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class CasePourLeJourController implements Initializable {
     @FXML
@@ -117,6 +115,14 @@ public class CasePourLeJourController implements Initializable {
                 this.salle.setText(resultatSalle);
             }
         }
+        if (hashMap.get("Lieu ")!= null){
+            String resultatSalle = hashMap.get("Lieu ");
+            this.salle.setText(resultatSalle);
+            while (this.salle.getLayoutBounds().getWidth()>this.anchorPane.getPrefWidth()-10){
+                resultatSalle = resultatSalle.substring(0,resultatSalle.length()-1);
+                this.salle.setText(resultatSalle);
+            }
+        }
         if (heightVbox<height && hashMap.get("Type ")!= null) {
             String resultatType = "Type :" +hashMap.get("Type ");
             Text type = new Text(resultatType);
@@ -134,6 +140,38 @@ public class CasePourLeJourController implements Initializable {
             }
 
         }
+        if (heightVbox<height && hashMap.get("Personnes ")!= null) {
+            String resultatMemo = "Personnes :" +hashMap.get("Personnes ");
+            Text memo = new Text(resultatMemo);
+            vBox.getChildren().add(memo);
+            while (memo.getLayoutBounds().getWidth() > this.anchorPane.getPrefWidth() - 10) {
+                resultatMemo = resultatMemo.substring(0, resultatMemo.length() - 1);
+                memo.setText(resultatMemo);
+            }
+            heightVbox = heightVbox+memo.getLayoutBounds().getHeight();
+            if (heightVbox>=height){
+                vBox.getChildren().remove(memo);
+            }
+            else {
+                list.add(memo);
+            }
+        }
+        if (heightVbox<height && hashMap.get("Groupe ")!= null) {
+            String resultatMemo = "Groupe :" +hashMap.get("Groupe ");
+            Text memo = new Text(resultatMemo);
+            vBox.getChildren().add(memo);
+            while (memo.getLayoutBounds().getWidth() > this.anchorPane.getPrefWidth() - 10) {
+                resultatMemo = resultatMemo.substring(0, resultatMemo.length() - 1);
+                memo.setText(resultatMemo);
+            }
+            heightVbox = heightVbox+memo.getLayoutBounds().getHeight();
+            if (heightVbox>=height){
+                vBox.getChildren().remove(memo);
+            }
+            else {
+                list.add(memo);
+            }
+        }
         if (heightVbox<height && hashMap.get("Mémo ")!= null) {
             String resultatMemo = "Mémo :" +hashMap.get("Mémo ");
             Text memo = new Text(resultatMemo);
@@ -150,6 +188,9 @@ public class CasePourLeJourController implements Initializable {
                 list.add(memo);
             }
         }
+        if (hashMap.get("Couleur ")!=null){
+            anchorPane.setStyle("-fx-background-color: "+ hashMap.get("Couleur ").replace("0x","#")+";-fx-border-color: black;");
+        }
         disableText();
         StringProperty essai = CalendrierController.couleur;
         essai.addListener(new ChangeListener<String>() {
@@ -157,12 +198,22 @@ public class CasePourLeJourController implements Initializable {
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
                 Color color;
                 if (s == "black"){
+                    String backgroundColor = "cyan";
+                    if (hashMap.get("Couleur ")!=null){
+                        backgroundColor = hashMap.get("Couleur ").replace("0x","#").replaceAll(" ","");
+                    }
                     color = Color.BLACK;
-                    anchorPane.setStyle("-fx-background-color: cyan;-fx-border-color: black;");
+                    anchorPane.setStyle("-fx-background-color:"+backgroundColor+";-fx-border-color: black;");
                 }
                 else{
+                    String backgroundColor = "blue";
+                    if (hashMap.get("Couleur ")!=null){
+                        backgroundColor = hashMap.get("Couleur ").replace("0x","#").replaceAll(" ","");
+                        Color color2 = (Color) Paint.valueOf(backgroundColor);
+                        backgroundColor = color2.darker().toString().replace("0x","#");
+                    }
                     color = Color.WHITE;
-                    anchorPane.setStyle("-fx-background-color: blue;-fx-border-color: white;");
+                    anchorPane.setStyle("-fx-background-color:"+backgroundColor+";-fx-border-color: white;");
                 }
                 salle.setFill(color);
                 horaireAffichage.setFill(color);

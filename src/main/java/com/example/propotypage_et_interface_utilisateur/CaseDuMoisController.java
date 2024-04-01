@@ -50,6 +50,8 @@ public class CaseDuMoisController implements Initializable {
 
     ArrayList<Circle> list = new ArrayList<>();
     ArrayList<String> listString = new ArrayList<>();
+
+    ArrayList<String> colorCode=new ArrayList<>();
     void setNombreSeanceId(String text){
         this.nombreSeanceId.setText(text);
         if (Objects.equals(CalendrierController.couleur.get(), "white"))
@@ -66,7 +68,13 @@ public class CaseDuMoisController implements Initializable {
         else
             setColor("white");    }
 
-    void addCircle(String tooltipMessage,String mode,String userPriviledge){
+    void addCircle(String tooltipMessage,String mode,String userPriviledge,String couleur){
+        if (couleur!=null){
+            colorCode.add(couleur);
+        }
+        else{
+            colorCode.add("cyan");
+        }
         Circle circle = new Circle(7, Paint.valueOf("CYAN"));
         circle.setStroke(Paint.valueOf("BLACK"));
         if (Objects.equals(mode, "formation")) {
@@ -99,7 +107,8 @@ public class CaseDuMoisController implements Initializable {
         if (Objects.equals(CalendrierController.couleur.get(), "white"))
             setColor("black");
         else
-            setColor("white");    }
+            setColor("white");
+    }
 
     private void setColor(String couleur){
         Color couleurText;
@@ -107,18 +116,21 @@ public class CaseDuMoisController implements Initializable {
         String couleurBordureCercle;
         if (Objects.equals(couleur, "white")){
             couleurText = Color.WHITE;
-            couleurCercle = "blue";
             couleurBordureCercle = "white";
         }
         else{
             couleurText = Color.BLACK;
-            couleurCercle = "cyan";
             couleurBordureCercle = "black";
         }
         nombreSeanceId.setFill(couleurText);
         jourID.setFill(couleurText);
         vBox.setStyle("-fx-border-color:"+couleur+";-fx-border-width: 0.2");
         for (int i=0 ; i<list.size();i++){
+            couleurCercle = colorCode.get(i).replace("0x","#").replaceAll(" ","");
+            Color color = (Color) Paint.valueOf(couleurCercle);
+            if (Objects.equals(couleur, "white")){
+                couleurCercle = color.darker().toString().replace("0x","#");
+            }
             list.get(i).setStroke(Paint.valueOf(couleurBordureCercle));
             list.get(i).setFill(Paint.valueOf(couleurCercle));
             Tooltip tooltip = new Tooltip(listString.get(i));

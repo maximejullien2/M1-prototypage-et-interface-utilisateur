@@ -184,6 +184,29 @@ public class CasDuJourController implements Initializable {
                         CalendrierApplication.stage2.show();
                     }
                 });
+            } else if (Objects.equals(mode, "favoris")) {
+                vBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        FXMLLoader fxmlLoader = new FXMLLoader(CreationEvenementController.class.getResource("CreationDEvenement.fxml"));
+                        Scene scene2 = null;
+                        try {
+                            scene2 = new Scene(fxmlLoader.load());
+                            CreationEvenementController controller = fxmlLoader.getController();
+                            System.out.println(apiCalendar);
+                            controller.setCalendar(apiCalendar);
+                            controller.setDateTime(day);
+                            controller.setMode(mode);
+                            controller.setCalendar(apiCalendar);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        CalendrierApplication.stage2.setResizable(false);
+                        CalendrierApplication.stage2.setTitle("Réservation d'Evenement");
+                        CalendrierApplication.stage2.setScene(scene2);
+                        CalendrierApplication.stage2.show();
+                    }
+                });
             }
             for (int i =0 ; i<vBox.getChildren().size();i++){
                 if (vBox.getChildren().get(i).getOpacity()!=0.0 && Objects.equals(mode, "formation")){

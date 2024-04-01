@@ -6,16 +6,13 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.*;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -23,15 +20,15 @@ import java.util.ResourceBundle;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
-public class CreationController implements Initializable {
+public class CreationEvenementController implements Initializable {
     public Spinner heureDateDebutSpinner;
     public Spinner minDateDebutSpinner;
     public Spinner heureDateFinSpinner;
     public Spinner minDateFinSpinner;
-    public TextField enseignantTextField;
-    public TextField coursTextField;
-    public TextArea tdTextArea;
-    public TextArea promotionTextArea;
+    public ColorPicker colorPicker;
+    public TextField lieuTextField;
+    public TextArea groupeTextArea;
+    public TextArea personnesTextArea;
     public TextField typeTextField;
     public Button enregistreButton;
     public TextArea memoTextArea;
@@ -101,11 +98,8 @@ public class CreationController implements Initializable {
     public void enregistreOnMouseClicked() throws URISyntaxException, IOException {
         if (!dateTime.withHour((Integer) heureDateDebutSpinner.getValue()).withMinute((Integer) minDateDebutSpinner.getValue()).withSecond(0).withNano(0).isAfter(
                 dateTime.withHour((Integer) heureDateFinSpinner.getValue()).withMinute((Integer) minDateFinSpinner.getValue()).withSecond(0).withNano(0))) {
-            if (!Objects.equals(coursTextField.getText(), "") &&
-                    !Objects.equals(enseignantTextField.getText(), "") &&
+            if (!Objects.equals(lieuTextField.getText(), "") &&
                     !Objects.equals(typeTextField.getText(), "")) {
-                if (calendar.getIfPossibleToAddEvent(dateTime.withHour((Integer) heureDateDebutSpinner.getValue()).withMinute((Integer) minDateDebutSpinner.getValue()).withSecond(0).withNano(0),
-                        dateTime.withHour((Integer) heureDateFinSpinner.getValue()).withMinute((Integer) minDateFinSpinner.getValue()).withSecond(0).withNano(0))) {
                     Files.copy(Paths.get(this.calendar.getFilepath()), Paths.get("src/main/resources/com/example/Icalendar/copie.ics"), REPLACE_EXISTING);
                     File file = new File(this.calendar.getFilepath());
                     FileWriter fileWriter = new FileWriter(file, false);
@@ -177,26 +171,26 @@ public class CreationController implements Initializable {
                     bufferedWriter.write("DTEND;VALUE=DATE:" +
                             dateTime.getYear() + mois + jour + "T" +
                             heureFin + minFin + "00Z\n");
-                    bufferedWriter.write("SUMMARY;LANGUAGE=fr:" + this.coursTextField.getText() + " - " + this.enseignantTextField.getText() +
+                    bufferedWriter.write("SUMMARY;LANGUAGE=fr:" +this.colorPicker.getValue().toString()+ " - "+this.lieuTextField.getText() +
                             " - " + this.typeTextField.getText());
-                    if (!Objects.equals(this.tdTextArea.getText(), "")){
-                        bufferedWriter.write( " - "+this.tdTextArea.getText());
+                    if (!Objects.equals(this.personnesTextArea.getText(), "")){
+                        bufferedWriter.write( " - "+this.personnesTextArea.getText());
                     }
-                    if (!Objects.equals(this.promotionTextArea.getText(), "")){
-                        bufferedWriter.write( " - "+this.promotionTextArea.getText());
+                    if (!Objects.equals(this.groupeTextArea.getText(), "")){
+                        bufferedWriter.write( " - "+this.groupeTextArea.getText());
                     }
                     if (!Objects.equals(this.memoTextArea.getText(), "")){
                         bufferedWriter.write( " - "+this.memoTextArea.getText());
                     }
                     bufferedWriter.newLine();
-                    bufferedWriter.write("LOCATION;LANGUAGE=fr:" + this.calendar.getSalle() + "\n");
-                    bufferedWriter.write("DESCRIPTION;LANGUAGE=fr:Matière : " + this.coursTextField.getText() + "\\nEnseignant :" + this.enseignantTextField.getText()+"\\nType :" + this.typeTextField.getText()
-                            + "\\nSalle :" + this.calendar.getSalle());
-                    if (!Objects.equals(this.tdTextArea.getText(), "")){
-                        bufferedWriter.write( "\\nTD :" + this.tdTextArea.getText());
+                    bufferedWriter.write("LOCATION;LANGUAGE=fr:" + this.lieuTextField.getText() + "\n");
+                    bufferedWriter.write("DESCRIPTION;LANGUAGE=fr:Couleur : " + this.colorPicker.getValue() + "\\nType :" + this.typeTextField.getText()
+                            + "\\nLieu :" + this.lieuTextField.getText());
+                    if (!Objects.equals(this.personnesTextArea.getText(), "")){
+                        bufferedWriter.write( "\\nPersonnes :" + this.personnesTextArea.getText());
                     }
-                    if (!Objects.equals(this.promotionTextArea.getText(), "")){
-                        bufferedWriter.write( "\\nPromotions :" + this.promotionTextArea.getText());
+                    if (!Objects.equals(this.groupeTextArea.getText(), "")){
+                        bufferedWriter.write( "\\nGroupe :" + this.groupeTextArea.getText());
                     }
                     if (!Objects.equals(this.memoTextArea.getText(), "")){
                         bufferedWriter.write( "\\nMémo :" + this.memoTextArea.getText());
@@ -212,18 +206,11 @@ public class CreationController implements Initializable {
                     Stage stage = (Stage) enregistreButton.getScene().getWindow();
                     stage.close();
 
-                }
-                else {
-                    errorText.setText("La salle est pris sur ce laps de temps.");
-                }
             }
             else{
                 errorText.setText("Il manque des arguments à mettre.");
-                if (Objects.equals(coursTextField.getText(), "")){
-                    coursTextField.setStyle("-fx-border-color: red;");
-                }
-                if (Objects.equals(enseignantTextField.getText(), "")){
-                    enseignantTextField.setStyle("-fx-border-color: red;");
+                if (Objects.equals(lieuTextField.getText(), "")){
+                    lieuTextField.setStyle("-fx-border-color: red;");
                 }
                 if (Objects.equals(typeTextField.getText(), "")){
                     typeTextField.setStyle("-fx-border-color: red;");

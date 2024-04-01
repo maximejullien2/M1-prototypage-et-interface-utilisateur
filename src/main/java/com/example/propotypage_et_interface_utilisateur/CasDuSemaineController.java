@@ -306,6 +306,30 @@ public class CasDuSemaineController {
                         }
                     });
                 }
+            }else if (Objects.equals(mode, "favoris")) {
+                for (int i=0 ; i<5;i++) {
+                    int finalI = i;
+                    vBox[i].setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            FXMLLoader fxmlLoader = new FXMLLoader(CreationEvenementController.class.getResource("CreationDEvenement.fxml"));
+                            Scene scene2 = null;
+                            try {
+                                scene2 = new Scene(fxmlLoader.load());
+                                CreationEvenementController controller = fxmlLoader.getController();
+                                controller.setDateTime(localDateTimesList[finalI]);
+                                controller.setMode(mode);
+                                controller.setCalendar(apiCalendar);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                            CalendrierApplication.stage2.setResizable(false);
+                            CalendrierApplication.stage2.setTitle("Réservation d'Evenement");
+                            CalendrierApplication.stage2.setScene(scene2);
+                            CalendrierApplication.stage2.show();
+                        }
+                    });
+                }
             }
             if (Objects.equals(essai.get(), "white"))
                 setColor("black");

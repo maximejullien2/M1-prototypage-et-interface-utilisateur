@@ -140,7 +140,7 @@ public class CalendrierController implements Initializable {
             controller.setList(output);
             controller.setDay(this.localDateTime);
             this.mouthText.setText(this.mois[this.localDateTime.getMonth().getValue()-1]+" "+this.localDateTime.getYear());
-            if (!Objects.equals(pathFileRessource, "vide") && Objects.equals(mode, "salle")) {
+            if (!Objects.equals(pathFileRessource, "vide") && (Objects.equals(mode, "salle") || Objects.equals(mode, "favoris"))) {
                 controller.affichage(this.mode, this.modeConnexion, this.apiCalendar);
             }
             else{
@@ -169,7 +169,7 @@ public class CalendrierController implements Initializable {
             controller.setJourMercredi(localDateTime1.plusDays(2));
             controller.setJourJeudi(localDateTime1.plusDays(3));
             controller.setJourVendredi(localDateTime1.plusDays(4));
-            if (!Objects.equals(pathFileRessource, "vide") && Objects.equals(mode, "salle")) {
+            if (!Objects.equals(pathFileRessource, "vide") && (Objects.equals(mode, "salle") || Objects.equals(mode, "favoris"))) {
                 controller.affichage(this.mode, this.modeConnexion, this.apiCalendar);
             }
             else{
@@ -195,7 +195,7 @@ public class CalendrierController implements Initializable {
             CasDuMoisController controller = fxmlLoader.getController();
             controller.setArrayList(output);
             controller.setDateTime(apiCalendar.getDateMounth(localDateTime));
-            if (!Objects.equals(pathFileRessource, "vide") && Objects.equals(mode, "salle")) {
+            if (!Objects.equals(pathFileRessource, "vide") && (Objects.equals(mode, "salle") || Objects.equals(mode, "favoris"))) {
                 controller.affichage(this.mode, this.modeConnexion, this.apiCalendar);
             }
             else{

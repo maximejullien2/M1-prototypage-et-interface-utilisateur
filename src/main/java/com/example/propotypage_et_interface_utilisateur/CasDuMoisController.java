@@ -114,11 +114,17 @@ public class CasDuMoisController implements Initializable{
                                         tootlipText = tootlipText +"TD :" +event.getDescriptionEvent().getDescription("TD ") + "\n";
                                     if (event.getDescriptionEvent().getDescription("Salle ")!= null)
                                         tootlipText = tootlipText +"Salle :" +event.getDescriptionEvent().getDescription("Salle ") + "\n";
+                                    if (event.getDescriptionEvent().getDescription("Lieu ")!= null)
+                                        tootlipText = tootlipText +"Lieu :" +event.getDescriptionEvent().getDescription("Lieu ") + "\n";
                                     if (event.getDescriptionEvent().getDescription("Type ")!= null)
                                         tootlipText = tootlipText +"Type :" +event.getDescriptionEvent().getDescription("Type ") + "\n";
+                                    if (event.getDescriptionEvent().getDescription("Personnes ")!= null)
+                                        tootlipText = tootlipText +"Personnes :" +event.getDescriptionEvent().getDescription("Personnes ") + "\n";
+                                    if (event.getDescriptionEvent().getDescription("Groupe ")!= null)
+                                        tootlipText = tootlipText +"Groupe :" +event.getDescriptionEvent().getDescription("Groupe ") + "\n";
                                     if (event.getDescriptionEvent().getDescription("Mémo ")!= null)
                                         tootlipText = tootlipText +"Mémo :" +event.getDescriptionEvent().getDescription("Mémo ") + "\n";
-                                    caseDuMoisController.addCircle(tootlipText,mode,userPriviledge);
+                                    caseDuMoisController.addCircle(tootlipText,mode,userPriviledge,event.getDescriptionEvent().getDescription("Couleur "));
                                 }
                             }
                         }
@@ -155,6 +161,28 @@ public class CasDuMoisController implements Initializable{
                             }
                             CalendrierApplication.stage2.setResizable(false);
                             CalendrierApplication.stage2.setTitle("Réservation de Salle");
+                            CalendrierApplication.stage2.setScene(scene2);
+                            CalendrierApplication.stage2.show();
+                        }
+                    });
+                }else if (Objects.equals(mode, "favoris")) {
+                    LocalDateTime finalDateTime = dateTime;
+                    vBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            FXMLLoader fxmlLoader = new FXMLLoader(CreationEvenementController.class.getResource("CreationDEvenement.fxml"));
+                            Scene scene2 = null;
+                            try {
+                                scene2 = new Scene(fxmlLoader.load());
+                                CreationEvenementController controller = fxmlLoader.getController();
+                                controller.setDateTime(finalDateTime);
+                                controller.setMode(mode);
+                                controller.setCalendar(apiCalendar);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                            CalendrierApplication.stage2.setResizable(false);
+                            CalendrierApplication.stage2.setTitle("Réservation d'Evenement");
                             CalendrierApplication.stage2.setScene(scene2);
                             CalendrierApplication.stage2.show();
                         }
