@@ -1,13 +1,17 @@
 package com.example.propotypage_et_interface_utilisateur;
 
+import com.example.Icalendar.ApiCalendar;
 import com.example.Icalendar.Event;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -82,7 +86,7 @@ public class CasDuMoisController implements Initializable{
 
     LocalDateTime dateTime;
 
-    public void affichage(String mode,String userPriviledge){
+    public void affichage(String mode, String userPriviledge, ApiCalendar apiCalendar){
         URL test = CasDuMoisController.class.getResource("CaseDuMois.fxml");
         try {
             for (int pointeur = 0 ; pointeur<arrayList.size(); pointeur++) {
@@ -133,6 +137,29 @@ public class CasDuMoisController implements Initializable{
                     }
                 }
                 caseDuMoisController.setJourId(jour, paddingEnMoins);
+                if (Objects.equals(mode, "salle") && Objects.equals(userPriviledge, "enseignant")){
+                    LocalDateTime finalDateTime = dateTime;
+                    vBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            FXMLLoader fxmlLoader = new FXMLLoader(CalendrierController.class.getResource("ReservationDeSalle.fxml"));
+                            Scene scene2 = null;
+                            try {
+                                scene2 = new Scene(fxmlLoader.load());
+                                CreationController controller = fxmlLoader.getController();
+                                controller.setDateTime(finalDateTime);
+                                controller.setMode(mode);
+                                controller.setCalendar(apiCalendar);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                            CalendrierApplication.stage2.setResizable(false);
+                            CalendrierApplication.stage2.setTitle("Réservation de Salle");
+                            CalendrierApplication.stage2.setScene(scene2);
+                            CalendrierApplication.stage2.show();
+                        }
+                    });
+                }
                 jourMois.getChildren().add(vBox);
                 if (dateTime.getDayOfWeek().getValue()<5)
                     dateTime = dateTime.plusDays(1);

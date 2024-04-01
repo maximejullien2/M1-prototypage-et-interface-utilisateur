@@ -1,5 +1,6 @@
 package com.example.propotypage_et_interface_utilisateur;
 
+import com.example.Icalendar.ApiCalendar;
 import com.example.Icalendar.Event;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
@@ -8,6 +9,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -18,6 +20,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -111,25 +114,31 @@ public class CasDuSemaineController {
 
     @FXML
     Text vendredi;
+    LocalDateTime[] localDateTimesList={null,null,null,null,null};
 
-    public void setJourLundi(String text) {
-        this.jourLundi.setText(text);
+    public void setJourLundi(LocalDateTime localDateTime) {
+        this.jourLundi.setText(String.valueOf(localDateTime.getDayOfMonth()));
+        localDateTimesList[0] = localDateTime;
     }
 
-    public void setJourMardi(String text) {
-        this.jourMardi.setText(text);
+    public void setJourMardi(LocalDateTime localDateTime) {
+        this.jourMardi.setText(String.valueOf(localDateTime.getDayOfMonth()));
+        localDateTimesList[1] = localDateTime;
     }
 
-    public void setJourMercredi(String text) {
-        this.jourMercredi.setText(text);
+    public void setJourMercredi(LocalDateTime localDateTime) {
+        this.jourMercredi.setText(String.valueOf(localDateTime.getDayOfMonth()));
+        localDateTimesList[2] = localDateTime;
     }
 
-    public void setJourJeudi(String text) {
-        this.jourJeudi.setText(text);
+    public void setJourJeudi(LocalDateTime localDateTime) {
+        this.jourJeudi.setText(String.valueOf(localDateTime.getDayOfMonth()));
+        localDateTimesList[3] = localDateTime;
     }
 
-    public void setJourVendredi(String text) {
-        this.jourVendredi.setText(text);
+    public void setJourVendredi(LocalDateTime localDateTime) {
+        this.jourVendredi.setText(String.valueOf(localDateTime.getDayOfMonth()));
+        localDateTimesList[4] = localDateTime;
     }
 
     @FXML
@@ -201,7 +210,7 @@ public class CasDuSemaineController {
         setColorPaneVBox(color);
     }
     ArrayList<ArrayList<ArrayList<ArrayList<Event>>>> arrayList;
-    public void affichage(String mode,String userPriviledge){
+    public void affichage(String mode,String userPriviledge, ApiCalendar apiCalendar){
         URL test = CaseDeLaSemaineController.class.getResource("CaseDeLaSemaine.fxml");
         StringProperty essai = CalendrierController.couleur;
         essai.addListener(new ChangeListener<String>() {
@@ -255,21 +264,47 @@ public class CasDuSemaineController {
                     }
                 }
             }
-            for (int j=0 ; j<5;j++) {
-                for (int i = 0; i < vBox[j].getChildren().size(); i++) {
-                    if (vBox[j].getChildren().get(i).getOpacity() != 0.0 && Objects.equals(mode, "formation")) {
-                        vBox[j].getChildren().get(i).setOnMouseClicked(new EventHandler<MouseEvent>() {
-                            @Override
-                            public void handle(MouseEvent event) {
-                                Desktop desktop = getDesktop();
-                                try {
-                                    desktop.mail(new URI("mailto:maxime.jullien2@alumni.univ-avignon.fr"));
-                                } catch (IOException | URISyntaxException e) {
-                                    throw new RuntimeException(e);
+            if(Objects.equals(mode, "formation")){
+                for (int j=0 ; j<5;j++) {
+                    for (int i = 0; i < vBox[j].getChildren().size(); i++) {
+                        if (vBox[j].getChildren().get(i).getOpacity() != 0.0) {
+                            vBox[j].getChildren().get(i).setOnMouseClicked(new EventHandler<MouseEvent>() {
+                                @Override
+                                public void handle(MouseEvent event) {
+                                    Desktop desktop = getDesktop();
+                                    try {
+                                        desktop.mail(new URI("mailto:maxime.jullien2@alumni.univ-avignon.fr"));
+                                    } catch (IOException | URISyntaxException e) {
+                                        throw new RuntimeException(e);
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
                     }
+                }
+            } else if (Objects.equals(mode, "salle") && Objects.equals(userPriviledge, "enseignant")) {
+                for (int i=0 ; i<5;i++) {
+                    int finalI = i;
+                    vBox[i].setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            FXMLLoader fxmlLoader = new FXMLLoader(CalendrierController.class.getResource("ReservationDeSalle.fxml"));
+                            Scene scene2 = null;
+                            try {
+                                scene2 = new Scene(fxmlLoader.load());
+                                CreationController controller = fxmlLoader.getController();
+                                controller.setDateTime(localDateTimesList[finalI]);
+                                controller.setMode(mode);
+                                controller.setCalendar(apiCalendar);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                            CalendrierApplication.stage2.setResizable(false);
+                            CalendrierApplication.stage2.setTitle("Réservation de Salle");
+                            CalendrierApplication.stage2.setScene(scene2);
+                            CalendrierApplication.stage2.show();
+                        }
+                    });
                 }
             }
             if (Objects.equals(essai.get(), "white"))

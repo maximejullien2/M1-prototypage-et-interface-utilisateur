@@ -7,6 +7,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -21,6 +22,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.*;
 import java.net.MalformedURLException;
@@ -56,6 +58,8 @@ public class CalendrierController implements Initializable {
     public Text groupeText;
     public Text salleText;
     public Text typeText;
+
+    public static Stage stage2;
     @FXML
     ComboBox choiceBox;
 
@@ -104,6 +108,8 @@ public class CalendrierController implements Initializable {
 
     int idListe;
 
+    String pathFileRessource;
+
     @FXML
     Text mouthText;
 
@@ -120,7 +126,6 @@ public class CalendrierController implements Initializable {
     LocalDateTime localDateTime;
 
     HashMap<String,String> filtres = new HashMap<String,String>();
-    String[] jour = {"Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"};
     String[] mois = {"Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Aout","Sepctembre","Octobre","Novembre","Decembre"};
     private void affichageJour(){
         URL test ;
@@ -133,9 +138,14 @@ public class CalendrierController implements Initializable {
             anchorPane = fxmlLoader.load();
             CasDuJourController controller = fxmlLoader.getController();
             controller.setList(output);
-            controller.setDay(this.jour[this.localDateTime.getDayOfWeek().getValue()-1]+" "+this.localDateTime.getDayOfMonth());
+            controller.setDay(this.localDateTime);
             this.mouthText.setText(this.mois[this.localDateTime.getMonth().getValue()-1]+" "+this.localDateTime.getYear());
-            controller.affichage(this.mode,this.modeConnexion);
+            if (!Objects.equals(pathFileRessource, "vide") && Objects.equals(mode, "salle")) {
+                controller.affichage(this.mode, this.modeConnexion, this.apiCalendar);
+            }
+            else{
+                controller.affichage(this.mode, this.modeConnexion, null);
+            }
             calendrier.getChildren().clear();
             calendrier.getChildren().add(anchorPane);
         } catch (IOException e) {
@@ -154,12 +164,17 @@ public class CalendrierController implements Initializable {
             anchorPane = fxmlLoader.load();
             CasDuSemaineController controller = fxmlLoader.getController();
             controller.setArrayList(output);
-            controller.setJourLundi(Integer.toString(localDateTime1.getDayOfMonth()));
-            controller.setJourMardi(Integer.toString(localDateTime1.plusDays(1).getDayOfMonth()));
-            controller.setJourMercredi(Integer.toString(localDateTime1.plusDays(2).getDayOfMonth()));
-            controller.setJourJeudi(Integer.toString(localDateTime1.plusDays(3).getDayOfMonth()));
-            controller.setJourVendredi(Integer.toString(localDateTime1.plusDays(4).getDayOfMonth()));
-            controller.affichage(this.mode,this.modeConnexion);
+            controller.setJourLundi(localDateTime1);
+            controller.setJourMardi(localDateTime1.plusDays(1));
+            controller.setJourMercredi(localDateTime1.plusDays(2));
+            controller.setJourJeudi(localDateTime1.plusDays(3));
+            controller.setJourVendredi(localDateTime1.plusDays(4));
+            if (!Objects.equals(pathFileRessource, "vide") && Objects.equals(mode, "salle")) {
+                controller.affichage(this.mode, this.modeConnexion, this.apiCalendar);
+            }
+            else{
+                controller.affichage(this.mode, this.modeConnexion, null);
+            }
             calendrier.getChildren().clear();
             calendrier.getChildren().add(anchorPane);
             this.mouthText.setText(this.mois[this.localDateTime.getMonth().getValue()-1]+" "+this.localDateTime.getYear());
@@ -180,7 +195,12 @@ public class CalendrierController implements Initializable {
             CasDuMoisController controller = fxmlLoader.getController();
             controller.setArrayList(output);
             controller.setDateTime(apiCalendar.getDateMounth(localDateTime));
-            controller.affichage(this.mode,this.modeConnexion);
+            if (!Objects.equals(pathFileRessource, "vide") && Objects.equals(mode, "salle")) {
+                controller.affichage(this.mode, this.modeConnexion, this.apiCalendar);
+            }
+            else{
+                controller.affichage(this.mode, this.modeConnexion, null);
+            }
             calendrier.getChildren().clear();
             calendrier.getChildren().add(anchorPane);
             this.mouthText.setText(this.mois[this.localDateTime.getMonth().getValue()-1]+" "+this.localDateTime.getYear());
@@ -200,9 +220,11 @@ public class CalendrierController implements Initializable {
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
                 try {
                     if (number2.intValue()>=0) {
+                        pathFileRessource = "src/main/resources/com/example/connexion/" + list.get(idListe).get("mailAdresse") + "/" + mode + "/" + selectionEdtComboBox.getItems().get(number2.intValue()).toString() + ".ics";
                         apiCalendar = new ParserIcalendar().parse("src/main/resources/com/example/connexion/" + list.get(idListe).get("mailAdresse") + "/" + mode + "/" + selectionEdtComboBox.getItems().get(number2.intValue()).toString() + ".ics");
                     }
                     else {
+                        pathFileRessource = "vide";
                         apiCalendar = new ParserIcalendar().parse("src/main/resources/com/example/Icalendar/vide.ics");
                     }
                         int identifiant = choiceBox.getSelectionModel().getSelectedIndex();
@@ -237,11 +259,30 @@ public class CalendrierController implements Initializable {
                 }
             }
         });
+        CalendrierApplication.stage2.setOnHidden(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent windowEvent) {
+                try {
+                    apiCalendar = new ParserIcalendar().parse(apiCalendar.getFilepath());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                int identifiant = choiceBox.getSelectionModel().getSelectedIndex();
+                if (identifiant == 0) {
+                    affichageJour();
+                } else if (identifiant == 1) {
+                    affichageSemaine();
+                } else {
+                    affichageMois();
+                }
+            }
+        });
         this.choiceBox.getItems().add("Jour");
         this.choiceBox.getItems().add("Semaine");
         this.choiceBox.getItems().add("Mois");
         this.choiceBox.setVisibleRowCount(3);
         try {
+            pathFileRessource = "vide";
             this.apiCalendar = new ParserIcalendar().parse("src/main/resources/com/example/Icalendar/vide.ics");
         } catch (IOException e) {
             e.printStackTrace();
@@ -251,187 +292,211 @@ public class CalendrierController implements Initializable {
 
     @FXML
     public void buttonAfterOnMouseClicked(){
-        if (this.choiceBox.getSelectionModel().isSelected(0)){
-            if (localDateTime.getDayOfWeek().getValue()>=5){
-                while (localDateTime.getDayOfWeek().getValue()>=5){
+        if (!CalendrierApplication.stage2.isShowing()) {
+
+            if (this.choiceBox.getSelectionModel().isSelected(0)) {
+                if (localDateTime.getDayOfWeek().getValue() >= 5) {
+                    while (localDateTime.getDayOfWeek().getValue() >= 5) {
+                        localDateTime = localDateTime.plusDays(1);
+                    }
+                } else {
                     localDateTime = localDateTime.plusDays(1);
                 }
+                affichageJour();
+            } else if (this.choiceBox.getSelectionModel().isSelected(1)) {
+                localDateTime = localDateTime.plusDays(7);
+                affichageSemaine();
+            } else {
+                localDateTime = localDateTime.plusMonths(1);
+                affichageMois();
             }
-            else{
-                localDateTime = localDateTime.plusDays(1);
-            }
-            affichageJour();
-        } else if (this.choiceBox.getSelectionModel().isSelected(1)) {
-            localDateTime = localDateTime.plusDays(7);
-            affichageSemaine();
-        }
-        else {
-            localDateTime = localDateTime.plusMonths(1);
-            affichageMois();
         }
     }
 
     @FXML
     public void buttonBeforeOnMouseClicked(){
-        if (this.choiceBox.getSelectionModel().isSelected(0)){
-            if (localDateTime.getDayOfWeek().getValue()==1){
-                localDateTime=localDateTime.minusDays(3);
+        if (!CalendrierApplication.stage2.isShowing()) {
+
+            if (this.choiceBox.getSelectionModel().isSelected(0)) {
+                if (localDateTime.getDayOfWeek().getValue() == 1) {
+                    localDateTime = localDateTime.minusDays(3);
+                } else {
+                    localDateTime = localDateTime.minusDays(1);
+                }
+                affichageJour();
+            } else if (this.choiceBox.getSelectionModel().isSelected(1)) {
+                localDateTime = localDateTime.minusDays(7);
+                affichageSemaine();
+            } else {
+                localDateTime = localDateTime.minusMonths(1);
+                affichageMois();
             }
-            else{
-                localDateTime = localDateTime.minusDays(1);
-            }
-            affichageJour();
-        } else if (this.choiceBox.getSelectionModel().isSelected(1)) {
-            localDateTime = localDateTime.minusDays(7);
-            affichageSemaine();
-        }
-        else {
-            localDateTime = localDateTime.minusMonths(1);
-            affichageMois();
         }
     }
 
     @FXML
     public void buttonThemeOnMouseClicked(){
-        if (Objects.equals(CalendrierController.couleur.get(), "black")){
-            CalendrierController.couleur.set("white");
-            this.mouthText.setFill(Color.BLACK);
-            this.urlText.setFill(Color.BLACK);
-            this.nameEdtText.setFill(Color.BLACK);
-            this.selectionEdtText.setFill(Color.BLACK);
-            this.definirFiltreText.setFill(Color.BLACK);
-            this.matiereText.setFill(Color.BLACK);
-            this.groupeText.setFill(Color.BLACK);
-            this.salleText.setFill(Color.BLACK);
-            this.typeText.setFill(Color.BLACK);
+        if (!CalendrierApplication.stage2.isShowing()) {
+
+            if (Objects.equals(CalendrierController.couleur.get(), "black")) {
+                CalendrierController.couleur.set("white");
+                this.mouthText.setFill(Color.BLACK);
+                this.urlText.setFill(Color.BLACK);
+                this.nameEdtText.setFill(Color.BLACK);
+                this.selectionEdtText.setFill(Color.BLACK);
+                this.definirFiltreText.setFill(Color.BLACK);
+                this.matiereText.setFill(Color.BLACK);
+                this.groupeText.setFill(Color.BLACK);
+                this.salleText.setFill(Color.BLACK);
+                this.typeText.setFill(Color.BLACK);
+            } else {
+                CalendrierController.couleur.set("black");
+                this.mouthText.setFill(Color.WHITE);
+                this.urlText.setFill(Color.WHITE);
+                this.nameEdtText.setFill(Color.WHITE);
+                this.selectionEdtText.setFill(Color.WHITE);
+                this.definirFiltreText.setFill(Color.WHITE);
+                this.matiereText.setFill(Color.WHITE);
+                this.groupeText.setFill(Color.WHITE);
+                this.salleText.setFill(Color.WHITE);
+                this.typeText.setFill(Color.WHITE);
+            }
+            anchorPane.setStyle("-fx-background-color:" + CalendrierController.couleur.get() + ";");
         }
-        else{
-            CalendrierController.couleur.set("black");
-            this.mouthText.setFill(Color.WHITE);
-            this.urlText.setFill(Color.WHITE);
-            this.nameEdtText.setFill(Color.WHITE);
-            this.selectionEdtText.setFill(Color.WHITE);
-            this.definirFiltreText.setFill(Color.WHITE);
-            this.matiereText.setFill(Color.WHITE);
-            this.groupeText.setFill(Color.WHITE);
-            this.salleText.setFill(Color.WHITE);
-            this.typeText.setFill(Color.WHITE);
-        }
-        anchorPane.setStyle("-fx-background-color:"+CalendrierController.couleur.get()+";");
     }
 
     @FXML
     public void addEdtOnMouseClicked() throws IOException {
-        if (!Objects.equals(nameEdtTextField.getText(), "") && !Objects.equals(urlTextField.getText(), "")){
-            InputStream in = null;
-            try {
-                in = new URL(urlTextField.getText()).openStream();
-                Files.copy(in, Paths.get("src/main/resources/com/example/connexion/"+this.list.get(this.idListe).get("mailAdresse")+"/"+mode+"/"+nameEdtTextField.getText()+".ics"), StandardCopyOption.REPLACE_EXISTING);
-                this.selectionEdtComboBox.getItems().add(nameEdtTextField.getText());
-            } catch (IOException e) {
-                System.out.println("Erreur");
+        if (!CalendrierApplication.stage2.isShowing()) {
+
+            if (!Objects.equals(nameEdtTextField.getText(), "") && !Objects.equals(urlTextField.getText(), "")) {
+                InputStream in = null;
+                try {
+                    in = new URL(urlTextField.getText()).openStream();
+                    Files.copy(in, Paths.get("src/main/resources/com/example/connexion/" + this.list.get(this.idListe).get("mailAdresse") + "/" + mode + "/" + nameEdtTextField.getText() + ".ics"), StandardCopyOption.REPLACE_EXISTING);
+                    this.selectionEdtComboBox.getItems().add(nameEdtTextField.getText());
+                } catch (IOException e) {
+                    System.out.println("Erreur");
+                }
             }
         }
     }
 
     @FXML
     public void deconnexionOnMouseClicked() throws IOException {
-        File file = new File("src/main/resources/com/example/connexion/connected.txt");
-        FileWriter fileWriter = new FileWriter(file,false);
-        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-        bufferedWriter.close();
-        Stage stage = (Stage) deconnexionButton.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(ConnexionController.class.getResource("pageConnexion.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Page de Connexion");
-        stage.setScene(scene);
+        if (!CalendrierApplication.stage2.isShowing()) {
+
+            File file = new File("src/main/resources/com/example/connexion/connected.txt");
+            FileWriter fileWriter = new FileWriter(file, false);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.close();
+            Stage stage = (Stage) deconnexionButton.getScene().getWindow();
+            FXMLLoader fxmlLoader = new FXMLLoader(ConnexionController.class.getResource("pageConnexion.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            stage.setTitle("Page de Connexion");
+            stage.setScene(scene);
+        }
     }
 
     @FXML
     public void favorisOnMouseClicked() {
-        if (!Objects.equals(this.mode, "favoris")){
-            this.mode = "favoris";
-            this.selectionEdtComboBox.getItems().clear();
-            File dossier = new File("src/main/resources/com/example/connexion/"+this.list.get(this.idListe).get("mailAdresse")+"/"+this.mode+"/");
-            for (int i = 0; i < Objects.requireNonNull(dossier.listFiles()).length; i++){
-                this.selectionEdtComboBox.getItems().add(Objects.requireNonNull(dossier.listFiles())[i].getName().split("\\.")[0]);
+        if (!CalendrierApplication.stage2.isShowing()) {
+
+            if (!Objects.equals(this.mode, "favoris")) {
+                this.mode = "favoris";
+                this.selectionEdtComboBox.getItems().clear();
+                File dossier = new File("src/main/resources/com/example/connexion/" + this.list.get(this.idListe).get("mailAdresse") + "/" + this.mode + "/");
+                for (int i = 0; i < Objects.requireNonNull(dossier.listFiles()).length; i++) {
+                    this.selectionEdtComboBox.getItems().add(Objects.requireNonNull(dossier.listFiles())[i].getName().split("\\.")[0]);
+                }
             }
         }
     }
 
     @FXML
     public void formationOnMouseClicked() {
-        if (!Objects.equals(this.mode, "formation")){
-            this.mode = "formation";
-            this.selectionEdtComboBox.getItems().clear();
-            File dossier = new File("src/main/resources/com/example/connexion/"+this.list.get(this.idListe).get("mailAdresse")+"/"+this.mode+"/");
-            for (int i = 0; i < Objects.requireNonNull(dossier.listFiles()).length; i++){
-                this.selectionEdtComboBox.getItems().add(Objects.requireNonNull(dossier.listFiles())[i].getName().split("\\.")[0]);
+        if (!CalendrierApplication.stage2.isShowing()) {
+
+            if (!Objects.equals(this.mode, "formation")) {
+                this.mode = "formation";
+                this.selectionEdtComboBox.getItems().clear();
+                File dossier = new File("src/main/resources/com/example/connexion/" + this.list.get(this.idListe).get("mailAdresse") + "/" + this.mode + "/");
+                for (int i = 0; i < Objects.requireNonNull(dossier.listFiles()).length; i++) {
+                    this.selectionEdtComboBox.getItems().add(Objects.requireNonNull(dossier.listFiles())[i].getName().split("\\.")[0]);
+                }
             }
         }
     }
 
     @FXML
     public void personnelOnMouseClicked() {
-        if (!Objects.equals(this.mode, "personnel")){
-            this.mode = "personnel";
-            this.selectionEdtComboBox.getItems().clear();
-            File dossier = new File("src/main/resources/com/example/connexion/"+this.list.get(this.idListe).get("mailAdresse")+"/"+this.mode+"/");
-            for (int i = 0; i < Objects.requireNonNull(dossier.listFiles()).length; i++){
-                this.selectionEdtComboBox.getItems().add(Objects.requireNonNull(dossier.listFiles())[i].getName().split("\\.")[0]);
+        if (!CalendrierApplication.stage2.isShowing()) {
+
+            if (!Objects.equals(this.mode, "personnel")) {
+                this.mode = "personnel";
+                this.selectionEdtComboBox.getItems().clear();
+                File dossier = new File("src/main/resources/com/example/connexion/" + this.list.get(this.idListe).get("mailAdresse") + "/" + this.mode + "/");
+                for (int i = 0; i < Objects.requireNonNull(dossier.listFiles()).length; i++) {
+                    this.selectionEdtComboBox.getItems().add(Objects.requireNonNull(dossier.listFiles())[i].getName().split("\\.")[0]);
+                }
             }
         }
     }
 
     @FXML
     public void salleOnMouseClicked() {
-        if (!Objects.equals(this.mode, "salle")){
-            this.mode = "salle";
-            this.selectionEdtComboBox.getItems().clear();
-            File dossier = new File("src/main/resources/com/example/connexion/"+this.list.get(this.idListe).get("mailAdresse")+"/"+this.mode+"/");
-            for (int i = 0; i < Objects.requireNonNull(dossier.listFiles()).length; i++){
-                this.selectionEdtComboBox.getItems().add(Objects.requireNonNull(dossier.listFiles())[i].getName().split("\\.")[0]);
+        if (!CalendrierApplication.stage2.isShowing()) {
+
+            if (!Objects.equals(this.mode, "salle")) {
+                this.mode = "salle";
+                this.selectionEdtComboBox.getItems().clear();
+                File dossier = new File("src/main/resources/com/example/connexion/" + this.list.get(this.idListe).get("mailAdresse") + "/" + this.mode + "/");
+                for (int i = 0; i < Objects.requireNonNull(dossier.listFiles()).length; i++) {
+                    this.selectionEdtComboBox.getItems().add(Objects.requireNonNull(dossier.listFiles())[i].getName().split("\\.")[0]);
+                }
             }
         }
     }
 
     @FXML
     public void aujourdhuiOnMouseClicked() {
-        this.localDateTime = LocalDateTime.now();
-        int identifiant = choiceBox.getSelectionModel().getSelectedIndex();
-        if (identifiant == 0){
-            affichageJour();
-        } else if (identifiant == 1) {
-            affichageSemaine();
-        }
-        else{
-            affichageMois();
+        if (!CalendrierApplication.stage2.isShowing()) {
+            this.localDateTime = LocalDateTime.now();
+            int identifiant = choiceBox.getSelectionModel().getSelectedIndex();
+            if (identifiant == 0) {
+                affichageJour();
+            } else if (identifiant == 1) {
+                affichageSemaine();
+            } else {
+                affichageMois();
+            }
         }
     }
 
     @FXML
     public void filtreOnMouseClicked() {
-        this.filtres.clear();
-        if (!Objects.equals(this.matiereTextField.getText(), "")){
-            this.filtres.put("Matière ",this.matiereTextField.getText());
-        }
-        if (!Objects.equals(this.groupeTextField.getText(), "")){
-            this.filtres.put("TD ",this.groupeTextField.getText());
-        }
-        if (!Objects.equals(this.salleTextField.getText(), "")){
-            this.filtres.put("Salle ",this.salleTextField.getText());
-        }
-        if (!Objects.equals(this.typeCoursTextField.getText(), "")){
-            this.filtres.put("Type ",this.typeCoursTextField.getText());
-        }
-        int identifiant = choiceBox.getSelectionModel().getSelectedIndex();
-        if (identifiant == 0){
-            affichageJour();
-        } else if (identifiant == 1) {
-            affichageSemaine();
-        }
-        else{
-            affichageMois();
+        if (!CalendrierApplication.stage2.isShowing()) {
+            this.filtres.clear();
+            if (!Objects.equals(this.matiereTextField.getText(), "")) {
+                this.filtres.put("Matière ", this.matiereTextField.getText());
+            }
+            if (!Objects.equals(this.groupeTextField.getText(), "")) {
+                this.filtres.put("TD ", this.groupeTextField.getText());
+            }
+            if (!Objects.equals(this.salleTextField.getText(), "")) {
+                this.filtres.put("Salle ", this.salleTextField.getText());
+            }
+            if (!Objects.equals(this.typeCoursTextField.getText(), "")) {
+                this.filtres.put("Type ", this.typeCoursTextField.getText());
+            }
+            int identifiant = choiceBox.getSelectionModel().getSelectedIndex();
+            if (identifiant == 0) {
+                affichageJour();
+            } else if (identifiant == 1) {
+                affichageSemaine();
+            } else {
+                affichageMois();
+            }
         }
     }
 }

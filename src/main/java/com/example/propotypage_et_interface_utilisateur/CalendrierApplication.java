@@ -1,10 +1,12 @@
 package com.example.propotypage_et_interface_utilisateur;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,9 +17,13 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class CalendrierApplication extends Application {
+    static Stage stage2;
+    static Stage stage;
 
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage3) throws IOException {
+        CalendrierApplication.stage2 = new Stage();
+        CalendrierApplication.stage = new Stage();
         File file = new File("src/main/resources/com/example/connexion/db.txt");
         File file2 = new File("src/main/resources/com/example/connexion/connected.txt");
         int creationFile=0;

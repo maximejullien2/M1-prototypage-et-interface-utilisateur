@@ -100,7 +100,7 @@ public class InscriptionController implements Initializable {
         bufferedWriter.write("color:white");
         bufferedWriter.newLine();
         if (ensignantCheckbox.isSelected())
-            bufferedWriter.write("type:ensignant");
+            bufferedWriter.write("type:enseignant");
         else
             bufferedWriter.write("type:eleve");
         bufferedWriter.newLine();

@@ -134,7 +134,7 @@ public class CasePourLeJourController implements Initializable {
             }
 
         }
-        if (heightVbox<height &&hashMap.get("Mémo ")!= null) {
+        if (heightVbox<height && hashMap.get("Mémo ")!= null) {
             String resultatMemo = "Mémo :" +hashMap.get("Mémo ");
             Text memo = new Text(resultatMemo);
             vBox.getChildren().add(memo);

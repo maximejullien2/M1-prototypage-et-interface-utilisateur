@@ -1,5 +1,6 @@
 package com.example.propotypage_et_interface_utilisateur;
 
+import com.example.Icalendar.ApiCalendar;
 import com.example.Icalendar.Event;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -9,16 +10,20 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,9 +85,10 @@ public class CasDuJourController implements Initializable {
     Text heure19;
     ArrayList<ArrayList<ArrayList<Event>>> list;
 
-    String day;
+    LocalDateTime day;
+    String[] jours = {"Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"};
 
-    public void affichage(String mode,String userPriviledge){
+    public void affichage(String mode, String userPriviledge, ApiCalendar apiCalendar){
         StringProperty essai = CalendrierController.couleur;
         essai.addListener(new ChangeListener<String>() {
             @Override
@@ -112,7 +118,7 @@ public class CasDuJourController implements Initializable {
                 paneHeure.setStyle("-fx-border-color:"+s+";");
             }
         });
-        jour.setText(this.day);
+        jour.setText(this.jours[this.day.getDayOfWeek().getValue()-1]+" "+this.day.getDayOfMonth());
         URL test = CasePourLeJourController.class.getResource("CasePourLeJour.fxml");
         try {
             CasePourLeJourController casePourLeJourController ;
@@ -157,6 +163,28 @@ public class CasDuJourController implements Initializable {
                     vBox.getChildren().add(anchorPane);
                 }
             }
+            if (Objects.equals(mode, "salle") && Objects.equals(userPriviledge, "enseignant")){
+                vBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        FXMLLoader fxmlLoader = new FXMLLoader(CalendrierController.class.getResource("ReservationDeSalle.fxml"));
+                        Scene scene2 = null;
+                        try {
+                            scene2 = new Scene(fxmlLoader.load());
+                            CreationController controller = fxmlLoader.getController();
+                            controller.setDateTime(day);
+                            controller.setMode(mode);
+                            controller.setCalendar(apiCalendar);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        CalendrierApplication.stage2.setResizable(false);
+                        CalendrierApplication.stage2.setTitle("Réservation de Salle");
+                        CalendrierApplication.stage2.setScene(scene2);
+                        CalendrierApplication.stage2.show();
+                    }
+                });
+            }
             for (int i =0 ; i<vBox.getChildren().size();i++){
                 if (vBox.getChildren().get(i).getOpacity()!=0.0 && Objects.equals(mode, "formation")){
                 vBox.getChildren().get(i).setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -181,7 +209,7 @@ public class CasDuJourController implements Initializable {
         this.list = list;
     }
 
-    public void setDay(String day) {
+    public void setDay(LocalDateTime day) {
         this.day = day;
     }
 

@@ -2,10 +2,7 @@ package com.example.Icalendar;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.*;
 import java.util.regex.Pattern;
 
 /**
@@ -17,8 +14,15 @@ public class ApiCalendar {
      */
     private ArrayList<Event> listApiCalendar;
 
-    ApiCalendar(){
+    public String getFilepath() {
+        return filepath;
+    }
+
+    private String filepath;
+
+    ApiCalendar(String filepath){
         this.listApiCalendar = new ArrayList<Event>();
+        this.filepath = filepath;
     }
 
     /**
@@ -214,5 +218,53 @@ public class ApiCalendar {
             dateTime = dateTime.minusDays(dateTime.getDayOfWeek().getValue()-1);
         }
         return dateTime;
+    }
+
+    public String getSalle(){
+        ArrayList<String> arrayList = new ArrayList<String>();
+        for (int i =0 ; i< listApiCalendar.size();i++){
+            if (listApiCalendar.get(i).getDescriptionEvent().getDescription("Salle ")!=null){
+                boolean ajouter = true;
+                for (int j = 0 ; j<arrayList.size();j++){
+                    if (Objects.equals(arrayList.get(j), listApiCalendar.get(i).getDescriptionEvent().getDescription("Salle "))){
+                        ajouter = !ajouter;
+                        break;
+                    }
+                }
+                if (ajouter)
+                    arrayList.add(listApiCalendar.get(i).getDescriptionEvent().getDescription("Salle "));
+            }
+        }
+        System.out.println(arrayList);
+        return arrayList.get(0);
+    }
+
+    public boolean getIfPossibleToAddEvent(LocalDateTime dateTimeDebut,LocalDateTime dateTimeFin){
+        ArrayList<LocalDateTime> arrayList=new ArrayList<LocalDateTime>();
+        arrayList.add(dateTimeDebut);
+        while (dateTimeFin.isAfter(dateTimeDebut)){
+            dateTimeDebut = dateTimeDebut.plusMinutes(30);
+            arrayList.add(dateTimeDebut);
+        }
+        for (int i=0 ; i< this.listApiCalendar.size();i++){
+            if (listApiCalendar.get(i).getDateEvent().getStartDate().getDayOfYear() == dateTimeDebut.getDayOfYear() &&
+                    listApiCalendar.get(i).getDateEvent().getStartDate().getYear() == dateTimeDebut.getYear()){
+                System.out.println(listApiCalendar.get(i).getDateEvent().getStartDate().toString());
+                System.out.println(listApiCalendar.get(i).getDateEvent().getEndDate().toString());
+                System.out.println("____________________________");
+                for (int j = 0 ; j< arrayList.size();j++){
+                    System.out.println(arrayList.get(j).toString());
+                    if (listApiCalendar.get(i).getDateEvent().getStartDate().isEqual(arrayList.get(j)) ||
+                            listApiCalendar.get(i).getDateEvent().getEndDate().isEqual(arrayList.get(j)) ||
+                            (listApiCalendar.get(i).getDateEvent().getStartDate().isBefore(arrayList.get(j)) &&
+                                    (listApiCalendar.get(i).getDateEvent().getEndDate().isEqual(arrayList.get(j)) ||
+                                            listApiCalendar.get(i).getDateEvent().getEndDate().isAfter(arrayList.get(j))))){
+                        return false;
+                    }
+                }
+                System.out.println("(((((((((((((((((((((((((((((((((");
+            }
+        }
+        return true;
     }
 }
