@@ -125,6 +125,43 @@ public class CasDuJourController implements Initializable {
     String[] jours = {"Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"};
 
     public void affichage(String mode, String userPriviledge, ApiCalendar apiCalendar){
+        Color couleur;
+        if (Objects.equals(CalendrierController.couleur.get(), "white")){
+            couleur = Color.BLACK;
+            paneCours.setStyle("-fx-border-color:black;");
+            paneHeure.setStyle("-fx-border-color:black;");
+            gridPane.setStyle("-fx-border-color:black;");
+        }
+        else {
+            couleur = Color.WHITE;
+            paneCours.setStyle("-fx-border-color:white;");
+            paneHeure.setStyle("-fx-border-color:white;");
+            gridPane.setStyle("-fx-border-color:white;");
+        }
+        jour.setFill(couleur);
+        heure8.setFill(couleur);
+        heure9.setFill(couleur);
+        heure10.setFill(couleur);
+        heure11.setFill(couleur);
+        heure12.setFill(couleur);
+        heure13.setFill(couleur);
+        heure14.setFill(couleur);
+        heure15.setFill(couleur);
+        heure16.setFill(couleur);
+        heure17.setFill(couleur);
+        heure18.setFill(couleur);
+        heure19.setFill(couleur);
+        line9.setStroke(couleur);
+        line10.setStroke(couleur);
+        line11.setStroke(couleur);
+        line12.setStroke(couleur);
+        line13.setStroke(couleur);
+        line14.setStroke(couleur);
+        line15.setStroke(couleur);
+        line16.setStroke(couleur);
+        line17.setStroke(couleur);
+        line18.setStroke(couleur);
+        line19.setStroke(couleur);
         StringProperty essai = CalendrierController.couleur;
         essai.addListener(new ChangeListener<String>() {
             @Override

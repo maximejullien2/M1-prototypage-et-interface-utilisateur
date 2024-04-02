@@ -1,12 +1,16 @@
 package com.example.propotypage_et_interface_utilisateur;
 
 import com.example.Icalendar.ApiCalendar;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -36,7 +40,21 @@ public class CreationController implements Initializable {
     public Button enregistreButton;
     public TextArea memoTextArea;
     public Text errorText;
+    public Text enseignantText;
+    public Text coursText;
+    public Text tdText;
+    public Text promotionText;
+    public Text debutText;
+    public Text finText;
+    public Text memoText;
+    public Text typeText;
+    public Text debutMinText;
+    public Text finMinText;
+    public Text finHText;
+    public Text debutHText;
 
+    @FXML
+    AnchorPane anchorPane;
     public void setMode(String mode) {
         this.mode = mode;
     }
@@ -94,6 +112,68 @@ public class CreationController implements Initializable {
         valueFactory3.setValue(9);
 
         heureDateFinSpinner.setValueFactory(valueFactory3);
+
+        CalendrierController.couleur.addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (Objects.equals(CalendrierController.couleur.get(), "black")) {
+                    typeText.setFill(Color.BLACK);
+                    debutText.setFill(Color.BLACK);
+                    debutMinText.setFill(Color.BLACK);
+                    finText.setFill(Color.BLACK);
+                    finMinText.setFill(Color.BLACK);
+                    coursText.setFill(Color.BLACK);
+                    debutHText.setFill(Color.BLACK);
+                    finHText.setFill(Color.BLACK);
+                    memoText.setFill(Color.BLACK);
+                    tdText.setFill(Color.BLACK);
+                    enseignantText.setFill(Color.BLACK);
+                    promotionText.setFill(Color.BLACK);
+                } else {
+                    typeText.setFill(Color.WHITE);
+                    debutText.setFill(Color.WHITE);
+                    debutMinText.setFill(Color.WHITE);
+                    finText.setFill(Color.WHITE);
+                    finMinText.setFill(Color.WHITE);
+                    coursText.setFill(Color.WHITE);
+                    debutHText.setFill(Color.WHITE);
+                    finHText.setFill(Color.WHITE);
+                    memoText.setFill(Color.WHITE);
+                    tdText.setFill(Color.WHITE);
+                    enseignantText.setFill(Color.WHITE);
+                    promotionText.setFill(Color.WHITE);
+                }
+                anchorPane.setStyle("-fx-background-color:" + CalendrierController.couleur.get() + ";");
+            }
+        });
+        if (Objects.equals(CalendrierController.couleur.get(), "black")) {
+            typeText.setFill(Color.WHITE);
+            debutText.setFill(Color.WHITE);
+            debutMinText.setFill(Color.WHITE);
+            finText.setFill(Color.WHITE);
+            finMinText.setFill(Color.WHITE);
+            coursText.setFill(Color.WHITE);
+            debutHText.setFill(Color.WHITE);
+            finHText.setFill(Color.WHITE);
+            memoText.setFill(Color.WHITE);
+            tdText.setFill(Color.WHITE);
+            enseignantText.setFill(Color.WHITE);
+            promotionText.setFill(Color.WHITE);
+        } else {
+            typeText.setFill(Color.BLACK);
+            debutText.setFill(Color.BLACK);
+            debutMinText.setFill(Color.BLACK);
+            finText.setFill(Color.BLACK);
+            finMinText.setFill(Color.BLACK);
+            coursText.setFill(Color.BLACK);
+            debutHText.setFill(Color.BLACK);
+            finHText.setFill(Color.BLACK);
+            memoText.setFill(Color.BLACK);
+            tdText.setFill(Color.BLACK);
+            enseignantText.setFill(Color.BLACK);
+            promotionText.setFill(Color.BLACK);;
+        }
+        anchorPane.setStyle("-fx-background-color:" + CalendrierController.couleur.get() + ";");
 
     }
 

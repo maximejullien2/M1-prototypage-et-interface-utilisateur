@@ -1,11 +1,15 @@
 package com.example.propotypage_et_interface_utilisateur;
 
 import com.example.Icalendar.ApiCalendar;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -33,6 +37,21 @@ public class CreationEvenementController implements Initializable {
     public Button enregistreButton;
     public TextArea memoTextArea;
     public Text errorText;
+    public Text memoText;
+    public Text lieuText;
+    public Text couleurText;
+    public Text groupeText;
+    public Text personnesText;
+    public Text debutText;
+    public Text finText;
+    public Text debutHText;
+    public Text finHText;
+    public Text finMinText;
+    public Text debutMinText;
+    public Text typeText;
+
+    @FXML
+    AnchorPane anchorPane;
 
     public void setMode(String mode) {
         this.mode = mode;
@@ -92,6 +111,65 @@ public class CreationEvenementController implements Initializable {
 
         heureDateFinSpinner.setValueFactory(valueFactory3);
 
+        CalendrierController.couleur.addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (Objects.equals(CalendrierController.couleur.get(), "black")) {
+                    typeText.setFill(Color.BLACK);
+                    debutText.setFill(Color.BLACK);
+                    debutMinText.setFill(Color.BLACK);
+                    finText.setFill(Color.BLACK);
+                    finMinText.setFill(Color.BLACK);
+                    couleurText.setFill(Color.BLACK);
+                    debutHText.setFill(Color.BLACK);
+                    finHText.setFill(Color.BLACK);
+                    memoText.setFill(Color.BLACK);
+                    lieuText.setFill(Color.BLACK);
+                    personnesText.setFill(Color.BLACK);
+                } else {
+                    typeText.setFill(Color.WHITE);
+                    debutText.setFill(Color.WHITE);
+                    debutMinText.setFill(Color.WHITE);
+                    finText.setFill(Color.WHITE);
+                    finMinText.setFill(Color.WHITE);
+                    couleurText.setFill(Color.WHITE);
+                    debutHText.setFill(Color.WHITE);
+                    finHText.setFill(Color.WHITE);
+                    memoText.setFill(Color.WHITE);
+                    lieuText.setFill(Color.WHITE);
+                    personnesText.setFill(Color.WHITE);
+                }
+                anchorPane.setStyle("-fx-background-color:" + CalendrierController.couleur.get() + ";");
+            }
+        });
+        if (Objects.equals(CalendrierController.couleur.get(), "black")) {
+            typeText.setFill(Color.WHITE);
+            debutText.setFill(Color.WHITE);
+            debutMinText.setFill(Color.WHITE);
+            finText.setFill(Color.WHITE);
+            finMinText.setFill(Color.WHITE);
+            couleurText.setFill(Color.WHITE);
+            debutHText.setFill(Color.WHITE);
+            finHText.setFill(Color.WHITE);
+            memoText.setFill(Color.WHITE);
+            lieuText.setFill(Color.WHITE);
+            personnesText.setFill(Color.WHITE);
+            groupeText.setFill(Color.WHITE);
+        } else {
+            typeText.setFill(Color.BLACK);
+            debutText.setFill(Color.BLACK);
+            debutMinText.setFill(Color.BLACK);
+            finText.setFill(Color.BLACK);
+            finMinText.setFill(Color.BLACK);
+            couleurText.setFill(Color.BLACK);
+            debutHText.setFill(Color.BLACK);
+            finHText.setFill(Color.BLACK);
+            memoText.setFill(Color.BLACK);
+            lieuText.setFill(Color.BLACK);
+            personnesText.setFill(Color.BLACK);
+            groupeText.setFill(Color.BLACK);
+        }
+        anchorPane.setStyle("-fx-background-color:" + CalendrierController.couleur.get() + ";");
     }
 
     @FXML

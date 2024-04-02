@@ -8,30 +8,30 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="374.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.propotypage_et_interface_utilisateur.CreationEvenementController">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="374.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.propotypage_et_interface_utilisateur.CreationEvenementController">
    <children>
-      <Text layoutX="21.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lieu" />
+      <Text fx:id="lieuText" layoutX="21.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lieu" />
       <TextField fx:id="lieuTextField" layoutX="62.0" layoutY="92.0" />
       <ColorPicker fx:id="colorPicker" layoutX="62.0" layoutY="132.0" />
-      <Text layoutX="14.0" layoutY="149.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Couleur" />
-      <Text layoutX="16.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Groupe" />
+      <Text fx:id="couleurText" layoutX="14.0" layoutY="149.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Couleur" />
+      <Text fx:id="groupeText" layoutX="16.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Groupe" />
       <TextArea fx:id="groupeTextArea" layoutX="62.0" layoutY="255.0" prefHeight="45.0" prefWidth="149.0" />
-      <Text layoutX="4.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Personnes" />
+      <Text fx:id="personnesText" layoutX="4.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Personnes" />
       <TextArea fx:id="personnesTextArea" layoutX="62.0" layoutY="200.0" prefHeight="45.0" prefWidth="149.0" />
-      <Text layoutX="8.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date de début:" />
-      <Text layoutX="23.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date de fin:" />
+      <Text fx:id="debutText" layoutX="8.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date de début:" />
+      <Text fx:id="finText" layoutX="23.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date de fin:" />
       <Button fx:id="enregistreButton" layoutX="229.0" layoutY="309.0" mnemonicParsing="false" onMouseClicked="#enregistreOnMouseClicked" prefHeight="85.0" prefWidth="140.0" text="Enregistrez" />
       <Spinner fx:id="heureDateDebutSpinner" layoutX="110.0" layoutY="30.0" prefHeight="25.0" prefWidth="58.0" />
       <Spinner fx:id="minDateDebutSpinner" layoutX="219.0" layoutY="30.0" prefHeight="25.0" prefWidth="58.0" />
       <Spinner fx:id="heureDateFinSpinner" layoutX="110.0" layoutY="61.0" prefHeight="25.0" prefWidth="58.0" />
       <Spinner fx:id="minDateFinSpinner" layoutX="219.0" layoutY="61.0" prefHeight="25.0" prefWidth="58.0" />
-      <Text layoutX="98.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="H:" />
-      <Text layoutX="98.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="H:" />
-      <Text layoutX="195.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Min:" />
-      <Text layoutX="195.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Min:" />
-      <Text layoutX="23.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type" />
+      <Text fx:id="debutHText" layoutX="98.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="H:" />
+      <Text fx:id="finHText" layoutX="98.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="H:" />
+      <Text fx:id="finMinText" layoutX="195.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Min:" />
+      <Text fx:id="debutMinText" layoutX="195.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Min:" />
+      <Text fx:id="typeText" layoutX="23.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type" />
       <TextField fx:id="typeTextField" layoutX="61.0" layoutY="165.0" />
-      <Text layoutX="18.0" layoutY="334.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mémo" />
+      <Text fx:id="memoText" layoutX="18.0" layoutY="334.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mémo" />
       <TextArea fx:id="memoTextArea" layoutX="63.0" layoutY="309.0" prefHeight="85.0" prefWidth="149.0" />
       <Text fx:id="errorText" fill="RED" layoutX="229.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="140.0" />
    </children>
