@@ -168,7 +168,8 @@ public class CasDuJourController implements Initializable {
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
                 gridPane.setStyle("-fx-border-color:" + s + ";");
                 Color couleur;
-                if (s == "black"){
+                System.out.println(s);
+                if (Objects.equals(s, "black")){
                     couleur = Color.BLACK;
                 }
                 else {

@@ -134,6 +134,35 @@ public class CalendrierController implements Initializable {
 
     HashMap<String,String> filtres = new HashMap<String,String>();
     String[] mois = {"Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Aout","Sepctembre","Octobre","Novembre","Decembre"};
+
+    public void couleur(){
+        System.out.println(CalendrierController.couleur.get());
+        if (Objects.equals(CalendrierController.couleur.get(), "black")) {
+            this.mouthText.setFill(Color.WHITE);
+            this.urlText.setFill(Color.WHITE);
+            this.nameEdtText.setFill(Color.WHITE);
+            this.selectionEdtText.setFill(Color.WHITE);
+            this.definirFiltreText.setFill(Color.WHITE);
+            this.matiereText.setFill(Color.WHITE);
+            this.groupeText.setFill(Color.WHITE);
+            this.salleText.setFill(Color.WHITE);
+            this.typeText.setFill(Color.WHITE);
+            this.textModeSelectionne.setFill(Color.WHITE);
+        } else {
+            this.mouthText.setFill(Color.BLACK);
+            this.urlText.setFill(Color.BLACK);
+            this.nameEdtText.setFill(Color.BLACK);
+            this.selectionEdtText.setFill(Color.BLACK);
+            this.definirFiltreText.setFill(Color.BLACK);
+            this.matiereText.setFill(Color.BLACK);
+            this.groupeText.setFill(Color.BLACK);
+            this.salleText.setFill(Color.BLACK);
+            this.typeText.setFill(Color.BLACK);
+            this.textModeSelectionne.setFill(Color.BLACK);
+        }
+        anchorPane.setStyle("-fx-background-color:" + CalendrierController.couleur.get() + ";");
+    }
+
     private void affichageJour(){
         URL test ;
         FXMLLoader fxmlLoader;
@@ -454,7 +483,7 @@ public class CalendrierController implements Initializable {
     }
 
     @FXML
-    public void buttonThemeOnMouseClicked(){
+    public void buttonThemeOnMouseClicked() throws IOException {
         if (!CalendrierApplication.stage2.isShowing()) {
 
             if (Objects.equals(CalendrierController.couleur.get(), "black")) {
@@ -483,9 +512,27 @@ public class CalendrierController implements Initializable {
                 this.textModeSelectionne.setFill(Color.WHITE);
             }
             anchorPane.setStyle("-fx-background-color:" + CalendrierController.couleur.get() + ";");
+            this.list.get(this.idListe).put("color",CalendrierController.couleur.get());
+            this.updateDB();
         }
     }
 
+    private void updateDB() throws IOException {
+        File file = new File("src/main/resources/com/example/connexion/db.txt");
+        FileWriter fileWriter = new FileWriter(file,false);
+        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+        for (int i=0 ; i<list.size();i++){
+            bufferedWriter.write("###############\n");
+            bufferedWriter.write("name:"+list.get(i).get("name")+"\n");
+            bufferedWriter.write("firstName:"+list.get(i).get("firstName")+"\n");
+            bufferedWriter.write("color:"+list.get(i).get("color")+"\n");
+            bufferedWriter.write("type:"+list.get(i).get("type")+"\n");
+            bufferedWriter.write("mailAdresse:"+list.get(i).get("mailAdresse")+"\n");
+            bufferedWriter.write("password:"+list.get(i).get("password")+"\n");
+        }
+        bufferedWriter.close();
+        fileWriter.close();
+    }
     @FXML
     public void addEdtOnMouseClicked() throws IOException {
         if (!CalendrierApplication.stage2.isShowing()) {

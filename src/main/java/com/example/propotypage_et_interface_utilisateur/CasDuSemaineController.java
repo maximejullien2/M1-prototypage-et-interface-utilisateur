@@ -248,7 +248,7 @@ public class CasDuSemaineController {
     private void setColor(String color){
         gridPane.setStyle("-fx-border-color:" + color + ";");
         Color couleur;
-        if (color == "black"){
+        if (Objects.equals(color, "black")){
             couleur = Color.BLACK;
         }
         else {

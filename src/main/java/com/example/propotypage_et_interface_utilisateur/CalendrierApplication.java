@@ -56,8 +56,11 @@ public class CalendrierApplication extends Application {
             ArrayList<HashMap<String,String>> list = getDB("src/main/resources/com/example/connexion/db.txt");
             FXMLLoader fxmlLoader = new FXMLLoader(CalendrierController.class.getResource("test.fxml"));
             ScrollPane anchorPane = fxmlLoader.load();
+            System.out.println(list.get(Integer.parseInt(id)).get("color"));
             CalendrierController controller = fxmlLoader.getController();
+            CalendrierController.setCouleur(list.get(Integer.parseInt(id)).get("color"));
             controller.setMode("favoris");
+            controller.couleur();
             controller.setModeConnexion(list.get(Integer.parseInt(id)).get("type"));
             controller.setList(list);
             controller.setIdListe(Integer.parseInt(id));
