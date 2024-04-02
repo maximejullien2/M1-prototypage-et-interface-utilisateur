@@ -40,14 +40,7 @@ public class InscriptionController implements Initializable {
 
     ArrayList<HashMap<String,String>> list = new ArrayList<HashMap<String,String>>();
 
-    @FXML
-    public void inscriptionOnMouseClicked() throws IOException {
-        this.name.setStyle("");
-        this.firstName.setStyle("");
-        this.password.setStyle("");
-        this.mailAdresse.setStyle("");
-        this.eleveCheckbox.setStyle("");
-        this.ensignantCheckbox.setStyle("");
+    private void testIfTextElementIsEmpty(){
         if (Objects.equals(this.name.getText(), "")){
             this.name.setStyle("-fx-border-color: red;");
         }
@@ -64,6 +57,11 @@ public class InscriptionController implements Initializable {
             this.eleveCheckbox.setStyle("-fx-border-color: red;");
             this.ensignantCheckbox.setStyle("-fx-border-color: red;");
         }
+    }
+
+    @FXML
+    public void inscriptionOnMouseClicked() throws IOException {
+        this.testIfTextElementIsEmpty();
         if (Objects.equals(this.name.getText(), "") || Objects.equals(this.firstName.getText(), "")||
                 Objects.equals(this.password.getText(), "") || Objects.equals(this.mailAdresse.getText(), "") ||
                 (!this.eleveCheckbox.isSelected() && !this.ensignantCheckbox.isSelected())){
@@ -87,7 +85,7 @@ public class InscriptionController implements Initializable {
         }
     }
 
-    private BufferedWriter getBufferedWriter() throws IOException {
+    private BufferedWriter writeInDbFile() throws IOException {
         File file = new File("src/main/resources/com/example/connexion/db.txt");
         FileWriter fileWriter = new FileWriter(file,true);
         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
@@ -108,6 +106,11 @@ public class InscriptionController implements Initializable {
         bufferedWriter.newLine();
         bufferedWriter.write("password:"+this.password.getText());
         bufferedWriter.newLine();
+        return bufferedWriter;
+    }
+
+    private BufferedWriter getBufferedWriter() throws IOException {
+        BufferedWriter bufferedWriter = this.writeInDbFile();
         File file1 = new File("src/main/resources/com/example/connexion/"+this.mailAdresse.getText());
         file1.mkdir();
         file1 = new File("src/main/resources/com/example/connexion/"+this.mailAdresse.getText()+"/favoris");

@@ -73,110 +73,157 @@ public class CreationController implements Initializable {
     private ApiCalendar calendar;
 
     private LocalDateTime dateTime;
+
+    private void setColor(Color color){
+        typeText.setFill(color);
+        debutText.setFill(color);
+        debutMinText.setFill(color);
+        finText.setFill(color);
+        finMinText.setFill(color);
+        coursText.setFill(color);
+        debutHText.setFill(color);
+        finHText.setFill(color);
+        memoText.setFill(color);
+        tdText.setFill(color);
+        enseignantText.setFill(color);
+        promotionText.setFill(color);
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ObservableList<Integer> hours = FXCollections.observableArrayList(8,9,10,11,12,13,14,15,16,17,18);
         ObservableList<Integer> minute = FXCollections.observableArrayList(0,30);
 
-
-        // Value factory.
-        SpinnerValueFactory<Integer> valueFactory = //
-                new SpinnerValueFactory.ListSpinnerValueFactory<Integer>(hours);
-
-        // Default value
+        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.ListSpinnerValueFactory<Integer>(hours);
         valueFactory.setValue(8);
-
         heureDateDebutSpinner.setValueFactory(valueFactory);
 
-        SpinnerValueFactory<Integer> valueFactory1 = //
-                new SpinnerValueFactory.ListSpinnerValueFactory<Integer>(minute);
-
-        // Default value
+        SpinnerValueFactory<Integer> valueFactory1 = new SpinnerValueFactory.ListSpinnerValueFactory<Integer>(minute);
         valueFactory1.setValue(0);
-
         minDateDebutSpinner.setValueFactory(valueFactory1);
 
-        SpinnerValueFactory<Integer> valueFactory2 = //
-                new SpinnerValueFactory.ListSpinnerValueFactory<Integer>(minute);
-
-        // Default value
+        SpinnerValueFactory<Integer> valueFactory2 = new SpinnerValueFactory.ListSpinnerValueFactory<Integer>(minute);
         valueFactory2.setValue(0);
-
         minDateFinSpinner.setValueFactory(valueFactory2);
 
         ObservableList<Integer> hoursFin = FXCollections.observableArrayList(9,10,11,12,13,14,15,16,17,18,19);
-        SpinnerValueFactory<Integer> valueFactory3 = //
-                new SpinnerValueFactory.ListSpinnerValueFactory<Integer>(hoursFin);
-
-        // Default value
+        SpinnerValueFactory<Integer> valueFactory3 =new SpinnerValueFactory.ListSpinnerValueFactory<Integer>(hoursFin);
         valueFactory3.setValue(9);
-
         heureDateFinSpinner.setValueFactory(valueFactory3);
 
         CalendrierController.couleur.addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (Objects.equals(CalendrierController.couleur.get(), "black")) {
-                    typeText.setFill(Color.BLACK);
-                    debutText.setFill(Color.BLACK);
-                    debutMinText.setFill(Color.BLACK);
-                    finText.setFill(Color.BLACK);
-                    finMinText.setFill(Color.BLACK);
-                    coursText.setFill(Color.BLACK);
-                    debutHText.setFill(Color.BLACK);
-                    finHText.setFill(Color.BLACK);
-                    memoText.setFill(Color.BLACK);
-                    tdText.setFill(Color.BLACK);
-                    enseignantText.setFill(Color.BLACK);
-                    promotionText.setFill(Color.BLACK);
+                    setColor(Color.BLACK);
                 } else {
-                    typeText.setFill(Color.WHITE);
-                    debutText.setFill(Color.WHITE);
-                    debutMinText.setFill(Color.WHITE);
-                    finText.setFill(Color.WHITE);
-                    finMinText.setFill(Color.WHITE);
-                    coursText.setFill(Color.WHITE);
-                    debutHText.setFill(Color.WHITE);
-                    finHText.setFill(Color.WHITE);
-                    memoText.setFill(Color.WHITE);
-                    tdText.setFill(Color.WHITE);
-                    enseignantText.setFill(Color.WHITE);
-                    promotionText.setFill(Color.WHITE);
+                    setColor(Color.WHITE);
                 }
                 anchorPane.setStyle("-fx-background-color:" + CalendrierController.couleur.get() + ";");
             }
         });
         if (Objects.equals(CalendrierController.couleur.get(), "black")) {
-            typeText.setFill(Color.WHITE);
-            debutText.setFill(Color.WHITE);
-            debutMinText.setFill(Color.WHITE);
-            finText.setFill(Color.WHITE);
-            finMinText.setFill(Color.WHITE);
-            coursText.setFill(Color.WHITE);
-            debutHText.setFill(Color.WHITE);
-            finHText.setFill(Color.WHITE);
-            memoText.setFill(Color.WHITE);
-            tdText.setFill(Color.WHITE);
-            enseignantText.setFill(Color.WHITE);
-            promotionText.setFill(Color.WHITE);
+            setColor(Color.WHITE);
         } else {
-            typeText.setFill(Color.BLACK);
-            debutText.setFill(Color.BLACK);
-            debutMinText.setFill(Color.BLACK);
-            finText.setFill(Color.BLACK);
-            finMinText.setFill(Color.BLACK);
-            coursText.setFill(Color.BLACK);
-            debutHText.setFill(Color.BLACK);
-            finHText.setFill(Color.BLACK);
-            memoText.setFill(Color.BLACK);
-            tdText.setFill(Color.BLACK);
-            enseignantText.setFill(Color.BLACK);
-            promotionText.setFill(Color.BLACK);;
+            setColor(Color.BLACK);
         }
         anchorPane.setStyle("-fx-background-color:" + CalendrierController.couleur.get() + ";");
 
     }
 
+    private void initializeDTSTAMP(BufferedWriter bufferedWriter) throws IOException {
+        String mois = "" + LocalDateTime.now().getMonth().getValue();
+        if (mois.length() < 2) {
+            mois = "0" + mois;
+        }
+        String jour = "" + LocalDateTime.now().getDayOfMonth();
+        if (jour.length() < 2) {
+            jour = "0" + jour;
+        }
+        String heure = "" + LocalDateTime.now().getHour();
+        if (heure.length() < 2) {
+            heure = "0" + heure;
+        }
+        String minutes = "" + LocalDateTime.now().getMinute();
+        if (minutes.length() < 2) {
+            minutes = "0" + minutes;
+        }
+        bufferedWriter.write("DTSTAMP:" +
+                LocalDateTime.now().getYear() + mois + jour + "T" +
+                heure + minutes + "00Z\n");
+    }
+
+    private void initializeOtherDT(BufferedWriter bufferedWriter) throws IOException {
+        String mois;
+        String jour;
+        mois = "" + dateTime.getMonth().getValue();
+        if (mois.length() < 2) {
+            mois = "0" + mois;
+        }
+        jour = "" + dateTime.getDayOfMonth();
+        if (jour.length() < 2) {
+            jour = "0" + jour;
+        }
+        String heureDebut;
+        String heureFin;
+        if (this.dateTime.isBefore(LocalDateTime.of(2023,10,11,0,0)) || this.dateTime.isAfter(LocalDateTime.of(2024,03,31,0,0))){
+            heureDebut = "" + dateTime.withHour((Integer) heureDateDebutSpinner.getValue()-2).getHour();
+            heureFin = "" + dateTime.withHour((Integer) heureDateFinSpinner.getValue()-2).getHour();
+        }
+        else{
+            heureDebut = "" + dateTime.withHour((Integer) heureDateDebutSpinner.getValue()-1).getHour();
+            heureFin = "" + dateTime.withHour((Integer) heureDateFinSpinner.getValue()-1).getHour();
+        }
+        String minDebut = "" + dateTime.withMinute((Integer) minDateDebutSpinner.getValue()).getMinute();
+        String minFin = "" + dateTime.withMinute((Integer) minDateFinSpinner.getValue()).getMinute();
+        if (heureDebut.length() < 2) {
+            heureDebut = "0" + heureDebut;
+        }
+        if (heureFin.length() < 2) {
+            heureFin = "0" + heureFin;
+        }
+        if (minDebut.length() < 2) {
+            minDebut = "0" + minDebut;
+        }
+        if (minFin.length() < 2) {
+            minFin = "0" + minFin;
+        }
+        bufferedWriter.write("DTSTART;VALUE=DATE:" +
+                dateTime.getYear() + mois + jour + "T" +
+                heureDebut + minDebut + "00Z\n");
+        bufferedWriter.write("DTEND;VALUE=DATE:" +
+                dateTime.getYear() + mois + jour + "T" +
+                heureFin + minFin + "00Z\n");
+    }
+
+    private void writeSummary(BufferedWriter bufferedWriter) throws IOException {
+        bufferedWriter.write("SUMMARY;LANGUAGE=fr:" + this.coursTextField.getText() + " - " + this.enseignantTextField.getText() +
+                " - " + this.typeTextField.getText());
+        if (!Objects.equals(this.tdTextArea.getText(), "")){
+            bufferedWriter.write( " - "+this.tdTextArea.getText());
+        }
+        if (!Objects.equals(this.promotionTextArea.getText(), "")){
+            bufferedWriter.write( " - "+this.promotionTextArea.getText());
+        }
+        if (!Objects.equals(this.memoTextArea.getText(), "")){
+            bufferedWriter.write( " - "+this.memoTextArea.getText());
+        }
+        bufferedWriter.newLine();
+    }
+
+    private void writeDescription(BufferedWriter bufferedWriter) throws IOException {
+        bufferedWriter.write("DESCRIPTION;LANGUAGE=fr:Matière : " + this.coursTextField.getText() + "\\nEnseignant :" + this.enseignantTextField.getText()+"\\nType :" + this.typeTextField.getText()
+                + "\\nSalle :" + this.calendar.getSalle());
+        if (!Objects.equals(this.tdTextArea.getText(), "")){
+            bufferedWriter.write( "\\nTD :" + this.tdTextArea.getText());
+        }
+        if (!Objects.equals(this.promotionTextArea.getText(), "")){
+            bufferedWriter.write( "\\nPromotions :" + this.promotionTextArea.getText());
+        }
+        if (!Objects.equals(this.memoTextArea.getText(), "")){
+            bufferedWriter.write( "\\nMémo :" + this.memoTextArea.getText());
+        }
+        bufferedWriter.newLine();
+    }
     @FXML
     public void enregistreOnMouseClicked() throws URISyntaxException, IOException {
         if (!dateTime.withHour((Integer) heureDateDebutSpinner.getValue()).withMinute((Integer) minDateDebutSpinner.getValue()).withSecond(0).withNano(0).isAfter(
@@ -199,99 +246,20 @@ public class CreationController implements Initializable {
                     }
                     bufferedWriter.write("BEGIN:VEVENT\n" +
                             "CATEGORIES:HYPERPLANNING\n");
-                    String mois = "" + LocalDateTime.now().getMonth().getValue();
-                    if (mois.length() < 2) {
-                        mois = "0" + mois;
-                    }
-                    String jour = "" + LocalDateTime.now().getDayOfMonth();
-                    if (jour.length() < 2) {
-                        jour = "0" + jour;
-                    }
-                    String heure = "" + LocalDateTime.now().getHour();
-                    if (heure.length() < 2) {
-                        heure = "0" + heure;
-                    }
-                    String minutes = "" + LocalDateTime.now().getMinute();
-                    if (minutes.length() < 2) {
-                        minutes = "0" + minutes;
-                    }
-                    bufferedWriter.write("DTSTAMP:" +
-                            LocalDateTime.now().getYear() + mois + jour + "T" +
-                            heure + minutes + "00Z\n");
+                    this.initializeDTSTAMP(bufferedWriter);
                     bufferedWriter.write("UID:Enregistrement\n");
-                    mois = "" + dateTime.getMonth().getValue();
-                    if (mois.length() < 2) {
-                        mois = "0" + mois;
-                    }
-                    jour = "" + dateTime.getDayOfMonth();
-                    if (jour.length() < 2) {
-                        jour = "0" + jour;
-                    }
-                    String heureDebut;
-                    String heureFin;
-                    if (this.dateTime.isBefore(LocalDateTime.of(2023,10,11,0,0)) || this.dateTime.isAfter(LocalDateTime.of(2024,03,31,0,0))){
-                        heureDebut = "" + dateTime.withHour((Integer) heureDateDebutSpinner.getValue()-2).getHour();
-                        heureFin = "" + dateTime.withHour((Integer) heureDateFinSpinner.getValue()-2).getHour();
-                    }
-                    else{
-                        heureDebut = "" + dateTime.withHour((Integer) heureDateDebutSpinner.getValue()-1).getHour();
-                        heureFin = "" + dateTime.withHour((Integer) heureDateFinSpinner.getValue()-1).getHour();
-                    }
-                    String minDebut = "" + dateTime.withMinute((Integer) minDateDebutSpinner.getValue()).getMinute();
-                    String minFin = "" + dateTime.withMinute((Integer) minDateFinSpinner.getValue()).getMinute();
-                    if (heureDebut.length() < 2) {
-                        heureDebut = "0" + heureDebut;
-                    }
-                    if (heureFin.length() < 2) {
-                        heureFin = "0" + heureFin;
-                    }
-                    if (minDebut.length() < 2) {
-                        minDebut = "0" + minDebut;
-                    }
-                    if (minFin.length() < 2) {
-                        minFin = "0" + minFin;
-                    }
-                    bufferedWriter.write("DTSTART;VALUE=DATE:" +
-                            dateTime.getYear() + mois + jour + "T" +
-                            heureDebut + minDebut + "00Z\n");
-                    bufferedWriter.write("DTEND;VALUE=DATE:" +
-                            dateTime.getYear() + mois + jour + "T" +
-                            heureFin + minFin + "00Z\n");
-                    bufferedWriter.write("SUMMARY;LANGUAGE=fr:" + this.coursTextField.getText() + " - " + this.enseignantTextField.getText() +
-                            " - " + this.typeTextField.getText());
-                    if (!Objects.equals(this.tdTextArea.getText(), "")){
-                        bufferedWriter.write( " - "+this.tdTextArea.getText());
-                    }
-                    if (!Objects.equals(this.promotionTextArea.getText(), "")){
-                        bufferedWriter.write( " - "+this.promotionTextArea.getText());
-                    }
-                    if (!Objects.equals(this.memoTextArea.getText(), "")){
-                        bufferedWriter.write( " - "+this.memoTextArea.getText());
-                    }
-                    bufferedWriter.newLine();
+                    this.initializeOtherDT(bufferedWriter);
+                    this.writeSummary(bufferedWriter);
                     bufferedWriter.write("LOCATION;LANGUAGE=fr:" + this.calendar.getSalle() + "\n");
-                    bufferedWriter.write("DESCRIPTION;LANGUAGE=fr:Matière : " + this.coursTextField.getText() + "\\nEnseignant :" + this.enseignantTextField.getText()+"\\nType :" + this.typeTextField.getText()
-                            + "\\nSalle :" + this.calendar.getSalle());
-                    if (!Objects.equals(this.tdTextArea.getText(), "")){
-                        bufferedWriter.write( "\\nTD :" + this.tdTextArea.getText());
-                    }
-                    if (!Objects.equals(this.promotionTextArea.getText(), "")){
-                        bufferedWriter.write( "\\nPromotions :" + this.promotionTextArea.getText());
-                    }
-                    if (!Objects.equals(this.memoTextArea.getText(), "")){
-                        bufferedWriter.write( "\\nMémo :" + this.memoTextArea.getText());
-                    }
-                    bufferedWriter.newLine();
+                    this.writeDescription(bufferedWriter);
                     bufferedWriter.write("X-ALT-DESC;\n");
                     bufferedWriter.write("END:VEVENT\n");
                     bufferedWriter.write("END:VCALENDAR");
                     bufferedWriter.close();
                     bufferedReader.close();
                     new File("src/main/resources/com/example/Icalendar/copie.ics").delete();
-
                     Stage stage = (Stage) enregistreButton.getScene().getWindow();
                     stage.close();
-
                 }
                 else {
                     errorText.setText("La salle est pris sur ce laps de temps.");

@@ -46,6 +46,10 @@ public class CaseDuMoisController implements Initializable {
     @FXML
     Text jourID;
 
+    public FlowPane getFlowPane() {
+        return flowPane;
+    }
+
     @FXML
     FlowPane flowPane;
 
@@ -67,7 +71,8 @@ public class CaseDuMoisController implements Initializable {
         if (Objects.equals(CalendrierController.couleur.get(), "white"))
             setColor("black");
         else
-            setColor("white");    }
+            setColor("white");
+    }
 
     void addCircle(String tooltipMessage,String mode,String userPriviledge,String couleur){
         if (couleur!=null){
@@ -144,6 +149,16 @@ public class CaseDuMoisController implements Initializable {
             Tooltip.install( list.get(i),tooltip);
         }
     }
+
+    private void setHeight(double newValue){
+        int suppression=240;
+        if (CalendrierApplication.stage.getWidth()<791){
+            suppression=10;
+        }
+        vBox.setPrefWidth((newValue-suppression-57-20-4)/5);
+        anchorPane.setPrefWidth((newValue-suppression-57-20-4)/5);
+        flowPane.setPrefWidth((newValue-suppression-57-20-4)/5);
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         StringProperty stringProperty = CalendrierController.couleur;
@@ -157,24 +172,10 @@ public class CaseDuMoisController implements Initializable {
         CalendrierApplication.stage.widthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                int suppression=240;
-                if (CalendrierApplication.stage.getWidth()<791){
-                    suppression=10;
-                }
-                vBox.setPrefWidth((newValue.doubleValue()-suppression-57-20-4)/5);
-                anchorPane.setPrefWidth((newValue.doubleValue()-suppression-57-20-4)/5);
-                flowPane.setPrefWidth((newValue.doubleValue()-suppression-57-20-4)/5);
+                setHeight(newValue.doubleValue());
             }
         });
-        int suppression=240;
-        if (CalendrierApplication.stage.getWidth()<791){
-            suppression=10;
-        }
-        vBox.setPrefWidth((CalendrierApplication.stage.getWidth()-suppression-57-20-4)/5);
-        anchorPane.setPrefWidth((CalendrierApplication.stage.getWidth()-suppression-57-20-4)/5);
-        flowPane.setPrefWidth((CalendrierApplication.stage.getWidth()-suppression-57-20-4)/5);
-
-
+        this.setHeight(CalendrierApplication.stage.getWidth());
         CalendrierApplication.stage.heightProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {

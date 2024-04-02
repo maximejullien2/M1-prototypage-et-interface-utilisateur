@@ -25,6 +25,22 @@ public class CalendrierApplication extends Application {
     public void start(Stage stage3) throws IOException {
         CalendrierApplication.stage2 = new Stage();
         CalendrierApplication.stage = new Stage();
+        int creationFile=creationFichier();
+        BufferedReader bufferedReader = new BufferedReader(new FileReader("src/main/resources/com/example/connexion/connected.txt"));
+        String id = bufferedReader.readLine();
+        if (creationFile==1 || Objects.equals(id, null)) {
+            FXMLLoader fxmlLoader = new FXMLLoader(ConnexionController.class.getResource("pageConnexion.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            stage.setTitle("Page de Connexion");
+            stage.setScene(scene);
+            stage.show();
+        }
+        else{
+            acceAuCalendrier(id);
+        }
+    }
+
+    private int creationFichier(){
         File file = new File("src/main/resources/com/example/connexion/db.txt");
         File file2 = new File("src/main/resources/com/example/connexion/connected.txt");
         int creationFile=0;
@@ -43,35 +59,26 @@ public class CalendrierApplication extends Application {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        BufferedReader bufferedReader = new BufferedReader(new FileReader("src/main/resources/com/example/connexion/connected.txt"));
-        String id = bufferedReader.readLine();
-        if (creationFile==1 || Objects.equals(id, null)) {
-            FXMLLoader fxmlLoader = new FXMLLoader(ConnexionController.class.getResource("pageConnexion.fxml"));
-            Scene scene = new Scene(fxmlLoader.load());
-            stage.setTitle("Page de Connexion");
-            stage.setScene(scene);
-            stage.show();
-        }
-        else{
-            ArrayList<HashMap<String,String>> list = getDB("src/main/resources/com/example/connexion/db.txt");
-            FXMLLoader fxmlLoader = new FXMLLoader(CalendrierController.class.getResource("test.fxml"));
-            ScrollPane anchorPane = fxmlLoader.load();
-            System.out.println(list.get(Integer.parseInt(id)).get("color"));
-            CalendrierController controller = fxmlLoader.getController();
-            CalendrierController.setCouleur(list.get(Integer.parseInt(id)).get("color"));
-            controller.setMode("favoris");
-            controller.couleur();
-            controller.setModeConnexion(list.get(Integer.parseInt(id)).get("type"));
-            controller.setList(list);
-            controller.setIdListe(Integer.parseInt(id));
-            controller.creationListEdt();
-            stage.setTitle("Calendrier");
-            Scene scene = new Scene(anchorPane);
-            stage.setScene(scene);
-            stage.setMinWidth(530);
-            stage.setMinHeight(720);
-            stage.show();
-        }
+        return creationFile;
+    }
+    private void acceAuCalendrier(String id) throws IOException {
+        ArrayList<HashMap<String,String>> list = getDB("src/main/resources/com/example/connexion/db.txt");
+        FXMLLoader fxmlLoader = new FXMLLoader(CalendrierController.class.getResource("test.fxml"));
+        ScrollPane anchorPane = fxmlLoader.load();
+        CalendrierController controller = fxmlLoader.getController();
+        CalendrierController.setCouleur(list.get(Integer.parseInt(id)).get("color"));
+        controller.setMode("favoris");
+        controller.couleur();
+        controller.setModeConnexion(list.get(Integer.parseInt(id)).get("type"));
+        controller.setList(list);
+        controller.setIdListe(Integer.parseInt(id));
+        controller.creationListEdt();
+        stage.setTitle("Calendrier");
+        Scene scene = new Scene(anchorPane);
+        stage.setScene(scene);
+        stage.setMinWidth(530);
+        stage.setMinHeight(720);
+        stage.show();
     }
 
     private ArrayList<HashMap<String,String>> getDB(String pathfile){

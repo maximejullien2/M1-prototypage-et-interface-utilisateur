@@ -12,10 +12,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class CaseDeLaSemaineController implements Initializable {
     @FXML
@@ -37,23 +34,10 @@ public class CaseDeLaSemaineController implements Initializable {
             this.salle.setVisible(false);
         }
     }
-    public void setInformation(HashMap<String,String> hashMap, String horraire){
-        this.anchorPane.setPrefWidth(128/nombreDeCase);
-        List<Text> list = new ArrayList<Text>();
+
+    public List<Text>  setMatiere(HashMap<String,String> hashMap,List<Text> list){
         double height = this.anchorPane.getPrefHeight()-10;
         double heightVbox = this.vBox.getLayoutY();
-        if (hashMap.get("Type ")!= null)
-            horraire = horraire + hashMap.get("Type ");
-        Text horaireAffichage = new Text(horraire);
-        vBox.getChildren().add(horaireAffichage);
-        while (horaireAffichage.getLayoutBounds().getWidth()>this.anchorPane.getPrefWidth()-10){
-            horraire = horraire.substring(0,horraire.length()-1);
-            horaireAffichage.setText(horraire);
-        }
-        heightVbox = heightVbox+horaireAffichage.getLayoutBounds().getHeight();
-        if (heightVbox>=height){
-            vBox.getChildren().remove(horaireAffichage);
-        }
         if (heightVbox<height && hashMap.get("Matière ")!= null) {
             String resultatMatiere = "Matière :"+hashMap.get("Matière ");
             Text matiere = new Text(resultatMatiere);
@@ -70,6 +54,11 @@ public class CaseDeLaSemaineController implements Initializable {
                 list.add(matiere);
             }
         }
+        return list;
+    }
+    public List<Text>  setEnseignant(HashMap<String,String> hashMap,List<Text> list){
+        double height = this.anchorPane.getPrefHeight()-10;
+        double heightVbox = this.vBox.getLayoutY();
         if (heightVbox<height &&hashMap.get("Enseignant ")!= null) {
             String resultatEnseignant = "Enseignant :" +hashMap.get("Enseignant ");
             Text enseignant = new Text(resultatEnseignant);
@@ -86,6 +75,11 @@ public class CaseDeLaSemaineController implements Initializable {
                 list.add(enseignant);
             }
         }
+        return list;
+    }
+    public List<Text>  setPromotion(HashMap<String,String> hashMap,List<Text> list){
+        double height = this.anchorPane.getPrefHeight()-10;
+        double heightVbox = this.vBox.getLayoutY();
         if (heightVbox<height &&hashMap.get("Promotion ")!= null) {
             String resultatPromotion = "Promotion :" +hashMap.get("Promotion ");
             Text promotion = new Text(resultatPromotion);
@@ -102,6 +96,11 @@ public class CaseDeLaSemaineController implements Initializable {
                 list.add(promotion);
             }
         }
+        return list;
+    }
+    public List<Text>  setTd(HashMap<String,String> hashMap,List<Text> list){
+        double height = this.anchorPane.getPrefHeight()-10;
+        double heightVbox = this.vBox.getLayoutY();
         if (heightVbox<height &&hashMap.get("TD ")!= null) {
             String resultatTD = "TD :" + hashMap.get("TD ");
             Text td = new Text(resultatTD);
@@ -118,6 +117,10 @@ public class CaseDeLaSemaineController implements Initializable {
                 list.add(td);
             }
         }
+        return list;
+    }
+
+    public List<Text>  setSalle(HashMap<String,String> hashMap,List<Text> list){
         if (hashMap.get("Salle ")!= null){
             String resultatSalle = hashMap.get("Salle ");
             this.salle.setText(resultatSalle);
@@ -126,6 +129,10 @@ public class CaseDeLaSemaineController implements Initializable {
                 this.salle.setText(resultatSalle);
             }
         }
+        return list;
+    }
+
+    public List<Text>  setLieu(HashMap<String,String> hashMap,List<Text> list){
         if (hashMap.get("Lieu ")!= null){
             String resultatSalle = hashMap.get("Lieu ");
             this.salle.setText(resultatSalle);
@@ -134,6 +141,12 @@ public class CaseDeLaSemaineController implements Initializable {
                 this.salle.setText(resultatSalle);
             }
         }
+        return list;
+    }
+
+    public List<Text>  setType(HashMap<String,String> hashMap,List<Text> list){
+        double height = this.anchorPane.getPrefHeight()-10;
+        double heightVbox = this.vBox.getLayoutY();
         if (heightVbox<height && hashMap.get("Type ")!= null) {
             String resultatType = "Type :" +hashMap.get("Type ");
             Text type = new Text(resultatType);
@@ -149,8 +162,13 @@ public class CaseDeLaSemaineController implements Initializable {
             else {
                 list.add(type);
             }
-
         }
+        return list;
+    }
+
+    public List<Text>  setPersonnes(HashMap<String,String> hashMap,List<Text> list){
+        double height = this.anchorPane.getPrefHeight()-10;
+        double heightVbox = this.vBox.getLayoutY();
         if (heightVbox<height && hashMap.get("Personnes ")!= null) {
             String resultatMemo = "Personnes :" +hashMap.get("Personnes ");
             Text memo = new Text(resultatMemo);
@@ -167,6 +185,12 @@ public class CaseDeLaSemaineController implements Initializable {
                 list.add(memo);
             }
         }
+        return list;
+    }
+
+    public List<Text>  setGroupe(HashMap<String,String> hashMap,List<Text> list){
+        double height = this.anchorPane.getPrefHeight()-10;
+        double heightVbox = this.vBox.getLayoutY();
         if (heightVbox<height && hashMap.get("Groupe ")!= null) {
             String resultatMemo = "Groupe :" +hashMap.get("Groupe ");
             Text memo = new Text(resultatMemo);
@@ -183,6 +207,12 @@ public class CaseDeLaSemaineController implements Initializable {
                 list.add(memo);
             }
         }
+        return list;
+    }
+
+    public List<Text>  setMemo(HashMap<String,String> hashMap,List<Text> list){
+        double height = this.anchorPane.getPrefHeight()-10;
+        double heightVbox = this.vBox.getLayoutY();
         if (heightVbox<height && hashMap.get("Mémo ")!= null) {
             String resultatMemo = "Mémo :" +hashMap.get("Mémo ");
             Text memo = new Text(resultatMemo);
@@ -199,16 +229,51 @@ public class CaseDeLaSemaineController implements Initializable {
                 list.add(memo);
             }
         }
+        return list;
+    }
+    private List<Text> setHorraire(HashMap<String,String> hashMap, String horraire,List<Text> list){
+        double height = this.anchorPane.getPrefHeight()-10;
+        double heightVbox = this.vBox.getLayoutY();
+        if (hashMap.get("Type ")!= null)
+            horraire = horraire + hashMap.get("Type ");
+        Text horaireAffichage = new Text(horraire);
+        vBox.getChildren().add(horaireAffichage);
+        while (horaireAffichage.getLayoutBounds().getWidth()>this.anchorPane.getPrefWidth()-10){
+            horraire = horraire.substring(0,horraire.length()-1);
+            horaireAffichage.setText(horraire);
+        }
+        heightVbox = heightVbox+horaireAffichage.getLayoutBounds().getHeight();
+        if (heightVbox>=height){
+            vBox.getChildren().remove(horaireAffichage);
+        }
+        list.add(horaireAffichage);
+        return list;
+    }
+    public void setInformation(HashMap<String,String> hashMap, String horraire){
+        this.anchorPane.setPrefWidth(128/nombreDeCase);
+        List<Text> list = new ArrayList<Text>();
+        list =setHorraire(hashMap,horraire,list);
+        list = setMatiere(hashMap,list);
+        list = setEnseignant(hashMap,list);
+        list = setPromotion(hashMap,list);
+        list = setTd(hashMap,list);
+        list = setSalle(hashMap,list);
+        list = setLieu(hashMap,list);
+        list = setType(hashMap,list);
+        list = setPersonnes(hashMap,list);
+        list = setGroupe(hashMap,list);
+        list = setMemo(hashMap,list);
         if (hashMap.get("Couleur ")!=null){
             anchorPane.setStyle("-fx-background-color: "+ hashMap.get("Couleur ").replace("0x","#")+";-fx-border-color: black;");
         }
         disableText();
-        StringProperty essai = CalendrierController.couleur;
-        essai.addListener(new ChangeListener<String>() {
+        StringProperty stringProperty = CalendrierController.couleur;
+        List<Text> finalList = list;
+        stringProperty.addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
                 Color color;
-                if (s == "black"){
+                if (Objects.equals(s, "black")){
                     String backgroundColor = "cyan";
                     if (hashMap.get("Couleur ")!=null){
                         backgroundColor = hashMap.get("Couleur ").replace("0x","#").replaceAll(" ","");
@@ -227,9 +292,8 @@ public class CaseDeLaSemaineController implements Initializable {
                     anchorPane.setStyle("-fx-background-color:"+backgroundColor+";-fx-border-color: white;");
                 }
                 salle.setFill(color);
-                horaireAffichage.setFill(color);
-                for (int i=0 ; i< list.size();i++){
-                    list.get(i).setFill(color);
+                for (int i = 0; i< finalList.size(); i++){
+                    finalList.get(i).setFill(color);
                 }
             }
 
@@ -237,19 +301,17 @@ public class CaseDeLaSemaineController implements Initializable {
         CalendrierApplication.stage.widthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                int suppression=240;
-                if (CalendrierApplication.stage.getWidth()<791){
-                    suppression=10;
-                }
-                anchorPane.setPrefWidth((newValue.doubleValue()-suppression-57-20)/(nombreDeCase*5));
+                setWidth(newValue.doubleValue());
             }
         });
+        this.setWidth(CalendrierApplication.stage.getWidth());
+    }
+    private void setWidth(double newValue){
         int suppression=240;
         if (CalendrierApplication.stage.getWidth()<791){
             suppression=10;
         }
-        anchorPane.setPrefWidth((CalendrierApplication.stage.getWidth()-suppression-57-20)/(nombreDeCase*5));
-
+        anchorPane.setPrefWidth((newValue-suppression-57-50)/nombreDeCase);
     }
     public void setOpacity(double value){
         this.anchorPane.setOpacity(value);

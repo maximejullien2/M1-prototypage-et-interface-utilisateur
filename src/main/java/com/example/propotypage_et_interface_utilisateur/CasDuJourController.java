@@ -127,20 +127,7 @@ public class CasDuJourController implements Initializable {
     LocalDateTime day;
     String[] jours = {"Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"};
 
-    public void affichage(String mode, String userPriviledge, ApiCalendar apiCalendar){
-        Color couleur;
-        if (Objects.equals(CalendrierController.couleur.get(), "white")){
-            couleur = Color.BLACK;
-            paneCours.setStyle("-fx-border-color:black;");
-            paneHeure.setStyle("-fx-border-color:black;");
-            gridPane.setStyle("-fx-border-color:black;");
-        }
-        else {
-            couleur = Color.WHITE;
-            paneCours.setStyle("-fx-border-color:white;");
-            paneHeure.setStyle("-fx-border-color:white;");
-            gridPane.setStyle("-fx-border-color:white;");
-        }
+    private void setColor(Color couleur){
         jour.setFill(couleur);
         heure8.setFill(couleur);
         heure9.setFill(couleur);
@@ -165,51 +152,26 @@ public class CasDuJourController implements Initializable {
         line17.setStroke(couleur);
         line18.setStroke(couleur);
         line19.setStroke(couleur);
-        StringProperty essai = CalendrierController.couleur;
-        essai.addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-                gridPane.setStyle("-fx-border-color:" + s + ";");
-                Color couleur;
-                System.out.println(s);
-                if (Objects.equals(s, "black")){
-                    couleur = Color.BLACK;
-                }
-                else {
-                    couleur = Color.WHITE;
-                }
-                jour.setFill(couleur);
-                    heure8.setFill(couleur);
-                    heure9.setFill(couleur);
-                    heure10.setFill(couleur);
-                    heure11.setFill(couleur);
-                    heure12.setFill(couleur);
-                    heure13.setFill(couleur);
-                    heure14.setFill(couleur);
-                    heure15.setFill(couleur);
-                    heure16.setFill(couleur);
-                    heure17.setFill(couleur);
-                    heure18.setFill(couleur);
-                    heure19.setFill(couleur);
-                    line9.setStroke(couleur);
-                    line10.setStroke(couleur);
-                    line11.setStroke(couleur);
-                    line12.setStroke(couleur);
-                    line13.setStroke(couleur);
-                    line14.setStroke(couleur);
-                    line15.setStroke(couleur);
-                    line16.setStroke(couleur);
-                    line17.setStroke(couleur);
-                    line18.setStroke(couleur);
-                    line19.setStroke(couleur);
-                paneCours.setStyle("-fx-border-color:"+s+";");
-                paneHeure.setStyle("-fx-border-color:"+s+";");
-            }
-        });
+    }
+
+    public void affichage(String mode, String userPriviledge, ApiCalendar apiCalendar){
+        Color couleur;
+        if (Objects.equals(CalendrierController.couleur.get(), "white")){
+            couleur = Color.BLACK;
+            paneCours.setStyle("-fx-border-color:black;");
+            paneHeure.setStyle("-fx-border-color:black;");
+            gridPane.setStyle("-fx-border-color:black;");
+        }
+        else {
+            couleur = Color.WHITE;
+            paneCours.setStyle("-fx-border-color:white;");
+            paneHeure.setStyle("-fx-border-color:white;");
+            gridPane.setStyle("-fx-border-color:white;");
+        }
+        this.setColor(couleur);
         jour.setText(this.jours[this.day.getDayOfWeek().getValue()-1]+" "+this.day.getDayOfMonth());
         URL test = CasePourLeJourController.class.getResource("CasePourLeJour.fxml");
         try {
-            CasePourLeJourController casePourLeJourController ;
             for (int i=0 ; i< list.size() ; i++) {
                 if (list.get(i)!=null) {
                     HBox hBox = new HBox();
@@ -217,25 +179,10 @@ public class CasDuJourController implements Initializable {
                         VBox vBox1 = new VBox();
                         for(int q=0 ; q < list.get(i).get(j).size();q++){
                             if (list.get(i).get(j).get(q)==null){
-                                FXMLLoader fxmlLoader = new FXMLLoader(test);
-                                AnchorPane anchorPane = fxmlLoader.load();
-                                casePourLeJourController = fxmlLoader.getController();
-                                casePourLeJourController.setHeigth(3.065);
-                                casePourLeJourController.setNombreDeCase(list.get(i).size());
-                                casePourLeJourController.setOpacity(1.0);
-                                vBox1.getChildren().add(anchorPane);
+                                this.setCaseVide(test,list.get(i).size(),vBox1);
                             }
                             else{
-                                FXMLLoader fxmlLoader = new FXMLLoader(test);
-                                AnchorPane anchorPane = fxmlLoader.load();
-                                casePourLeJourController = fxmlLoader.getController();
-                                casePourLeJourController.setNombreDeCase(list.get(i).size());
-                                casePourLeJourController.setHeigth((double) 90 / ChronoUnit.MINUTES.between(list.get(i).get(j).get(q).getDateEvent().getStartDate(), list.get(i).get(j).get(q).getDateEvent().getEndDate()));
-                                Event event = list.get(i).get(j).get(q);
-                                casePourLeJourController.setInformation(event.getDescriptionEvent().getListDescription(),Integer.toString(event.getDateEvent().getStartDate().getHour()) + "h" + Integer.toString(event.getDateEvent().getStartDate().getMinute()) + "-" +
-                                        Integer.toString(event.getDateEvent().getEndDate().getHour()) + "h" + Integer.toString(event.getDateEvent().getEndDate().getMinute())
-                                        + "\\" );
-                                vBox1.getChildren().add(anchorPane);
+                                this.setCase(test,vBox1,i,j ,q);
                             }
                         }
                             hBox.getChildren().add(vBox1);
@@ -243,77 +190,99 @@ public class CasDuJourController implements Initializable {
                     vBox.getChildren().add(hBox);
                 }
                 else {
-                    FXMLLoader fxmlLoader = new FXMLLoader(test);
-                    AnchorPane anchorPane = fxmlLoader.load();
-                    casePourLeJourController = fxmlLoader.getController();
-                    casePourLeJourController.setOpacity(1.0);
-                    casePourLeJourController.setHeigth(3.065);
-                    vBox.getChildren().add(anchorPane);
+                    this.setCaseVide(test,1,vBox);
                 }
             }
-            if (Objects.equals(mode, "salle") && Objects.equals(userPriviledge, "enseignant")){
-                vBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        FXMLLoader fxmlLoader = new FXMLLoader(CalendrierController.class.getResource("ReservationDeSalle.fxml"));
-                        Scene scene2 = null;
-                        try {
-                            scene2 = new Scene(fxmlLoader.load());
-                            CreationController controller = fxmlLoader.getController();
-                            controller.setDateTime(day);
-                            controller.setMode(mode);
-                            controller.setCalendar(apiCalendar);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                        CalendrierApplication.stage2.setResizable(false);
-                        CalendrierApplication.stage2.setTitle("Réservation de Salle");
-                        CalendrierApplication.stage2.setScene(scene2);
-                        CalendrierApplication.stage2.show();
-                    }
-                });
-            } else if (Objects.equals(mode, "favoris")) {
-                vBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        FXMLLoader fxmlLoader = new FXMLLoader(CreationEvenementController.class.getResource("CreationDEvenement.fxml"));
-                        Scene scene2 = null;
-                        try {
-                            scene2 = new Scene(fxmlLoader.load());
-                            CreationEvenementController controller = fxmlLoader.getController();
-                            System.out.println(apiCalendar);
-                            controller.setCalendar(apiCalendar);
-                            controller.setDateTime(day);
-                            controller.setMode(mode);
-                            controller.setCalendar(apiCalendar);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                        CalendrierApplication.stage2.setResizable(false);
-                        CalendrierApplication.stage2.setTitle("Réservation d'Evenement");
-                        CalendrierApplication.stage2.setScene(scene2);
-                        CalendrierApplication.stage2.show();
-                    }
-                });
-            }
-            for (int i =0 ; i<vBox.getChildren().size();i++){
-                if (vBox.getChildren().get(i).getOpacity()!=0.0 && Objects.equals(mode, "formation")){
-                vBox.getChildren().get(i).setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        Desktop desktop = getDesktop();
-                        try {
-                            desktop.mail(new URI("mailto:maxime.jullien2@alumni.univ-avignon.fr"));
-                        } catch (IOException | URISyntaxException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                });
-                }
-            }
+            this.setModeSalle(mode,userPriviledge,apiCalendar);
+            this.setModePersonnel(mode,apiCalendar);
+            this.setModeFormation(mode);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        this.setListenerOnWidthStage();
+        this.setListenerOnHeigthStage();
+        int suppression=240;
+        if (CalendrierApplication.stage.getWidth()<791){
+            suppression=10;
+            if (CalendrierApplication.stage.getWidth()<791) {
+                anchorPane.setLayoutY(anchorPane.getLayoutY() + 300);
+            }
+        }
+        this.setWidth(CalendrierApplication.stage.getWidth(),suppression);
+        if (!Objects.equals(Double.toString(CalendrierApplication.stage.getHeight()), "NaN")) {
+            this.setHeigth(CalendrierApplication.stage.getHeight(),727);
+        }
+    }
+
+    private void setModeSalle(String mode,String userPriviledge,ApiCalendar apiCalendar) {
+        if (Objects.equals(mode, "salle") && Objects.equals(userPriviledge, "enseignant")) {
+            vBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    FXMLLoader fxmlLoader = new FXMLLoader(CalendrierController.class.getResource("ReservationDeSalle.fxml"));
+                    Scene scene2 = null;
+                    try {
+                        scene2 = new Scene(fxmlLoader.load());
+                        CreationController controller = fxmlLoader.getController();
+                        controller.setDateTime(day);
+                        controller.setMode(mode);
+                        controller.setCalendar(apiCalendar);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    CalendrierApplication.stage2.setResizable(false);
+                    CalendrierApplication.stage2.setTitle("Réservation de Salle");
+                    CalendrierApplication.stage2.setScene(scene2);
+                    CalendrierApplication.stage2.show();
+                }
+            });
+        }
+    }
+
+    private void setListenerOnHeigthStage(){
+        CalendrierApplication.stage.heightProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                //y =116 max720 107 max 601
+                if (!Objects.equals(oldValue.toString(), "NaN")) {
+                    setHeigth(newValue.doubleValue(),oldValue.doubleValue());
+                }
+            }
+        });
+    }
+
+    private void setHeigth(double newValue,double oldValue){
+        paneHeure.setPrefHeight(newValue - 116);
+        anchorPane.setPrefHeight(newValue - 116-42);
+        gridPane.setPrefHeight((heure8.getLayoutY()*(newValue-116)/(oldValue-116))-5);
+        paneCours.setLayoutY((heure8.getLayoutY()*(newValue-116)/(oldValue-116))-5);
+        paneCours.setPrefHeight(newValue  - 116 - 100+57-paneCours.getLayoutY());
+        heure8.setLayoutY(heure8.getLayoutY()*(newValue-116)/(oldValue-116));
+        heure9.setLayoutY(heure9.getLayoutY()*(newValue-116)/(oldValue-116));
+        heure10.setLayoutY(heure10.getLayoutY()*(newValue-116)/(oldValue-116));
+        heure11.setLayoutY(heure11.getLayoutY()*(newValue-116)/(oldValue-116));
+        heure12.setLayoutY(heure12.getLayoutY()*(newValue-116)/(oldValue-116));
+        heure13.setLayoutY(heure13.getLayoutY()*(newValue-116)/(oldValue-116));
+        heure14.setLayoutY(heure14.getLayoutY()*(newValue-116)/(oldValue-116));
+        heure15.setLayoutY(heure15.getLayoutY()*(newValue-116)/(oldValue-116));
+        heure16.setLayoutY(heure16.getLayoutY()*(newValue-116)/(oldValue-116));
+        heure17.setLayoutY(heure17.getLayoutY()*(newValue-116)/(oldValue-116));
+        heure18.setLayoutY(heure18.getLayoutY()*(newValue-116)/(oldValue-116));
+        heure19.setLayoutY(heure19.getLayoutY()*(newValue-116)/(oldValue-116));
+        line9.setLayoutY(line9.getLayoutY()*(newValue-116)/(oldValue-116));
+        line10.setLayoutY(line10.getLayoutY()*(newValue-116)/(oldValue-116));
+        line11.setLayoutY(line11.getLayoutY()*(newValue-116)/(oldValue-116));
+        line12.setLayoutY(line12.getLayoutY()*(newValue-116)/(oldValue-116));
+        line13.setLayoutY(line13.getLayoutY()*(newValue-116)/(oldValue-116));
+        line14.setLayoutY(line14.getLayoutY()*(newValue-116)/(oldValue-116));
+        line15.setLayoutY(line15.getLayoutY()*(newValue-116)/(oldValue-116));
+        line16.setLayoutY(line16.getLayoutY()*(newValue-116)/(oldValue-116));
+        line17.setLayoutY(line17.getLayoutY()*(newValue-116)/(oldValue-116));
+        line18.setLayoutY(line18.getLayoutY()*(newValue-116)/(oldValue-116));
+        line19.setLayoutY(line19.getLayoutY()*(newValue-116)/(oldValue-116));
+    }
+
+    private void setListenerOnWidthStage(){
         CalendrierApplication.stage.widthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -327,115 +296,96 @@ public class CasDuJourController implements Initializable {
                 if (oldValue.doubleValue()<=791 && newValue.doubleValue()>791){
                     anchorPane.setLayoutY(anchorPane.getLayoutY() - 300);
                 }
-                anchorPane.setPrefWidth(newValue.doubleValue()-suppression-57-50);
-                paneCours.setPrefWidth(newValue.doubleValue()-suppression-57-50);
-                gridPane.setPrefWidth(newValue.doubleValue()-suppression-57-50);
-                anchorPaneInGridPane.setPrefWidth(newValue.doubleValue()-suppression-57-50);
-                jour.setX(anchorPaneInGridPane.getPrefWidth()/2.25);
-                line9.setEndX(newValue.doubleValue()-suppression-57-67);
-                line10.setEndX(newValue.doubleValue()-suppression-57-67);
-                line11.setEndX(newValue.doubleValue()-suppression-57-67);
-                line12.setEndX(newValue.doubleValue()-suppression-57-67);
-                line13.setEndX(newValue.doubleValue()-suppression-57-67);
-                line14.setEndX(newValue.doubleValue()-suppression-57-67);
-                line15.setEndX(newValue.doubleValue()-suppression-57-67);
-                line16.setEndX(newValue.doubleValue()-suppression-57-67);
-                line17.setEndX(newValue.doubleValue()-suppression-57-67);
-                line18.setEndX(newValue.doubleValue()-suppression-57-67);
-                line19.setEndX(newValue.doubleValue()-suppression-57-67);
+                setWidth(newValue.doubleValue(),suppression);
             }
         });
-        CalendrierApplication.stage.heightProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                //y =116 max720 107 max 601
-                if (!Objects.equals(oldValue.toString(), "NaN")) {
-                    paneHeure.setPrefHeight(newValue.doubleValue() - 116);
-                    anchorPane.setPrefHeight(newValue.doubleValue() - 116-42);
-                    gridPane.setPrefHeight((heure8.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116))-5);
-                    paneCours.setLayoutY((heure8.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116))-5);
-                    paneCours.setPrefHeight(newValue.doubleValue()  - 116 - 100+57-paneCours.getLayoutY());
-                    heure8.setLayoutY(heure8.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
-                    heure9.setLayoutY(heure9.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
-                    heure10.setLayoutY(heure10.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
-                    heure11.setLayoutY(heure11.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
-                    heure12.setLayoutY(heure12.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
-                    heure13.setLayoutY(heure13.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
-                    heure14.setLayoutY(heure14.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
-                    heure15.setLayoutY(heure15.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
-                    heure16.setLayoutY(heure16.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
-                    heure17.setLayoutY(heure17.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
-                    heure18.setLayoutY(heure18.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
-                    heure19.setLayoutY(heure19.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
-                    line9.setLayoutY(line9.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
-                    line10.setLayoutY(line10.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
-                    line11.setLayoutY(line11.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
-                    line12.setLayoutY(line12.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
-                    line13.setLayoutY(line13.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
-                    line14.setLayoutY(line14.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
-                    line15.setLayoutY(line15.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
-                    line16.setLayoutY(line16.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
-                    line17.setLayoutY(line17.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
-                    line18.setLayoutY(line18.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
-                    line19.setLayoutY(line19.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
-                }
-            }
-        });
-        System.out.println(CalendrierApplication.stage.getWidth());
-        int suppression=240;
-        if (CalendrierApplication.stage.getWidth()<791){
-            suppression=10;
-            if (CalendrierApplication.stage.getWidth()<791) {
-                anchorPane.setLayoutY(anchorPane.getLayoutY() + 300);
-            }
-        }
-        anchorPane.setPrefWidth(CalendrierApplication.stage.getWidth()-suppression-57-50);
-        paneCours.setPrefWidth(CalendrierApplication.stage.getWidth()-suppression-57-50);
-        gridPane.setPrefWidth(CalendrierApplication.stage.getWidth()-suppression-57-50);
-        line9.setEndX(CalendrierApplication.stage.getWidth()-suppression-57-67);
-        line10.setEndX(CalendrierApplication.stage.getWidth()-suppression-57-67);
-        line11.setEndX(CalendrierApplication.stage.getWidth()-suppression-57-67);
-        line12.setEndX(CalendrierApplication.stage.getWidth()-suppression-57-67);
-        line13.setEndX(CalendrierApplication.stage.getWidth()-suppression-57-67);
-        line14.setEndX(CalendrierApplication.stage.getWidth()-suppression-57-67);
-        line15.setEndX(CalendrierApplication.stage.getWidth()-suppression-57-67);
-        line16.setEndX(CalendrierApplication.stage.getWidth()-suppression-57-67);
-        line17.setEndX(CalendrierApplication.stage.getWidth()-suppression-57-67);
-        line18.setEndX(CalendrierApplication.stage.getWidth()-suppression-57-67);
-        line19.setEndX(CalendrierApplication.stage.getWidth()-suppression-57-67);
-
-        if (!Objects.equals(Double.toString(CalendrierApplication.stage.getHeight()), "NaN")) {
-            paneHeure.setPrefHeight(CalendrierApplication.stage.getHeight() - 116);
-            anchorPane.setPrefHeight(CalendrierApplication.stage.getHeight() - 116 - 42);
-            gridPane.setPrefHeight((heure8.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116))-5);
-            paneCours.setLayoutY((heure8.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116)) - 5);
-            paneCours.setPrefHeight(CalendrierApplication.stage.getHeight() - 116 - 102.5+57-paneCours.getLayoutY());
-            heure8.setLayoutY(heure8.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
-            heure9.setLayoutY(heure9.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
-            heure10.setLayoutY(heure10.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
-            heure11.setLayoutY(heure11.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
-            heure12.setLayoutY(heure12.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
-            heure13.setLayoutY(heure13.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
-            heure14.setLayoutY(heure14.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
-            heure15.setLayoutY(heure15.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
-            heure16.setLayoutY(heure16.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
-            heure17.setLayoutY(heure17.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
-            heure18.setLayoutY(heure18.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
-            heure19.setLayoutY(heure19.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
-            line9.setLayoutY(line9.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
-            line10.setLayoutY(line10.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
-            line11.setLayoutY(line11.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
-            line12.setLayoutY(line12.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
-            line13.setLayoutY(line13.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
-            line14.setLayoutY(line14.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
-            line15.setLayoutY(line15.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
-            line16.setLayoutY(line16.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
-            line17.setLayoutY(line17.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
-            line18.setLayoutY(line18.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
-            line19.setLayoutY(line19.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
-        }
     }
 
+    private void setWidth(double valeurWidth,int suppression){
+        anchorPane.setPrefWidth(valeurWidth-suppression-57-50);
+        paneCours.setPrefWidth(valeurWidth-suppression-57-50);
+        gridPane.setPrefWidth(valeurWidth-suppression-57-50);
+        anchorPaneInGridPane.setPrefWidth(valeurWidth-suppression-57-50);
+        jour.setX(anchorPaneInGridPane.getPrefWidth()/2.25);
+        line9.setEndX(valeurWidth-suppression-57-67);
+        line10.setEndX(valeurWidth-suppression-57-67);
+        line11.setEndX(valeurWidth-suppression-57-67);
+        line12.setEndX(valeurWidth-suppression-57-67);
+        line13.setEndX(valeurWidth-suppression-57-67);
+        line14.setEndX(valeurWidth-suppression-57-67);
+        line15.setEndX(valeurWidth-suppression-57-67);
+        line16.setEndX(valeurWidth-suppression-57-67);
+        line17.setEndX(valeurWidth-suppression-57-67);
+        line18.setEndX(valeurWidth-suppression-57-67);
+        line19.setEndX(valeurWidth-suppression-57-67);
+    }
+    private void setModePersonnel(String mode,ApiCalendar apiCalendar){
+        if (Objects.equals(mode, "favoris")) {
+            vBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    FXMLLoader fxmlLoader = new FXMLLoader(CreationEvenementController.class.getResource("CreationDEvenement.fxml"));
+                    Scene scene2 = null;
+                    try {
+                        scene2 = new Scene(fxmlLoader.load());
+                        CreationEvenementController controller = fxmlLoader.getController();
+                        controller.setCalendar(apiCalendar);
+                        controller.setDateTime(day);
+                        controller.setMode(mode);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    CalendrierApplication.stage2.setResizable(false);
+                    CalendrierApplication.stage2.setTitle("Réservation d'Evenement");
+                    CalendrierApplication.stage2.setScene(scene2);
+                    CalendrierApplication.stage2.show();
+                }
+            });
+        }
+    }
+    private void setModeFormation(String mode){
+        if (Objects.equals(mode, "formation")) {
+            for (int i = 0; i < vBox.getChildren().size(); i++) {
+                if (vBox.getChildren().get(i).getOpacity() != 0.0) {
+                    vBox.getChildren().get(i).setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            Desktop desktop = getDesktop();
+                            try {
+                                desktop.mail(new URI("mailto:maxime.jullien2@alumni.univ-avignon.fr"));
+                            } catch (IOException | URISyntaxException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    });
+                }
+            }
+        }
+    }
+    private void setCaseVide(URL test,int size,VBox vBox) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(test);
+        CasePourLeJourController casePourLeJourController ;
+        AnchorPane anchorPane = fxmlLoader.load();
+        casePourLeJourController = fxmlLoader.getController();
+        casePourLeJourController.setHeigth(3.065);
+        casePourLeJourController.setNombreDeCase(size);
+        casePourLeJourController.setOpacity(0.0);
+        vBox.getChildren().add(anchorPane);
+    }
+
+    private void setCase(URL test,VBox vBox,int i,int j , int q) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(test);
+        AnchorPane anchorPane = fxmlLoader.load();
+        CasePourLeJourController casePourLeJourController ;
+        casePourLeJourController = fxmlLoader.getController();
+        casePourLeJourController.setNombreDeCase(list.get(i).size());
+        casePourLeJourController.setHeigth((double) 90 / ChronoUnit.MINUTES.between(list.get(i).get(j).get(q).getDateEvent().getStartDate(), list.get(i).get(j).get(q).getDateEvent().getEndDate()));
+        Event event = list.get(i).get(j).get(q);
+        casePourLeJourController.setInformation(event.getDescriptionEvent().getListDescription(),Integer.toString(event.getDateEvent().getStartDate().getHour()) + "h" + Integer.toString(event.getDateEvent().getStartDate().getMinute()) + "-" +
+                Integer.toString(event.getDateEvent().getEndDate().getHour()) + "h" + Integer.toString(event.getDateEvent().getEndDate().getMinute())
+                + "\\" );
+        vBox.getChildren().add(anchorPane);
+    }
     public void setList(ArrayList<ArrayList<ArrayList<Event>>> list) {
         this.list = list;
     }
@@ -446,5 +396,22 @@ public class CasDuJourController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        StringProperty listenerOnColor = CalendrierController.couleur;
+        listenerOnColor.addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                Color couleur;
+                if (Objects.equals(s, "black")){
+                    couleur = Color.BLACK;
+                }
+                else {
+                    couleur = Color.WHITE;
+                }
+                setColor(couleur);
+                paneCours.setStyle("-fx-border-color:"+s+";");
+                paneHeure.setStyle("-fx-border-color:"+s+";");
+                gridPane.setStyle("-fx-border-color:" + s + ";");
+            }
+        });
     }
 }

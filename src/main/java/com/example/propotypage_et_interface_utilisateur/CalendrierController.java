@@ -135,30 +135,23 @@ public class CalendrierController implements Initializable {
     HashMap<String,String> filtres = new HashMap<String,String>();
     String[] mois = {"Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Aout","Sepctembre","Octobre","Novembre","Decembre"};
 
+    private void setColor(Color color){
+        this.mouthText.setFill(color);
+        this.urlText.setFill(color);
+        this.nameEdtText.setFill(color);
+        this.selectionEdtText.setFill(color);
+        this.definirFiltreText.setFill(color);
+        this.matiereText.setFill(color);
+        this.groupeText.setFill(color);
+        this.salleText.setFill(color);
+        this.typeText.setFill(color);
+        this.textModeSelectionne.setFill(color);
+    }
     public void couleur(){
-        System.out.println(CalendrierController.couleur.get());
         if (Objects.equals(CalendrierController.couleur.get(), "black")) {
-            this.mouthText.setFill(Color.WHITE);
-            this.urlText.setFill(Color.WHITE);
-            this.nameEdtText.setFill(Color.WHITE);
-            this.selectionEdtText.setFill(Color.WHITE);
-            this.definirFiltreText.setFill(Color.WHITE);
-            this.matiereText.setFill(Color.WHITE);
-            this.groupeText.setFill(Color.WHITE);
-            this.salleText.setFill(Color.WHITE);
-            this.typeText.setFill(Color.WHITE);
-            this.textModeSelectionne.setFill(Color.WHITE);
+            this.setColor(Color.WHITE);
         } else {
-            this.mouthText.setFill(Color.BLACK);
-            this.urlText.setFill(Color.BLACK);
-            this.nameEdtText.setFill(Color.BLACK);
-            this.selectionEdtText.setFill(Color.BLACK);
-            this.definirFiltreText.setFill(Color.BLACK);
-            this.matiereText.setFill(Color.BLACK);
-            this.groupeText.setFill(Color.BLACK);
-            this.salleText.setFill(Color.BLACK);
-            this.typeText.setFill(Color.BLACK);
-            this.textModeSelectionne.setFill(Color.BLACK);
+            this.setColor(Color.BLACK);
         }
         anchorPane.setStyle("-fx-background-color:" + CalendrierController.couleur.get() + ";");
     }
@@ -245,6 +238,29 @@ public class CalendrierController implements Initializable {
         }
     }
 
+    private void changementEdt(int valeur){
+        try {
+            if (valeur>=0) {
+                pathFileRessource = "src/main/resources/com/example/connexion/" + list.get(idListe).get("mailAdresse") + "/" + mode + "/" + selectionEdtComboBox.getItems().get(valeur).toString() + ".ics";
+                apiCalendar = new ParserIcalendar().parse("src/main/resources/com/example/connexion/" + list.get(idListe).get("mailAdresse") + "/" + mode + "/" + selectionEdtComboBox.getItems().get(valeur).toString() + ".ics");
+            }
+            else {
+                pathFileRessource = "vide";
+                apiCalendar = new ParserIcalendar().parse("src/main/resources/com/example/Icalendar/vide.ics");
+            }
+            int identifiant = choiceBox.getSelectionModel().getSelectedIndex();
+            if (identifiant == 0){
+                affichageJour();
+            } else if (identifiant == 1) {
+                affichageSemaine();
+            }
+            else{
+                affichageMois();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public void creationListEdt(){
         this.selectionEdtComboBox.getItems().clear();
         File dossier = new File("src/main/resources/com/example/connexion/"+this.list.get(this.idListe).get("mailAdresse")+"/"+this.mode+"/");
@@ -254,47 +270,12 @@ public class CalendrierController implements Initializable {
         this.selectionEdtComboBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
-                try {
-                    if (number2.intValue()>=0) {
-                        pathFileRessource = "src/main/resources/com/example/connexion/" + list.get(idListe).get("mailAdresse") + "/" + mode + "/" + selectionEdtComboBox.getItems().get(number2.intValue()).toString() + ".ics";
-                        apiCalendar = new ParserIcalendar().parse("src/main/resources/com/example/connexion/" + list.get(idListe).get("mailAdresse") + "/" + mode + "/" + selectionEdtComboBox.getItems().get(number2.intValue()).toString() + ".ics");
-                    }
-                    else {
-                        pathFileRessource = "vide";
-                        apiCalendar = new ParserIcalendar().parse("src/main/resources/com/example/Icalendar/vide.ics");
-                    }
-                        int identifiant = choiceBox.getSelectionModel().getSelectedIndex();
-                        if (identifiant == 0){
-                            affichageJour();
-                        } else if (identifiant == 1) {
-                            affichageSemaine();
-                        }
-                        else{
-                            affichageMois();
-                        }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                changementEdt(number2.intValue());
             }
         });
     }
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        localDateTime = LocalDateTime.now();
-        this.choiceBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
-                if (number2.intValue()==0) {
-                    affichageJour();
-                }
-                else if(number2.intValue()==1) {
-                    affichageSemaine();
-                }
-                else {
-                    affichageMois();
-                }
-            }
-        });
+
+    private void setOnHiddenListenerOnStage2(){
         CalendrierApplication.stage2.setOnHidden(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent windowEvent) {
@@ -313,17 +294,26 @@ public class CalendrierController implements Initializable {
                 }
             }
         });
-        this.choiceBox.getItems().add("Jour");
-        this.choiceBox.getItems().add("Semaine");
-        this.choiceBox.getItems().add("Mois");
-        this.choiceBox.setVisibleRowCount(3);
-        try {
-            pathFileRessource = "vide";
-            this.apiCalendar = new ParserIcalendar().parse("src/main/resources/com/example/Icalendar/vide.ics");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        this.choiceBox.getSelectionModel().select(0);
+    }
+
+    private void setOnChangedListenerOnChoiceBox(){
+        this.choiceBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
+                if (number2.intValue()==0) {
+                    affichageJour();
+                }
+                else if(number2.intValue()==1) {
+                    affichageSemaine();
+                }
+                else {
+                    affichageMois();
+                }
+            }
+        });
+    }
+
+    private void setWidthChangeListenerOnStage(){
         final int[] change = {0};
         CalendrierApplication.stage.widthProperty().addListener(new ChangeListener<Number>() {
             @Override
@@ -424,6 +414,10 @@ public class CalendrierController implements Initializable {
                 anchorPane.setStyle("-fx-background-color:" + CalendrierController.couleur.get() + ";");
             }
         });
+
+    }
+
+    private void setHeightChangeListenerOnStage(){
         CalendrierApplication.stage.heightProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -437,11 +431,28 @@ public class CalendrierController implements Initializable {
             }
         });
     }
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        localDateTime = LocalDateTime.now();
+        this.setOnChangedListenerOnChoiceBox();
+        this.setOnHiddenListenerOnStage2();
+        this.choiceBox.getItems().add("Jour");
+        this.choiceBox.getItems().add("Semaine");
+        this.choiceBox.getItems().add("Mois");
+        try {
+            pathFileRessource = "vide";
+            this.apiCalendar = new ParserIcalendar().parse("src/main/resources/com/example/Icalendar/vide.ics");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.choiceBox.getSelectionModel().select(0);
+        this.setWidthChangeListenerOnStage();
+        this.setHeightChangeListenerOnStage();
+    }
 
     @FXML
     public void buttonAfterOnMouseClicked(){
         if (!CalendrierApplication.stage2.isShowing()) {
-
             if (this.choiceBox.getSelectionModel().isSelected(0)) {
                 if (localDateTime.getDayOfWeek().getValue() >= 5) {
                     while (localDateTime.getDayOfWeek().getValue() >= 5) {
@@ -464,7 +475,6 @@ public class CalendrierController implements Initializable {
     @FXML
     public void buttonBeforeOnMouseClicked(){
         if (!CalendrierApplication.stage2.isShowing()) {
-
             if (this.choiceBox.getSelectionModel().isSelected(0)) {
                 if (localDateTime.getDayOfWeek().getValue() == 1) {
                     localDateTime = localDateTime.minusDays(3);
@@ -485,31 +495,12 @@ public class CalendrierController implements Initializable {
     @FXML
     public void buttonThemeOnMouseClicked() throws IOException {
         if (!CalendrierApplication.stage2.isShowing()) {
-
             if (Objects.equals(CalendrierController.couleur.get(), "black")) {
                 CalendrierController.couleur.set("white");
-                this.mouthText.setFill(Color.BLACK);
-                this.urlText.setFill(Color.BLACK);
-                this.nameEdtText.setFill(Color.BLACK);
-                this.selectionEdtText.setFill(Color.BLACK);
-                this.definirFiltreText.setFill(Color.BLACK);
-                this.matiereText.setFill(Color.BLACK);
-                this.groupeText.setFill(Color.BLACK);
-                this.salleText.setFill(Color.BLACK);
-                this.typeText.setFill(Color.BLACK);
-                this.textModeSelectionne.setFill(Color.BLACK);
+                this.setColor(Color.BLACK);
             } else {
                 CalendrierController.couleur.set("black");
-                this.mouthText.setFill(Color.WHITE);
-                this.urlText.setFill(Color.WHITE);
-                this.nameEdtText.setFill(Color.WHITE);
-                this.selectionEdtText.setFill(Color.WHITE);
-                this.definirFiltreText.setFill(Color.WHITE);
-                this.matiereText.setFill(Color.WHITE);
-                this.groupeText.setFill(Color.WHITE);
-                this.salleText.setFill(Color.WHITE);
-                this.typeText.setFill(Color.WHITE);
-                this.textModeSelectionne.setFill(Color.WHITE);
+                this.setColor(Color.WHITE);
             }
             anchorPane.setStyle("-fx-background-color:" + CalendrierController.couleur.get() + ";");
             this.list.get(this.idListe).put("color",CalendrierController.couleur.get());
@@ -553,7 +544,6 @@ public class CalendrierController implements Initializable {
     @FXML
     public void deconnexionOnMouseClicked() throws IOException {
         if (!CalendrierApplication.stage2.isShowing()) {
-
             File file = new File("src/main/resources/com/example/connexion/connected.txt");
             FileWriter fileWriter = new FileWriter(file, false);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
@@ -569,7 +559,6 @@ public class CalendrierController implements Initializable {
     @FXML
     public void favorisOnMouseClicked() {
         if (!CalendrierApplication.stage2.isShowing()) {
-
             if (!Objects.equals(this.mode, "favoris")) {
                 setMode("favoris");
                 this.selectionEdtComboBox.getItems().clear();
@@ -584,7 +573,6 @@ public class CalendrierController implements Initializable {
     @FXML
     public void formationOnMouseClicked() {
         if (!CalendrierApplication.stage2.isShowing()) {
-
             if (!Objects.equals(this.mode, "formation")) {
                 setMode("formation");
                 this.selectionEdtComboBox.getItems().clear();
@@ -599,7 +587,6 @@ public class CalendrierController implements Initializable {
     @FXML
     public void personnelOnMouseClicked() {
         if (!CalendrierApplication.stage2.isShowing()) {
-
             if (!Objects.equals(this.mode, "personnel")) {
                 setMode("personnel");
                 this.selectionEdtComboBox.getItems().clear();
@@ -614,7 +601,6 @@ public class CalendrierController implements Initializable {
     @FXML
     public void salleOnMouseClicked() {
         if (!CalendrierApplication.stage2.isShowing()) {
-
             if (!Objects.equals(this.mode, "salle")) {
                 setMode("salle");
                 this.selectionEdtComboBox.getItems().clear();

@@ -17,13 +17,18 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
+import java.awt.*;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
+
+import static java.awt.Desktop.getDesktop;
 
 public class CasDuMoisController implements Initializable{
 
@@ -106,31 +111,9 @@ public class CasDuMoisController implements Initializable{
                         for (int j = 0; j < list.get(i).size(); j++) {
                             for (int q = 0; q < list.get(i).get(j).size(); q++) {
                                 if (list.get(i).get(j).get(q) != null) {
-                                    nombreSeance = nombreSeance+1;
+                                    nombreSeance = nombreSeance + 1;
                                     Event event = list.get(i).get(j).get(q);
-                                    String tootlipText = "                        "+Integer.toString(event.getDateEvent().getStartDate().getHour()) + "h" + Integer.toString(event.getDateEvent().getStartDate().getMinute()) + "-" +
-                                            Integer.toString(event.getDateEvent().getEndDate().getHour()) + "h" + Integer.toString(event.getDateEvent().getEndDate().getMinute()) + "\n";
-                                    if (event.getDescriptionEvent().getDescription("Matière ")!= null)
-                                        tootlipText = tootlipText +"Matière :" +event.getDescriptionEvent().getDescription("Matière ") + "\n";
-                                    if (event.getDescriptionEvent().getDescription("Enseignant ")!= null)
-                                        tootlipText = tootlipText +"Enseignant :" +event.getDescriptionEvent().getDescription("Enseignant ") + "\n";
-                                    if (event.getDescriptionEvent().getDescription("Promotion ")!= null)
-                                        tootlipText = tootlipText +"Promotion :" +event.getDescriptionEvent().getDescription("Promotion ") + "\n";
-                                    if (event.getDescriptionEvent().getDescription("TD ")!= null)
-                                        tootlipText = tootlipText +"TD :" +event.getDescriptionEvent().getDescription("TD ") + "\n";
-                                    if (event.getDescriptionEvent().getDescription("Salle ")!= null)
-                                        tootlipText = tootlipText +"Salle :" +event.getDescriptionEvent().getDescription("Salle ") + "\n";
-                                    if (event.getDescriptionEvent().getDescription("Lieu ")!= null)
-                                        tootlipText = tootlipText +"Lieu :" +event.getDescriptionEvent().getDescription("Lieu ") + "\n";
-                                    if (event.getDescriptionEvent().getDescription("Type ")!= null)
-                                        tootlipText = tootlipText +"Type :" +event.getDescriptionEvent().getDescription("Type ") + "\n";
-                                    if (event.getDescriptionEvent().getDescription("Personnes ")!= null)
-                                        tootlipText = tootlipText +"Personnes :" +event.getDescriptionEvent().getDescription("Personnes ") + "\n";
-                                    if (event.getDescriptionEvent().getDescription("Groupe ")!= null)
-                                        tootlipText = tootlipText +"Groupe :" +event.getDescriptionEvent().getDescription("Groupe ") + "\n";
-                                    if (event.getDescriptionEvent().getDescription("Mémo ")!= null)
-                                        tootlipText = tootlipText +"Mémo :" +event.getDescriptionEvent().getDescription("Mémo ") + "\n";
-                                    caseDuMoisController.addCircle(tootlipText,mode,userPriviledge,event.getDescriptionEvent().getDescription("Couleur "));
+                                    caseDuMoisController = this.creationEvent(event, caseDuMoisController, userPriviledge, mode);
                                 }
                             }
                         }
@@ -149,99 +132,16 @@ public class CasDuMoisController implements Initializable{
                     }
                 }
                 caseDuMoisController.setJourId(jour, paddingEnMoins);
-                if (Objects.equals(mode, "salle") && Objects.equals(userPriviledge, "enseignant")){
-                    LocalDateTime finalDateTime = dateTime;
-                    vBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                        @Override
-                        public void handle(MouseEvent event) {
-                            FXMLLoader fxmlLoader = new FXMLLoader(CalendrierController.class.getResource("ReservationDeSalle.fxml"));
-                            Scene scene2 = null;
-                            try {
-                                scene2 = new Scene(fxmlLoader.load());
-                                CreationController controller = fxmlLoader.getController();
-                                controller.setDateTime(finalDateTime);
-                                controller.setMode(mode);
-                                controller.setCalendar(apiCalendar);
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
-                            CalendrierApplication.stage2.setResizable(false);
-                            CalendrierApplication.stage2.setTitle("Réservation de Salle");
-                            CalendrierApplication.stage2.setScene(scene2);
-                            CalendrierApplication.stage2.show();
-                        }
-                    });
-                }else if (Objects.equals(mode, "favoris")) {
-                    LocalDateTime finalDateTime = dateTime;
-                    vBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                        @Override
-                        public void handle(MouseEvent event) {
-                            FXMLLoader fxmlLoader = new FXMLLoader(CreationEvenementController.class.getResource("CreationDEvenement.fxml"));
-                            Scene scene2 = null;
-                            try {
-                                scene2 = new Scene(fxmlLoader.load());
-                                CreationEvenementController controller = fxmlLoader.getController();
-                                controller.setDateTime(finalDateTime);
-                                controller.setMode(mode);
-                                controller.setCalendar(apiCalendar);
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
-                            CalendrierApplication.stage2.setResizable(false);
-                            CalendrierApplication.stage2.setTitle("Réservation d'Evenement");
-                            CalendrierApplication.stage2.setScene(scene2);
-                            CalendrierApplication.stage2.show();
-                        }
-                    });
-                }
-                jourMois.getChildren().add(vBox);
-                if (dateTime.getDayOfWeek().getValue()<5)
-                    dateTime = dateTime.plusDays(1);
-                else
-                    dateTime = dateTime.plusDays(3);
+                this.setModeSalle(mode, userPriviledge, apiCalendar, vBox);
+                this.setModePersonnel(mode,apiCalendar,vBox);
             }
             if (Objects.equals(CalendrierController.couleur.get(), "black"))
                 setColor("white");
             else
                 setColor("black");
 
-            CalendrierApplication.stage.widthProperty().addListener(new ChangeListener<Number>() {
-                @Override
-                public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                    int suppression=240;
-                    if (newValue.doubleValue()<791){
-                        suppression = 10;
-                        if (oldValue.doubleValue()>=791 && newValue.doubleValue()<791) {
-                            anchorPane.setLayoutY(anchorPane.getLayoutY() + 300);
-                        }
-                    }
-                    if (oldValue.doubleValue()<=791 && newValue.doubleValue()>791){
-                        anchorPane.setLayoutY(anchorPane.getLayoutY() - 300);
-                    }
-                    anchorPane.setPrefWidth(newValue.doubleValue()-suppression-57-20);
-                    gridPane.setPrefWidth(newValue.doubleValue()-suppression-57-20);
-                    jourMois.setPrefWidth(newValue.doubleValue()-suppression-57-20);
-                    paneLundi.setPrefWidth((CalendrierApplication.stage.getWidth()-suppression-57-20)/5);
-                    lundi.setLayoutX(paneLundi.getPrefWidth()/2.6);
-                    paneMardi.setPrefWidth((CalendrierApplication.stage.getWidth()-suppression-57-20)/5);
-                    mardi.setLayoutX(paneMardi.getPrefWidth()/2.75);
-                    paneMercredi.setPrefWidth((CalendrierApplication.stage.getWidth()-suppression-57-20)/5);
-                    mercredi.setLayoutX(paneMercredi.getPrefWidth()/2.85);
-                    paneJeudi.setPrefWidth((CalendrierApplication.stage.getWidth()-suppression-57-20)/5);
-                    jeudi.setLayoutX(paneJeudi.getPrefWidth()/2.6);
-                    paneVendredi.setPrefWidth((CalendrierApplication.stage.getWidth()-suppression-57-20)/5);
-                    vendredi.setLayoutX(paneVendredi.getPrefWidth()/3);
-                }
-            });
-            CalendrierApplication.stage.heightProperty().addListener(new ChangeListener<Number>() {
-                @Override
-                public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                    //y =116 max720 107 max 601
-                    if (!Objects.equals(oldValue.toString(), "NaN")) {
-                        anchorPane.setPrefHeight(newValue.doubleValue() - 116-42);
-                    }
-                }
-            });
+            this.setListenerOnWidthStage();
+            this.setListenerOnHeigthStage();
             int suppression=240;
             if (CalendrierApplication.stage.getWidth()<791){
                 suppression=10;
@@ -249,60 +149,149 @@ public class CasDuMoisController implements Initializable{
                     anchorPane.setLayoutY(anchorPane.getLayoutY() + 300);
                 }
             }
-            anchorPane.setPrefWidth(CalendrierApplication.stage.getWidth()-suppression-57-20);
-            jourMois.setPrefWidth(CalendrierApplication.stage.getWidth()-suppression-57-20);
-            gridPane.setPrefWidth(CalendrierApplication.stage.getWidth()-suppression-57-20);
-            paneLundi.setPrefWidth((CalendrierApplication.stage.getWidth()-suppression-57-20)/5);
-            lundi.setLayoutX(paneLundi.getPrefWidth()/2.6);
-            paneMardi.setPrefWidth((CalendrierApplication.stage.getWidth()-suppression-57-20)/5);
-            mardi.setLayoutX(paneMardi.getPrefWidth()/2.75);
-            paneMercredi.setPrefWidth((CalendrierApplication.stage.getWidth()-suppression-57-20)/5);
-            mercredi.setLayoutX(paneMercredi.getPrefWidth()/2.85);
-            paneJeudi.setPrefWidth((CalendrierApplication.stage.getWidth()-suppression-57-20)/5);
-            jeudi.setLayoutX(paneJeudi.getPrefWidth()/2.6);
-            paneVendredi.setPrefWidth((CalendrierApplication.stage.getWidth()-suppression-57-20)/5);
-            vendredi.setLayoutX(paneVendredi.getPrefWidth()/3);
+            this.setWidth(CalendrierApplication.stage.getWidth(),suppression);
             if (!Objects.equals(Double.toString(CalendrierApplication.stage.getHeight()), "NaN")) {
-                anchorPane.setPrefHeight(CalendrierApplication.stage.getHeight() - 116 - 42);
+                this.setHeigth(CalendrierApplication.stage.getHeight());
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    /*@Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        URL test = CasDuMoisController.class.getResource("CaseDuMois.fxml");
-        try {
-            for (int j=0 ; j<5 ; j++) {
-                for (int i = 1+7*j; i <6+7*j; i++) {
-                    FXMLLoader fxmlLoader = new FXMLLoader(test);
-                    VBox vBox = fxmlLoader.load();
-                    CaseDuMoisController caseDuMoisController = fxmlLoader.getController();
-                    String nombreSeance = Integer.toString(i) + " séances";
-                    caseDuMoisController.setNombreSeanceId(nombreSeance);
-                    String jour = Integer.toString(i);
-                    int paddingEnMoins = 0;
-                    if (jour.length() == 2 || nombreSeance.split(" ")[0].length() == 2) {
-                        if (jour.length() == 2) {
-                            paddingEnMoins = paddingEnMoins + 6;
-                        }
-                        if (nombreSeance.split(" ")[0].length() == 2) {
-                            paddingEnMoins = paddingEnMoins + 7;
-                        }
-                    }
-                    caseDuMoisController.setJourId(jour, paddingEnMoins);
-                    for (int nb=0 ; nb<i;nb++){
-                        caseDuMoisController.addCircle("Test \n TestTestTestTestTestTestTest");
-                    }
-                   jourMois.getChildren().add(vBox);
 
+    private void setModeSalle(String mode,String userPriviledge,ApiCalendar apiCalendar,VBox vBox) {
+        if (Objects.equals(mode, "salle") && Objects.equals(userPriviledge, "enseignant")){
+            LocalDateTime finalDateTime = dateTime;
+            vBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    FXMLLoader fxmlLoader = new FXMLLoader(CalendrierController.class.getResource("ReservationDeSalle.fxml"));
+                    Scene scene2 = null;
+                    try {
+                        scene2 = new Scene(fxmlLoader.load());
+                        CreationController controller = fxmlLoader.getController();
+                        controller.setDateTime(finalDateTime);
+                        controller.setMode(mode);
+                        controller.setCalendar(apiCalendar);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    CalendrierApplication.stage2.setResizable(false);
+                    CalendrierApplication.stage2.setTitle("Réservation de Salle");
+                    CalendrierApplication.stage2.setScene(scene2);
+                    CalendrierApplication.stage2.show();
+                }
+            });
+        }
+    }
+
+    private void setListenerOnHeigthStage(){
+        CalendrierApplication.stage.heightProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                //y =116 max720 107 max 601
+                if (!Objects.equals(oldValue.toString(), "NaN")) {
+                    setHeigth(newValue.doubleValue());
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        });
+    }
+
+    private void setHeigth(double newValue){
+        anchorPane.setPrefHeight(newValue - 116-42);
+    }
+
+    private void setListenerOnWidthStage(){
+        CalendrierApplication.stage.widthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                int suppression=240;
+                if (newValue.doubleValue()<791){
+                    suppression = 10;
+                    if (oldValue.doubleValue()>=791 && newValue.doubleValue()<791) {
+                        anchorPane.setLayoutY(anchorPane.getLayoutY() + 300);
+                    }
+                }
+                if (oldValue.doubleValue()<=791 && newValue.doubleValue()>791){
+                    anchorPane.setLayoutY(anchorPane.getLayoutY() - 300);
+                }
+                setWidth(newValue.doubleValue(), suppression);
+            }
+        });
+    }
+
+    private void setWidth(double valeurWidth,int suppression){
+        anchorPane.setPrefWidth(valeurWidth-suppression-57-20);
+        gridPane.setPrefWidth(valeurWidth-suppression-57-20);
+        jourMois.setPrefWidth(valeurWidth-suppression-57-20);
+        paneLundi.setPrefWidth((CalendrierApplication.stage.getWidth()-suppression-57-20)/5);
+        lundi.setLayoutX(paneLundi.getPrefWidth()/2.6);
+        paneMardi.setPrefWidth((CalendrierApplication.stage.getWidth()-suppression-57-20)/5);
+        mardi.setLayoutX(paneMardi.getPrefWidth()/2.75);
+        paneMercredi.setPrefWidth((CalendrierApplication.stage.getWidth()-suppression-57-20)/5);
+        mercredi.setLayoutX(paneMercredi.getPrefWidth()/2.85);
+        paneJeudi.setPrefWidth((CalendrierApplication.stage.getWidth()-suppression-57-20)/5);
+        jeudi.setLayoutX(paneJeudi.getPrefWidth()/2.6);
+        paneVendredi.setPrefWidth((CalendrierApplication.stage.getWidth()-suppression-57-20)/5);
+        vendredi.setLayoutX(paneVendredi.getPrefWidth()/3);
+    }
+    private void setModePersonnel(String mode,ApiCalendar apiCalendar,VBox vBox){
+        if (Objects.equals(mode, "favoris")) {
+            LocalDateTime finalDateTime = dateTime;
+            vBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    FXMLLoader fxmlLoader = new FXMLLoader(CreationEvenementController.class.getResource("CreationDEvenement.fxml"));
+                    Scene scene2 = null;
+                    try {
+                        scene2 = new Scene(fxmlLoader.load());
+                        CreationEvenementController controller = fxmlLoader.getController();
+                        controller.setDateTime(finalDateTime);
+                        controller.setMode(mode);
+                        controller.setCalendar(apiCalendar);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    CalendrierApplication.stage2.setResizable(false);
+                    CalendrierApplication.stage2.setTitle("Réservation d'Evenement");
+                    CalendrierApplication.stage2.setScene(scene2);
+                    CalendrierApplication.stage2.show();
+                }
+            });
         }
-    }*/
+        jourMois.getChildren().add(vBox);
+        if (dateTime.getDayOfWeek().getValue()<5)
+            dateTime = dateTime.plusDays(1);
+        else
+            dateTime = dateTime.plusDays(3);
+    }
+
+    private CaseDuMoisController creationEvent(Event event ,CaseDuMoisController caseDuMoisController,String userPriviledge,String mode){
+        String tootlipText = "                        "+Integer.toString(event.getDateEvent().getStartDate().getHour()) + "h" + Integer.toString(event.getDateEvent().getStartDate().getMinute()) + "-" +
+                Integer.toString(event.getDateEvent().getEndDate().getHour()) + "h" + Integer.toString(event.getDateEvent().getEndDate().getMinute()) + "\n";
+        if (event.getDescriptionEvent().getDescription("Matière ")!= null)
+            tootlipText = tootlipText +"Matière :" +event.getDescriptionEvent().getDescription("Matière ") + "\n";
+        if (event.getDescriptionEvent().getDescription("Enseignant ")!= null)
+            tootlipText = tootlipText +"Enseignant :" +event.getDescriptionEvent().getDescription("Enseignant ") + "\n";
+        if (event.getDescriptionEvent().getDescription("Promotion ")!= null)
+            tootlipText = tootlipText +"Promotion :" +event.getDescriptionEvent().getDescription("Promotion ") + "\n";
+        if (event.getDescriptionEvent().getDescription("TD ")!= null)
+            tootlipText = tootlipText +"TD :" +event.getDescriptionEvent().getDescription("TD ") + "\n";
+        if (event.getDescriptionEvent().getDescription("Salle ")!= null)
+            tootlipText = tootlipText +"Salle :" +event.getDescriptionEvent().getDescription("Salle ") + "\n";
+        if (event.getDescriptionEvent().getDescription("Lieu ")!= null)
+            tootlipText = tootlipText +"Lieu :" +event.getDescriptionEvent().getDescription("Lieu ") + "\n";
+        if (event.getDescriptionEvent().getDescription("Type ")!= null)
+            tootlipText = tootlipText +"Type :" +event.getDescriptionEvent().getDescription("Type ") + "\n";
+        if (event.getDescriptionEvent().getDescription("Personnes ")!= null)
+            tootlipText = tootlipText +"Personnes :" +event.getDescriptionEvent().getDescription("Personnes ") + "\n";
+        if (event.getDescriptionEvent().getDescription("Groupe ")!= null)
+            tootlipText = tootlipText +"Groupe :" +event.getDescriptionEvent().getDescription("Groupe ") + "\n";
+        if (event.getDescriptionEvent().getDescription("Mémo ")!= null)
+            tootlipText = tootlipText +"Mémo :" +event.getDescriptionEvent().getDescription("Mémo ") + "\n";
+        caseDuMoisController.addCircle(tootlipText,mode,userPriviledge,event.getDescriptionEvent().getDescription("Couleur "));
+        return caseDuMoisController;
+    }
 
     public void setArrayList(ArrayList<ArrayList<ArrayList<ArrayList<Event>>>> arrayList) {
         this.arrayList = arrayList;
