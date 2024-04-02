@@ -119,6 +119,9 @@ public class CasDuJourController implements Initializable {
     @FXML
     Text heure19;
 
+    @FXML
+    AnchorPane anchorPaneInGridPane;
+
     ArrayList<ArrayList<ArrayList<Event>>> list;
 
     LocalDateTime day;
@@ -327,6 +330,8 @@ public class CasDuJourController implements Initializable {
                 anchorPane.setPrefWidth(newValue.doubleValue()-suppression-57-50);
                 paneCours.setPrefWidth(newValue.doubleValue()-suppression-57-50);
                 gridPane.setPrefWidth(newValue.doubleValue()-suppression-57-50);
+                anchorPaneInGridPane.setPrefWidth(newValue.doubleValue()-suppression-57-50);
+                jour.setX(anchorPaneInGridPane.getPrefWidth()/2.25);
                 line9.setEndX(newValue.doubleValue()-suppression-57-67);
                 line10.setEndX(newValue.doubleValue()-suppression-57-67);
                 line11.setEndX(newValue.doubleValue()-suppression-57-67);

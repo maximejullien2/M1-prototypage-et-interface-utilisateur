@@ -32,6 +32,11 @@ import static java.awt.Desktop.getDesktop;
 public class CasDuSemaineController {
 
     public AnchorPane anchorPane;
+    public AnchorPane anchorPaneLundi;
+    public AnchorPane anchorPaneMardi;
+    public AnchorPane anchorPaneMercredi;
+    public AnchorPane anchorPaneJeudi;
+    public AnchorPane anchorPaneVendredi;
     @FXML
     Line line9;
 
@@ -244,6 +249,11 @@ public class CasDuSemaineController {
         paneMercredi.setStyle("-fx-border-color:"+couleur+";");
         paneJeudi.setStyle("-fx-border-color:"+couleur+";");
         paneVendredi.setStyle("-fx-border-color:"+couleur+";");
+        anchorPaneLundi.setStyle("-fx-border-color:"+couleur+";");
+        anchorPaneMardi.setStyle("-fx-border-color:"+couleur+";");
+        anchorPaneMercredi.setStyle("-fx-border-color:"+couleur+";");
+        anchorPaneJeudi.setStyle("-fx-border-color:"+couleur+";");
+        anchorPaneVendredi.setStyle("-fx-border-color:"+couleur+";");
     }
     private void setColor(String color){
         gridPane.setStyle("-fx-border-color:" + color + ";");
@@ -419,6 +429,26 @@ public class CasDuSemaineController {
                     paneVendredi.setPrefWidth(gridPane.getPrefWidth()/5);
                     vBoxVendredi.setPrefWidth(gridPane.getPrefWidth()/5);
 
+                    anchorPaneLundi.setPrefWidth(gridPane.getPrefWidth()/15);
+                    lundi.setX((anchorPaneLundi.getPrefWidth()/7.5)-8);
+                    jourLundi.setX((anchorPaneLundi.getPrefWidth()/7.5));
+
+                    anchorPaneMardi.setPrefWidth(gridPane.getPrefWidth()/15);
+                    mardi.setX((anchorPaneMardi.getPrefWidth()/7.5)-11);
+                    jourMardi.setX((anchorPaneMardi.getPrefWidth()/7.5));
+
+                    anchorPaneMercredi.setPrefWidth(gridPane.getPrefWidth()/100);
+                    mercredi.setX((anchorPaneMercredi.getPrefWidth()/7.5)-7);
+                    jourMercredi.setX((anchorPaneMercredi.getPrefWidth()/7.5));
+
+                    anchorPaneJeudi.setPrefWidth(gridPane.getPrefWidth()/15);
+                    jeudi.setX((anchorPaneJeudi.getPrefWidth()/7.5)-9);
+                    jourJeudi.setX((anchorPaneJeudi.getPrefWidth()/7.5));
+
+                    anchorPaneVendredi.setPrefWidth(gridPane.getPrefWidth()/100);
+                    vendredi.setX((anchorPaneVendredi.getPrefWidth()/7.5)-10);
+                    jourVendredi.setX((anchorPaneVendredi.getPrefWidth()/7.5));
+
                     line9.setEndX(newValue.doubleValue()-suppression-57-37);
                     line10.setEndX(newValue.doubleValue()-suppression-57-37);
                     line11.setEndX(newValue.doubleValue()-suppression-57-37);
@@ -516,6 +546,26 @@ public class CasDuSemaineController {
             paneVendredi.setLayoutX((gridPane.getPrefWidth()/5)*4+57);
             paneVendredi.setPrefWidth(gridPane.getPrefWidth()/5);
             vBoxVendredi.setPrefWidth(gridPane.getPrefWidth()/5);
+
+            anchorPaneLundi.setPrefWidth(gridPane.getPrefWidth()/15);
+            lundi.setX((anchorPaneLundi.getPrefWidth()/7.5)-8);
+            jourLundi.setX((anchorPaneLundi.getPrefWidth()/7.5));
+
+            anchorPaneMardi.setPrefWidth(gridPane.getPrefWidth()/15);
+            mardi.setX((anchorPaneMardi.getPrefWidth()/7.5)-11);
+            jourMardi.setX((anchorPaneMardi.getPrefWidth()/7.5));
+
+            anchorPaneMercredi.setPrefWidth(gridPane.getPrefWidth()/100);
+            mercredi.setX((anchorPaneMercredi.getPrefWidth()/7.5)-7);
+            jourMercredi.setX((anchorPaneMercredi.getPrefWidth()/7.5));
+
+            anchorPaneJeudi.setPrefWidth(gridPane.getPrefWidth()/15);
+            jeudi.setX((anchorPaneJeudi.getPrefWidth()/7.5)-9);
+            jourJeudi.setX((anchorPaneJeudi.getPrefWidth()/7.5));
+
+            anchorPaneVendredi.setPrefWidth(gridPane.getPrefWidth()/100);
+            vendredi.setX((anchorPaneVendredi.getPrefWidth()/7.5)-10);
+            jourVendredi.setX((anchorPaneVendredi.getPrefWidth()/7.5));
 
             line9.setEndX(CalendrierApplication.stage.getWidth()-suppression-57-37);
             line10.setEndX(CalendrierApplication.stage.getWidth()-suppression-57-37);

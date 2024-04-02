@@ -19,8 +19,11 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Text fx:id="jour" strokeType="OUTSIDE" strokeWidth="0.0" text="Lundi" textAlignment="CENTER" wrappingWidth="638.7294921875" />
-            <Pane prefHeight="58.0" prefWidth="683.0" style="-fx-border-color: black;" />
+            <AnchorPane fx:id="anchorPaneInGridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="58.0" prefWidth="639.0">
+               <children>
+                  <Text fx:id="jour" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lundi" textAlignment="CENTER" />
+               </children>
+            </AnchorPane>
          </children>
       </GridPane>
       <Pane fx:id="paneHeure" layoutY="1.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="59.0" style="-fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">

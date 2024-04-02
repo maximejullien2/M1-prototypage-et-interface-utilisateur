@@ -230,7 +230,7 @@ public class CasePourLeJourController implements Initializable {
                 if (CalendrierApplication.stage.getWidth()<791){
                     suppression=10;
                 }
-                anchorPane.setPrefWidth((newValue.doubleValue()-suppression-57-20)/nombreDeCase);
+                anchorPane.setPrefWidth((newValue.doubleValue()-suppression-57-50)/nombreDeCase);
             }
         });
         int suppression=240;
