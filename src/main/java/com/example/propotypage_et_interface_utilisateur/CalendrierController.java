@@ -49,6 +49,10 @@ public class CalendrierController implements Initializable {
     public Button formationButton;
     public Button personnelOnMouseClicked;
     public Button salleButton;
+    public Text textModeSelectionne;
+
+    @FXML
+    Button filtreButton;
     public TextField typeCoursTextField;
     public TextField salleTextField;
     public TextField groupeTextField;
@@ -59,7 +63,6 @@ public class CalendrierController implements Initializable {
     public Text salleText;
     public Text typeText;
 
-    public static Stage stage2;
     @FXML
     ComboBox choiceBox;
 
@@ -78,8 +81,12 @@ public class CalendrierController implements Initializable {
     @FXML
     Button buttonTheme;
 
+    @FXML
+    Button aujourduiButton;
+
     public void setMode(String mode) {
         this.mode = mode;
+        this.textModeSelectionne.setText("Mode sélectionnez : "+mode);
     }
 
     public void setModeConnexion(String modeConnexion) {
@@ -288,6 +295,118 @@ public class CalendrierController implements Initializable {
             e.printStackTrace();
         }
         this.choiceBox.getSelectionModel().select(0);
+        final int[] change = {0};
+        CalendrierApplication.stage.widthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if (newValue.doubleValue() > 530) {
+                    anchorPane.setPrefWidth(newValue.doubleValue()-20);
+                    if (newValue.doubleValue() < 791) {
+                        calendrier.setLayoutX(10);
+                        if (change[0] ==0) {
+                            anchorPane.setPrefHeight(anchorPane.getPrefHeight()+300);
+                            change[0] =1;
+                        }
+                        selectionEdtText.setLayoutY(116);
+                        selectionEdtText.setLayoutX(newValue.doubleValue() - 250);
+                        selectionEdtComboBox.setLayoutY(127);
+                        selectionEdtComboBox.setLayoutX(newValue.doubleValue() - 200);
+                        definirFiltreText.setLayoutY(185);
+                        definirFiltreText.setLayoutX(newValue.doubleValue() - 200);
+                        matiereText.setLayoutY(220);
+                        matiereText.setLayoutX(newValue.doubleValue() - 260);
+                        matiereTextField.setLayoutY(205);
+                        matiereTextField.setLayoutX(newValue.doubleValue() - 180);
+                        groupeText.setLayoutY(255);
+                        groupeText.setLayoutX(newValue.doubleValue() - 260);
+                        groupeTextField.setLayoutY(240);
+                        groupeTextField.setLayoutX(newValue.doubleValue() - 180);
+                        salleText.setLayoutY(293);
+                        salleText.setLayoutX(newValue.doubleValue() - 260);
+                        salleTextField.setLayoutY(278);
+                        salleTextField.setLayoutX(newValue.doubleValue() - 180);
+                        typeText.setLayoutY(326);
+                        typeText.setLayoutX(newValue.doubleValue() - 260);
+                        typeCoursTextField.setLayoutY(311);
+                        typeCoursTextField.setLayoutX(newValue.doubleValue() - 180);
+                        filtreButton.setLayoutY(346);
+                        filtreButton.setLayoutX(newValue.doubleValue() - 150);
+
+                        buttonBefore.setLayoutX(20);
+                        buttonBefore.setLayoutY(380);
+
+                        aujourduiButton.setLayoutX((newValue.doubleValue() / 3) - 50);
+                        aujourduiButton.setLayoutY(380);
+
+                        buttonTheme.setLayoutY(225);
+
+                        mouthText.setLayoutX(newValue.doubleValue() / 2);
+                        mouthText.setLayoutY(400);
+                        buttonAfter.setLayoutY(380);
+                    } else {
+                        calendrier.setLayoutX(240);
+                        if (change[0] ==1) {
+                            anchorPane.setPrefHeight(anchorPane.getPrefHeight()-300);
+                            change[0] =0;
+                        }
+                        selectionEdtText.setLayoutY(252);
+                        selectionEdtText.setLayoutX(13);
+                        selectionEdtComboBox.setLayoutY(263);
+                        selectionEdtComboBox.setLayoutX(66);
+
+                        definirFiltreText.setLayoutY(321);
+                        definirFiltreText.setLayoutX(59);
+                        matiereText.setLayoutY(356);
+                        matiereText.setLayoutX(38);
+                        matiereTextField.setLayoutY(339);
+                        matiereTextField.setLayoutX(86);
+                        groupeText.setLayoutY(391);
+                        groupeText.setLayoutX(39);
+                        groupeTextField.setLayoutY(374);
+                        groupeTextField.setLayoutX(87);
+                        salleText.setLayoutY(429);
+                        salleText.setLayoutX(54);
+                        salleTextField.setLayoutY(412);
+                        salleTextField.setLayoutX(88);
+                        typeText.setLayoutY(462);
+                        typeText.setLayoutX(7);
+                        typeCoursTextField.setLayoutY(445);
+                        typeCoursTextField.setLayoutX(89);
+                        filtreButton.setLayoutY(482);
+                        filtreButton.setLayoutX(89);
+
+                        buttonBefore.setLayoutX(240);
+                        buttonBefore.setLayoutY(85);
+
+                        aujourduiButton.setLayoutX(362);
+                        aujourduiButton.setLayoutY(85);
+
+                        buttonTheme.setLayoutY(531);
+
+                        mouthText.setLayoutX(600);
+                        mouthText.setLayoutY(100);
+                        buttonAfter.setLayoutY(85);
+                    }
+                    buttonAfter.setLayoutX(newValue.doubleValue() - 100);
+                    calendrier.setPrefWidth(newValue.doubleValue());
+                    deconnexionButton.setLayoutX(newValue.doubleValue() - 150);
+                    choiceBox.setLayoutX(newValue.doubleValue() - 200);
+                }
+                anchorPane.setStyle("-fx-background-color:" + CalendrierController.couleur.get() + ";");
+            }
+        });
+        CalendrierApplication.stage.heightProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if (anchorPane.getPrefWidth()<791) {
+                    anchorPane.setPrefHeight(newValue.doubleValue() + 300-42);
+                }
+                else{
+                    anchorPane.setPrefHeight(newValue.doubleValue()-42);
+                }
+                anchorPane.setStyle("-fx-background-color:" + CalendrierController.couleur.get() + ";");
+            }
+        });
     }
 
     @FXML
@@ -349,6 +468,7 @@ public class CalendrierController implements Initializable {
                 this.groupeText.setFill(Color.BLACK);
                 this.salleText.setFill(Color.BLACK);
                 this.typeText.setFill(Color.BLACK);
+                this.textModeSelectionne.setFill(Color.BLACK);
             } else {
                 CalendrierController.couleur.set("black");
                 this.mouthText.setFill(Color.WHITE);
@@ -360,6 +480,7 @@ public class CalendrierController implements Initializable {
                 this.groupeText.setFill(Color.WHITE);
                 this.salleText.setFill(Color.WHITE);
                 this.typeText.setFill(Color.WHITE);
+                this.textModeSelectionne.setFill(Color.WHITE);
             }
             anchorPane.setStyle("-fx-background-color:" + CalendrierController.couleur.get() + ";");
         }
@@ -403,7 +524,7 @@ public class CalendrierController implements Initializable {
         if (!CalendrierApplication.stage2.isShowing()) {
 
             if (!Objects.equals(this.mode, "favoris")) {
-                this.mode = "favoris";
+                setMode("favoris");
                 this.selectionEdtComboBox.getItems().clear();
                 File dossier = new File("src/main/resources/com/example/connexion/" + this.list.get(this.idListe).get("mailAdresse") + "/" + this.mode + "/");
                 for (int i = 0; i < Objects.requireNonNull(dossier.listFiles()).length; i++) {
@@ -418,7 +539,7 @@ public class CalendrierController implements Initializable {
         if (!CalendrierApplication.stage2.isShowing()) {
 
             if (!Objects.equals(this.mode, "formation")) {
-                this.mode = "formation";
+                setMode("formation");
                 this.selectionEdtComboBox.getItems().clear();
                 File dossier = new File("src/main/resources/com/example/connexion/" + this.list.get(this.idListe).get("mailAdresse") + "/" + this.mode + "/");
                 for (int i = 0; i < Objects.requireNonNull(dossier.listFiles()).length; i++) {
@@ -433,7 +554,7 @@ public class CalendrierController implements Initializable {
         if (!CalendrierApplication.stage2.isShowing()) {
 
             if (!Objects.equals(this.mode, "personnel")) {
-                this.mode = "personnel";
+                setMode("personnel");
                 this.selectionEdtComboBox.getItems().clear();
                 File dossier = new File("src/main/resources/com/example/connexion/" + this.list.get(this.idListe).get("mailAdresse") + "/" + this.mode + "/");
                 for (int i = 0; i < Objects.requireNonNull(dossier.listFiles()).length; i++) {
@@ -448,7 +569,7 @@ public class CalendrierController implements Initializable {
         if (!CalendrierApplication.stage2.isShowing()) {
 
             if (!Objects.equals(this.mode, "salle")) {
-                this.mode = "salle";
+                setMode("salle");
                 this.selectionEdtComboBox.getItems().clear();
                 File dossier = new File("src/main/resources/com/example/connexion/" + this.list.get(this.idListe).get("mailAdresse") + "/" + this.mode + "/");
                 for (int i = 0; i < Objects.requireNonNull(dossier.listFiles()).length; i++) {

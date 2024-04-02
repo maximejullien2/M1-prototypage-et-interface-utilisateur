@@ -31,7 +31,7 @@ public class CasDuMoisController implements Initializable{
     FlowPane jourMois;
 
     @FXML
-    Pane paneLundi;
+    AnchorPane paneLundi;
 
     @FXML
     Pane paneMardi;
@@ -59,6 +59,12 @@ public class CasDuMoisController implements Initializable{
 
     @FXML
     Text vendredi;
+
+    @FXML
+    GridPane gridPane;
+
+    @FXML
+    AnchorPane anchorPane;
     private void setColor(String couleur){
         Color color;
         if (couleur=="black"){
@@ -198,6 +204,67 @@ public class CasDuMoisController implements Initializable{
                 setColor("white");
             else
                 setColor("black");
+
+            CalendrierApplication.stage.widthProperty().addListener(new ChangeListener<Number>() {
+                @Override
+                public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                    int suppression=240;
+                    if (newValue.doubleValue()<791){
+                        suppression = 10;
+                        if (oldValue.doubleValue()>=791 && newValue.doubleValue()<791) {
+                            anchorPane.setLayoutY(anchorPane.getLayoutY() + 300);
+                        }
+                    }
+                    if (oldValue.doubleValue()<=791 && newValue.doubleValue()>791){
+                        anchorPane.setLayoutY(anchorPane.getLayoutY() - 300);
+                    }
+                    anchorPane.setPrefWidth(newValue.doubleValue()-suppression-57-20);
+                    gridPane.setPrefWidth(newValue.doubleValue()-suppression-57-20);
+                    jourMois.setPrefWidth(newValue.doubleValue()-suppression-57-20);
+                    paneLundi.setPrefWidth((CalendrierApplication.stage.getWidth()-suppression-57-20)/5);
+                    lundi.setLayoutX(paneLundi.getPrefWidth()/2.6);
+                    paneMardi.setPrefWidth((CalendrierApplication.stage.getWidth()-suppression-57-20)/5);
+                    mardi.setLayoutX(paneMardi.getPrefWidth()/2.75);
+                    paneMercredi.setPrefWidth((CalendrierApplication.stage.getWidth()-suppression-57-20)/5);
+                    mercredi.setLayoutX(paneMercredi.getPrefWidth()/2.85);
+                    paneJeudi.setPrefWidth((CalendrierApplication.stage.getWidth()-suppression-57-20)/5);
+                    jeudi.setLayoutX(paneJeudi.getPrefWidth()/2.6);
+                    paneVendredi.setPrefWidth((CalendrierApplication.stage.getWidth()-suppression-57-20)/5);
+                    vendredi.setLayoutX(paneVendredi.getPrefWidth()/3);
+                }
+            });
+            CalendrierApplication.stage.heightProperty().addListener(new ChangeListener<Number>() {
+                @Override
+                public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                    //y =116 max720 107 max 601
+                    if (!Objects.equals(oldValue.toString(), "NaN")) {
+                        anchorPane.setPrefHeight(newValue.doubleValue() - 116-42);
+                    }
+                }
+            });
+            int suppression=240;
+            if (CalendrierApplication.stage.getWidth()<791){
+                suppression=10;
+                if (CalendrierApplication.stage.getWidth()<791) {
+                    anchorPane.setLayoutY(anchorPane.getLayoutY() + 300);
+                }
+            }
+            anchorPane.setPrefWidth(CalendrierApplication.stage.getWidth()-suppression-57-20);
+            jourMois.setPrefWidth(CalendrierApplication.stage.getWidth()-suppression-57-20);
+            gridPane.setPrefWidth(CalendrierApplication.stage.getWidth()-suppression-57-20);
+            paneLundi.setPrefWidth((CalendrierApplication.stage.getWidth()-suppression-57-20)/5);
+            lundi.setLayoutX(paneLundi.getPrefWidth()/2.6);
+            paneMardi.setPrefWidth((CalendrierApplication.stage.getWidth()-suppression-57-20)/5);
+            mardi.setLayoutX(paneMardi.getPrefWidth()/2.75);
+            paneMercredi.setPrefWidth((CalendrierApplication.stage.getWidth()-suppression-57-20)/5);
+            mercredi.setLayoutX(paneMercredi.getPrefWidth()/2.85);
+            paneJeudi.setPrefWidth((CalendrierApplication.stage.getWidth()-suppression-57-20)/5);
+            jeudi.setLayoutX(paneJeudi.getPrefWidth()/2.6);
+            paneVendredi.setPrefWidth((CalendrierApplication.stage.getWidth()-suppression-57-20)/5);
+            vendredi.setLayoutX(paneVendredi.getPrefWidth()/3);
+            if (!Objects.equals(Double.toString(CalendrierApplication.stage.getHeight()), "NaN")) {
+                anchorPane.setPrefHeight(CalendrierApplication.stage.getHeight() - 116 - 42);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

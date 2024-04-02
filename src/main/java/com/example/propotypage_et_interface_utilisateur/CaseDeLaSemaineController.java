@@ -234,6 +234,21 @@ public class CaseDeLaSemaineController implements Initializable {
             }
 
         });
+        CalendrierApplication.stage.widthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                int suppression=240;
+                if (CalendrierApplication.stage.getWidth()<791){
+                    suppression=10;
+                }
+                anchorPane.setPrefWidth((newValue.doubleValue()-suppression-57-20)/(nombreDeCase*5));
+            }
+        });
+        int suppression=240;
+        if (CalendrierApplication.stage.getWidth()<791){
+            suppression=10;
+        }
+        anchorPane.setPrefWidth((CalendrierApplication.stage.getWidth()-suppression-57-20)/(nombreDeCase*5));
 
     }
     public void setOpacity(double value){
@@ -244,5 +259,12 @@ public class CaseDeLaSemaineController implements Initializable {
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        CalendrierApplication.stage.heightProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                anchorPane.setPrefHeight((anchorPane.getPrefHeight()*(newValue.doubleValue()-116))/(oldValue.doubleValue()-116));
             }
+        });
+        anchorPane.setPrefHeight((anchorPane.getPrefHeight()*(CalendrierApplication.stage.getHeight()-116))/(727-116));
+    }
 }

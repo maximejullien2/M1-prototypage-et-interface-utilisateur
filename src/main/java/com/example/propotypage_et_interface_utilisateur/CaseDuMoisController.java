@@ -10,6 +10,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -37,7 +38,7 @@ public class CaseDuMoisController implements Initializable {
     VBox vBox;
 
     @FXML
-    HBox hBox;
+    AnchorPane anchorPane;
 
     @FXML
     Text nombreSeanceId;
@@ -152,5 +153,35 @@ public class CaseDuMoisController implements Initializable {
                 setColor(s);
             }
         });
+
+        CalendrierApplication.stage.widthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                int suppression=240;
+                if (CalendrierApplication.stage.getWidth()<791){
+                    suppression=10;
+                }
+                vBox.setPrefWidth((newValue.doubleValue()-suppression-57-20-4)/5);
+                anchorPane.setPrefWidth((newValue.doubleValue()-suppression-57-20-4)/5);
+                flowPane.setPrefWidth((newValue.doubleValue()-suppression-57-20-4)/5);
+            }
+        });
+        int suppression=240;
+        if (CalendrierApplication.stage.getWidth()<791){
+            suppression=10;
+        }
+        vBox.setPrefWidth((CalendrierApplication.stage.getWidth()-suppression-57-20-4)/5);
+        anchorPane.setPrefWidth((CalendrierApplication.stage.getWidth()-suppression-57-20-4)/5);
+        flowPane.setPrefWidth((CalendrierApplication.stage.getWidth()-suppression-57-20-4)/5);
+
+
+        CalendrierApplication.stage.heightProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                vBox.setPrefHeight((vBox.getPrefHeight()*(newValue.doubleValue()-116))/(oldValue.doubleValue()-116));
+                flowPane.setLayoutY(vBox.getLayoutY());
+            }
+        });
+        vBox.setPrefHeight((vBox.getPrefHeight()*(CalendrierApplication.stage.getHeight()-116))/(727-116));
     }
 }

@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -33,6 +34,40 @@ import java.util.ResourceBundle;
 import static java.awt.Desktop.getDesktop;
 
 public class CasDuJourController implements Initializable {
+    public AnchorPane anchorPane;
+    @FXML
+    Line line9;
+
+    @FXML
+    Line line10;
+
+    @FXML
+    Line line11;
+
+    @FXML
+    Line line12;
+
+    @FXML
+    Line line13;
+
+    @FXML
+    Line line14;
+
+    @FXML
+    Line line15;
+
+    @FXML
+    Line line16;
+
+    @FXML
+    Line line17;
+
+    @FXML
+    Line line18;
+
+    @FXML
+    Line line19;
+
     @FXML
     VBox vBox;
 
@@ -83,6 +118,7 @@ public class CasDuJourController implements Initializable {
 
     @FXML
     Text heure19;
+
     ArrayList<ArrayList<ArrayList<Event>>> list;
 
     LocalDateTime day;
@@ -114,6 +150,17 @@ public class CasDuJourController implements Initializable {
                     heure17.setFill(couleur);
                     heure18.setFill(couleur);
                     heure19.setFill(couleur);
+                    line9.setStroke(couleur);
+                    line10.setStroke(couleur);
+                    line11.setStroke(couleur);
+                    line12.setStroke(couleur);
+                    line13.setStroke(couleur);
+                    line14.setStroke(couleur);
+                    line15.setStroke(couleur);
+                    line16.setStroke(couleur);
+                    line17.setStroke(couleur);
+                    line18.setStroke(couleur);
+                    line19.setStroke(couleur);
                 paneCours.setStyle("-fx-border-color:"+s+";");
                 paneHeure.setStyle("-fx-border-color:"+s+";");
             }
@@ -134,7 +181,7 @@ public class CasDuJourController implements Initializable {
                                 casePourLeJourController = fxmlLoader.getController();
                                 casePourLeJourController.setHeigth(3.065);
                                 casePourLeJourController.setNombreDeCase(list.get(i).size());
-                                casePourLeJourController.setOpacity(0.0);
+                                casePourLeJourController.setOpacity(1.0);
                                 vBox1.getChildren().add(anchorPane);
                             }
                             else{
@@ -158,7 +205,7 @@ public class CasDuJourController implements Initializable {
                     FXMLLoader fxmlLoader = new FXMLLoader(test);
                     AnchorPane anchorPane = fxmlLoader.load();
                     casePourLeJourController = fxmlLoader.getController();
-                    casePourLeJourController.setOpacity(0);
+                    casePourLeJourController.setOpacity(1.0);
                     casePourLeJourController.setHeigth(3.065);
                     vBox.getChildren().add(anchorPane);
                 }
@@ -226,6 +273,124 @@ public class CasDuJourController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        CalendrierApplication.stage.widthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                int suppression=240;
+                if (newValue.doubleValue()<791){
+                    suppression = 10;
+                    if (oldValue.doubleValue()>=791 && newValue.doubleValue()<791) {
+                        anchorPane.setLayoutY(anchorPane.getLayoutY() + 300);
+                    }
+                }
+                if (oldValue.doubleValue()<=791 && newValue.doubleValue()>791){
+                    anchorPane.setLayoutY(anchorPane.getLayoutY() - 300);
+                }
+                anchorPane.setPrefWidth(newValue.doubleValue()-suppression-57-50);
+                paneCours.setPrefWidth(newValue.doubleValue()-suppression-57-50);
+                gridPane.setPrefWidth(newValue.doubleValue()-suppression-57-50);
+                line9.setEndX(newValue.doubleValue()-suppression-57-67);
+                line10.setEndX(newValue.doubleValue()-suppression-57-67);
+                line11.setEndX(newValue.doubleValue()-suppression-57-67);
+                line12.setEndX(newValue.doubleValue()-suppression-57-67);
+                line13.setEndX(newValue.doubleValue()-suppression-57-67);
+                line14.setEndX(newValue.doubleValue()-suppression-57-67);
+                line15.setEndX(newValue.doubleValue()-suppression-57-67);
+                line16.setEndX(newValue.doubleValue()-suppression-57-67);
+                line17.setEndX(newValue.doubleValue()-suppression-57-67);
+                line18.setEndX(newValue.doubleValue()-suppression-57-67);
+                line19.setEndX(newValue.doubleValue()-suppression-57-67);
+            }
+        });
+        CalendrierApplication.stage.heightProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                //y =116 max720 107 max 601
+                if (!Objects.equals(oldValue.toString(), "NaN")) {
+                    paneHeure.setPrefHeight(newValue.doubleValue() - 116);
+                    anchorPane.setPrefHeight(newValue.doubleValue() - 116-42);
+                    gridPane.setPrefHeight((heure8.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116))-5);
+                    paneCours.setLayoutY((heure8.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116))-5);
+                    paneCours.setPrefHeight(newValue.doubleValue()  - 116 - 100+57-paneCours.getLayoutY());
+                    heure8.setLayoutY(heure8.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
+                    heure9.setLayoutY(heure9.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
+                    heure10.setLayoutY(heure10.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
+                    heure11.setLayoutY(heure11.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
+                    heure12.setLayoutY(heure12.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
+                    heure13.setLayoutY(heure13.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
+                    heure14.setLayoutY(heure14.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
+                    heure15.setLayoutY(heure15.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
+                    heure16.setLayoutY(heure16.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
+                    heure17.setLayoutY(heure17.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
+                    heure18.setLayoutY(heure18.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
+                    heure19.setLayoutY(heure19.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
+                    line9.setLayoutY(line9.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
+                    line10.setLayoutY(line10.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
+                    line11.setLayoutY(line11.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
+                    line12.setLayoutY(line12.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
+                    line13.setLayoutY(line13.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
+                    line14.setLayoutY(line14.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
+                    line15.setLayoutY(line15.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
+                    line16.setLayoutY(line16.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
+                    line17.setLayoutY(line17.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
+                    line18.setLayoutY(line18.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
+                    line19.setLayoutY(line19.getLayoutY()*(newValue.doubleValue()-116)/(oldValue.doubleValue()-116));
+                }
+            }
+        });
+        System.out.println(CalendrierApplication.stage.getWidth());
+        int suppression=240;
+        if (CalendrierApplication.stage.getWidth()<791){
+            suppression=10;
+            if (CalendrierApplication.stage.getWidth()<791) {
+                anchorPane.setLayoutY(anchorPane.getLayoutY() + 300);
+            }
+        }
+        anchorPane.setPrefWidth(CalendrierApplication.stage.getWidth()-suppression-57-50);
+        paneCours.setPrefWidth(CalendrierApplication.stage.getWidth()-suppression-57-50);
+        gridPane.setPrefWidth(CalendrierApplication.stage.getWidth()-suppression-57-50);
+        line9.setEndX(CalendrierApplication.stage.getWidth()-suppression-57-67);
+        line10.setEndX(CalendrierApplication.stage.getWidth()-suppression-57-67);
+        line11.setEndX(CalendrierApplication.stage.getWidth()-suppression-57-67);
+        line12.setEndX(CalendrierApplication.stage.getWidth()-suppression-57-67);
+        line13.setEndX(CalendrierApplication.stage.getWidth()-suppression-57-67);
+        line14.setEndX(CalendrierApplication.stage.getWidth()-suppression-57-67);
+        line15.setEndX(CalendrierApplication.stage.getWidth()-suppression-57-67);
+        line16.setEndX(CalendrierApplication.stage.getWidth()-suppression-57-67);
+        line17.setEndX(CalendrierApplication.stage.getWidth()-suppression-57-67);
+        line18.setEndX(CalendrierApplication.stage.getWidth()-suppression-57-67);
+        line19.setEndX(CalendrierApplication.stage.getWidth()-suppression-57-67);
+
+        if (!Objects.equals(Double.toString(CalendrierApplication.stage.getHeight()), "NaN")) {
+            paneHeure.setPrefHeight(CalendrierApplication.stage.getHeight() - 116);
+            anchorPane.setPrefHeight(CalendrierApplication.stage.getHeight() - 116 - 42);
+            gridPane.setPrefHeight((heure8.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116))-5);
+            paneCours.setLayoutY((heure8.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116)) - 5);
+            paneCours.setPrefHeight(CalendrierApplication.stage.getHeight() - 116 - 102.5+57-paneCours.getLayoutY());
+            heure8.setLayoutY(heure8.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
+            heure9.setLayoutY(heure9.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
+            heure10.setLayoutY(heure10.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
+            heure11.setLayoutY(heure11.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
+            heure12.setLayoutY(heure12.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
+            heure13.setLayoutY(heure13.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
+            heure14.setLayoutY(heure14.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
+            heure15.setLayoutY(heure15.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
+            heure16.setLayoutY(heure16.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
+            heure17.setLayoutY(heure17.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
+            heure18.setLayoutY(heure18.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
+            heure19.setLayoutY(heure19.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
+            line9.setLayoutY(line9.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
+            line10.setLayoutY(line10.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
+            line11.setLayoutY(line11.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
+            line12.setLayoutY(line12.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
+            line13.setLayoutY(line13.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
+            line14.setLayoutY(line14.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
+            line15.setLayoutY(line15.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
+            line16.setLayoutY(line16.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
+            line17.setLayoutY(line17.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
+            line18.setLayoutY(line18.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
+            line19.setLayoutY(line19.getLayoutY() * (CalendrierApplication.stage.getHeight() - 116) / (727 - 116));
+        }
     }
 
     public void setList(ArrayList<ArrayList<ArrayList<Event>>> list) {
@@ -238,6 +403,5 @@ public class CasDuJourController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
     }
 }

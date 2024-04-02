@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -53,8 +54,8 @@ public class CalendrierApplication extends Application {
         }
         else{
             ArrayList<HashMap<String,String>> list = getDB("src/main/resources/com/example/connexion/db.txt");
-            FXMLLoader fxmlLoader = new FXMLLoader(CalendrierController.class.getResource("Calendrier.fxml"));
-            AnchorPane anchorPane = fxmlLoader.load();
+            FXMLLoader fxmlLoader = new FXMLLoader(CalendrierController.class.getResource("test.fxml"));
+            ScrollPane anchorPane = fxmlLoader.load();
             CalendrierController controller = fxmlLoader.getController();
             controller.setMode("favoris");
             controller.setModeConnexion(list.get(Integer.parseInt(id)).get("type"));
@@ -64,6 +65,8 @@ public class CalendrierApplication extends Application {
             stage.setTitle("Calendrier");
             Scene scene = new Scene(anchorPane);
             stage.setScene(scene);
+            stage.setMinWidth(530);
+            stage.setMinHeight(720);
             stage.show();
         }
     }
