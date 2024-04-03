@@ -26,6 +26,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 import static java.awt.Desktop.getDesktop;
 
@@ -158,6 +159,8 @@ public class CasDuSemaineController {
     Text vendredi;
     LocalDateTime[] localDateTimesList={null,null,null,null,null};
 
+    ArrayList<ArrayList<String>> listProffesseur = new ArrayList<ArrayList<String>>();
+
     public void setJourLundi(LocalDateTime localDateTime) {
         this.jourLundi.setText(String.valueOf(localDateTime.getDayOfMonth()));
         localDateTimesList[0] = localDateTime;
@@ -281,6 +284,7 @@ public class CasDuSemaineController {
             CaseDeLaSemaineController casePourLeJourController ;
             VBox[] vBox = {vBoxLundi,vBoxMardi,vBoxMercredi,vBoxJeudi,vBoxVendredi};
             for (int pointeur = 0 ; pointeur<arrayList.size(); pointeur++) {
+                listProffesseur.add(new ArrayList<String>());
                 ArrayList<ArrayList<ArrayList<Event>>> list = arrayList.get(pointeur);
                 for (int i = 0; i < list.size(); i++) {
                     if (list.get(i) != null) {
@@ -384,19 +388,34 @@ public class CasDuSemaineController {
     private void setModeFormation(String mode,VBox[] vBox){
         if(Objects.equals(mode, "formation")){
             for (int j=0 ; j<5;j++) {
+                int id=0;
                 for (int i = 0; i < vBox[j].getChildren().size(); i++) {
                     if (vBox[j].getChildren().get(i).getOpacity() != 0.0) {
-                        vBox[j].getChildren().get(i).setOnMouseClicked(new EventHandler<MouseEvent>() {
-                            @Override
-                            public void handle(MouseEvent event) {
-                                Desktop desktop = getDesktop();
-                                try {
-                                    desktop.mail(new URI("mailto:maxime.jullien2@alumni.univ-avignon.fr"));
-                                } catch (IOException | URISyntaxException e) {
-                                    throw new RuntimeException(e);
+                        if (listProffesseur.get(j).get(id)!=null) {
+                            int finalId = id;
+                            int finalJ = j;
+                            vBox[j].getChildren().get(i).setOnMouseClicked(new EventHandler<MouseEvent>() {
+                                @Override
+                                public void handle(MouseEvent event) {
+                                    String[] listNomProffeseur = listProffesseur.get(finalJ).get(finalId).split(Pattern.quote("\\,"));
+                                    String nom = listNomProffeseur[0].split(" ")[1];
+                                    String firstname = listNomProffeseur[0].split(" ")[2];
+                                    String mail = "mailto:" + firstname.toLowerCase() + "." + nom.toLowerCase() + "@univ-avignon.fr";
+                                    for (int i = 1; i < listNomProffeseur.length; i++) {
+                                        nom = listNomProffeseur[i].split(" ")[1];
+                                        firstname = listNomProffeseur[i].split(" ")[2];
+                                        mail = mail + "," + firstname.toLowerCase() + "." + nom.toLowerCase() + "@univ-avignon.fr";
+                                    }
+                                    Desktop desktop = getDesktop();
+                                    try {
+                                        desktop.mail(new URI(mail));
+                                    } catch (IOException | URISyntaxException e) {
+                                        throw new RuntimeException(e);
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
+                        id=id+1;
                     }
                 }
             }
@@ -404,7 +423,7 @@ public class CasDuSemaineController {
     }
     private void setCaseVide(URL test,int size,VBox vBox) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(test);
-        CasePourLeJourController casePourLeJourController ;
+        CaseDeLaSemaineController casePourLeJourController ;
         AnchorPane anchorPane = fxmlLoader.load();
         casePourLeJourController = fxmlLoader.getController();
         casePourLeJourController.setHeigth(3.065);
@@ -416,11 +435,17 @@ public class CasDuSemaineController {
     private void setCase(URL test,VBox vBox,ArrayList<ArrayList<ArrayList<Event>>> list,int i,int j , int q) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(test);
         AnchorPane anchorPane = fxmlLoader.load();
-        CasePourLeJourController casePourLeJourController ;
+        CaseDeLaSemaineController casePourLeJourController ;
         casePourLeJourController = fxmlLoader.getController();
         casePourLeJourController.setNombreDeCase(list.get(i).size());
         casePourLeJourController.setHeigth((double) 90 / ChronoUnit.MINUTES.between(list.get(i).get(j).get(q).getDateEvent().getStartDate(), list.get(i).get(j).get(q).getDateEvent().getEndDate()));
         Event event = list.get(i).get(j).get(q);
+        if (event.getDescriptionEvent().getDescription("Enseignant ")!=null)
+            this.listProffesseur.get(listProffesseur.size()-1).add(event.getDescriptionEvent().getDescription("Enseignant "));
+        else if (event.getDescriptionEvent().getDescription("Enseignants ")!=null)
+            this.listProffesseur.get(listProffesseur.size()-1).add(event.getDescriptionEvent().getDescription("Enseignants "));
+        else
+            this.listProffesseur.get(listProffesseur.size()-1).add(null);
         casePourLeJourController.setInformation(event.getDescriptionEvent().getListDescription(),Integer.toString(event.getDateEvent().getStartDate().getHour()) + "h" + Integer.toString(event.getDateEvent().getStartDate().getMinute()) + "-" +
                 Integer.toString(event.getDateEvent().getEndDate().getHour()) + "h" + Integer.toString(event.getDateEvent().getEndDate().getMinute())
                 + "\\" );

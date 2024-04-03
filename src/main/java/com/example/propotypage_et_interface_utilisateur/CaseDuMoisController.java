@@ -1,5 +1,6 @@
 package com.example.propotypage_et_interface_utilisateur;
 
+import com.example.Icalendar.DescriptionEvent;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -29,6 +30,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 import static java.awt.Desktop.getDesktop;
 
@@ -74,7 +76,7 @@ public class CaseDuMoisController implements Initializable {
             setColor("white");
     }
 
-    void addCircle(String tooltipMessage,String mode,String userPriviledge,String couleur){
+    void addCircle(String tooltipMessage, String mode, DescriptionEvent descriptionEvent, String couleur){
         if (couleur!=null){
             colorCode.add(couleur);
         }
@@ -84,17 +86,35 @@ public class CaseDuMoisController implements Initializable {
         Circle circle = new Circle(7, Paint.valueOf("CYAN"));
         circle.setStroke(Paint.valueOf("BLACK"));
         if (Objects.equals(mode, "formation")) {
-            circle.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    Desktop desktop = getDesktop();
-                    try {
-                        desktop.mail(new URI("mailto:maxime.jullien2@alumni.univ-avignon.fr"));
-                    } catch (IOException | URISyntaxException e) {
-                        throw new RuntimeException(e);
+            String enseignants;
+            if (descriptionEvent.getDescription("Enseignant ")!=null)
+                enseignants = descriptionEvent.getDescription("Enseignant ");
+            else if (descriptionEvent.getDescription("Enseignants ")!=null)
+                enseignants = descriptionEvent.getDescription("Enseignants ");
+            else
+                enseignants =null;
+            if (enseignants != null) {
+                circle.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        String[] listNomProffeseur = enseignants.split(Pattern.quote("\\,"));
+                        String nom = listNomProffeseur[0].split(" ")[1];
+                        String firstname = listNomProffeseur[0].split(" ")[2];
+                        String mail = "mailto:"+firstname.toLowerCase()+"."+nom.toLowerCase()+"@univ-avignon.fr";
+                        for (int i=1;i<listNomProffeseur.length;i++){
+                            nom = listNomProffeseur[i].split(" ")[1];
+                            firstname = listNomProffeseur[i].split(" ")[2];
+                            mail = mail+","+firstname.toLowerCase()+"."+nom.toLowerCase()+"@univ-avignon.fr";
+                        }
+                        Desktop desktop = getDesktop();
+                        try {
+                            desktop.mail(new URI(mail));
+                        } catch (IOException | URISyntaxException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
-                }
-            });
+                });
+            }
         }
         if(flowPane.getChildren().size()%8!=0){
             FlowPane.setMargin(circle,new Insets(0,0,0,10));

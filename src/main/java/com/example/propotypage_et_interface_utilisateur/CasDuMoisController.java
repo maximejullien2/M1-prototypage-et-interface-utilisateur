@@ -273,12 +273,16 @@ public class CasDuMoisController implements Initializable{
             tootlipText = tootlipText +"Matière :" +event.getDescriptionEvent().getDescription("Matière ") + "\n";
         if (event.getDescriptionEvent().getDescription("Enseignant ")!= null)
             tootlipText = tootlipText +"Enseignant :" +event.getDescriptionEvent().getDescription("Enseignant ") + "\n";
+        if (event.getDescriptionEvent().getDescription("Enseignants ")!= null)
+            tootlipText = tootlipText +"Enseignants :" +event.getDescriptionEvent().getDescription("Enseignants ") + "\n";
         if (event.getDescriptionEvent().getDescription("Promotion ")!= null)
             tootlipText = tootlipText +"Promotion :" +event.getDescriptionEvent().getDescription("Promotion ") + "\n";
         if (event.getDescriptionEvent().getDescription("TD ")!= null)
             tootlipText = tootlipText +"TD :" +event.getDescriptionEvent().getDescription("TD ") + "\n";
         if (event.getDescriptionEvent().getDescription("Salle ")!= null)
             tootlipText = tootlipText +"Salle :" +event.getDescriptionEvent().getDescription("Salle ") + "\n";
+        if (event.getDescriptionEvent().getDescription("Salles ")!= null)
+            tootlipText = tootlipText +"Salles :" +event.getDescriptionEvent().getDescription("Salles ") + "\n";
         if (event.getDescriptionEvent().getDescription("Lieu ")!= null)
             tootlipText = tootlipText +"Lieu :" +event.getDescriptionEvent().getDescription("Lieu ") + "\n";
         if (event.getDescriptionEvent().getDescription("Type ")!= null)
@@ -289,7 +293,7 @@ public class CasDuMoisController implements Initializable{
             tootlipText = tootlipText +"Groupe :" +event.getDescriptionEvent().getDescription("Groupe ") + "\n";
         if (event.getDescriptionEvent().getDescription("Mémo ")!= null)
             tootlipText = tootlipText +"Mémo :" +event.getDescriptionEvent().getDescription("Mémo ") + "\n";
-        caseDuMoisController.addCircle(tootlipText,mode,userPriviledge,event.getDescriptionEvent().getDescription("Couleur "));
+        caseDuMoisController.addCircle(tootlipText,mode,event.getDescriptionEvent(),event.getDescriptionEvent().getDescription("Couleur "));
         return caseDuMoisController;
     }
 

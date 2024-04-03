@@ -26,10 +26,9 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 import static java.awt.Desktop.getDesktop;
 
@@ -126,6 +125,8 @@ public class CasDuJourController implements Initializable {
 
     LocalDateTime day;
     String[] jours = {"Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"};
+
+    ArrayList<String> listProffesseur = new ArrayList<String>();
 
     private void setColor(Color couleur){
         jour.setFill(couleur);
@@ -243,7 +244,6 @@ public class CasDuJourController implements Initializable {
         CalendrierApplication.stage.heightProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                //y =116 max720 107 max 601
                 if (!Objects.equals(oldValue.toString(), "NaN")) {
                     setHeigth(newValue.doubleValue(),oldValue.doubleValue());
                 }
@@ -305,8 +305,10 @@ public class CasDuJourController implements Initializable {
         anchorPane.setPrefWidth(valeurWidth-suppression-57-50);
         paneCours.setPrefWidth(valeurWidth-suppression-57-50);
         gridPane.setPrefWidth(valeurWidth-suppression-57-50);
-        anchorPaneInGridPane.setPrefWidth(valeurWidth-suppression-57-50);
-        jour.setX(anchorPaneInGridPane.getPrefWidth()/2.25);
+        if (!Double.toString(valeurWidth).equals("NaN")) {
+            anchorPaneInGridPane.setPrefWidth(valeurWidth - suppression - 57 - 50);
+            jour.setX(anchorPaneInGridPane.getPrefWidth() / 2.25);
+        }
         line9.setEndX(valeurWidth-suppression-57-67);
         line10.setEndX(valeurWidth-suppression-57-67);
         line11.setEndX(valeurWidth-suppression-57-67);
@@ -345,19 +347,33 @@ public class CasDuJourController implements Initializable {
     }
     private void setModeFormation(String mode){
         if (Objects.equals(mode, "formation")) {
+            int id=0;
             for (int i = 0; i < vBox.getChildren().size(); i++) {
                 if (vBox.getChildren().get(i).getOpacity() != 0.0) {
-                    vBox.getChildren().get(i).setOnMouseClicked(new EventHandler<MouseEvent>() {
-                        @Override
-                        public void handle(MouseEvent event) {
-                            Desktop desktop = getDesktop();
-                            try {
-                                desktop.mail(new URI("mailto:maxime.jullien2@alumni.univ-avignon.fr"));
-                            } catch (IOException | URISyntaxException e) {
-                                throw new RuntimeException(e);
+                    if (listProffesseur.get(id)!=null) {
+                        int finalId = id;
+                        vBox.getChildren().get(i).setOnMouseClicked(new EventHandler<MouseEvent>() {
+                            @Override
+                            public void handle(MouseEvent event) {
+                                String[] listNomProffeseur = listProffesseur.get(finalId).split(Pattern.quote("\\,"));
+                                String nom = listNomProffeseur[0].split(" ")[1];
+                                String firstname = listNomProffeseur[0].split(" ")[2];
+                                String mail = "mailto:"+firstname.toLowerCase()+"."+nom.toLowerCase()+"@univ-avignon.fr";
+                                for (int i=1;i<listNomProffeseur.length;i++){
+                                    nom = listNomProffeseur[i].split(" ")[1];
+                                    firstname = listNomProffeseur[i].split(" ")[2];
+                                    mail = mail+","+firstname.toLowerCase()+"."+nom.toLowerCase()+"@univ-avignon.fr";
+                                }
+                                Desktop desktop = getDesktop();
+                                try {
+                                    desktop.mail(new URI(mail));
+                                } catch (IOException | URISyntaxException e) {
+                                    throw new RuntimeException(e);
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
+                    id= id+1;
                 }
             }
         }
@@ -381,6 +397,12 @@ public class CasDuJourController implements Initializable {
         casePourLeJourController.setNombreDeCase(list.get(i).size());
         casePourLeJourController.setHeigth((double) 90 / ChronoUnit.MINUTES.between(list.get(i).get(j).get(q).getDateEvent().getStartDate(), list.get(i).get(j).get(q).getDateEvent().getEndDate()));
         Event event = list.get(i).get(j).get(q);
+        if (event.getDescriptionEvent().getDescription("Enseignant ")!=null)
+            this.listProffesseur.add(event.getDescriptionEvent().getDescription("Enseignant "));
+        else if (event.getDescriptionEvent().getDescription("Enseignants ")!=null)
+            this.listProffesseur.add(event.getDescriptionEvent().getDescription("Enseignants "));
+        else
+            this.listProffesseur.add(null);
         casePourLeJourController.setInformation(event.getDescriptionEvent().getListDescription(),Integer.toString(event.getDateEvent().getStartDate().getHour()) + "h" + Integer.toString(event.getDateEvent().getStartDate().getMinute()) + "-" +
                 Integer.toString(event.getDateEvent().getEndDate().getHour()) + "h" + Integer.toString(event.getDateEvent().getEndDate().getMinute())
                 + "\\" );
