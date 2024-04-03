@@ -2,7 +2,6 @@ package com.example.propotypage_et_interface_utilisateur;
 
 import com.example.Icalendar.ApiCalendar;
 import com.example.Icalendar.Event;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -16,8 +15,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 import java.awt.*;
 import java.io.IOException;
@@ -27,7 +24,6 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
-import java.util.List;
 import java.util.regex.Pattern;
 
 import static java.awt.Desktop.getDesktop;
@@ -171,7 +167,7 @@ public class CasDuJourController implements Initializable {
         }
         this.setColor(couleur);
         jour.setText(this.jours[this.day.getDayOfWeek().getValue()-1]+" "+this.day.getDayOfMonth());
-        URL test = CasePourLeJourController.class.getResource("CasePourLeJour.fxml");
+        URL test = CaseDuJourController.class.getResource("CasePourLeJour.fxml");
         try {
             for (int i=0 ; i< list.size() ; i++) {
                 if (list.get(i)!=null) {
@@ -224,7 +220,7 @@ public class CasDuJourController implements Initializable {
                     Scene scene2 = null;
                     try {
                         scene2 = new Scene(fxmlLoader.load());
-                        CreationController controller = fxmlLoader.getController();
+                        ReservationDeSalleController controller = fxmlLoader.getController();
                         controller.setDateTime(day);
                         controller.setMode(mode);
                         controller.setCalendar(apiCalendar);
@@ -384,22 +380,22 @@ public class CasDuJourController implements Initializable {
     }
     private void setCaseVide(URL test,int size,VBox vBox) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(test);
-        CasePourLeJourController casePourLeJourController ;
+        CaseDuJourController caseDuJourController;
         AnchorPane anchorPane = fxmlLoader.load();
-        casePourLeJourController = fxmlLoader.getController();
-        casePourLeJourController.setHeigth(3.065);
-        casePourLeJourController.setNombreDeCase(size);
-        casePourLeJourController.setOpacity(0.0);
+        caseDuJourController = fxmlLoader.getController();
+        caseDuJourController.setHeigth(3.065);
+        caseDuJourController.setNombreDeCase(size);
+        caseDuJourController.setOpacity(0.0);
         vBox.getChildren().add(anchorPane);
     }
 
     private void setCase(URL test,VBox vBox,int i,int j , int q) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(test);
         AnchorPane anchorPane = fxmlLoader.load();
-        CasePourLeJourController casePourLeJourController ;
-        casePourLeJourController = fxmlLoader.getController();
-        casePourLeJourController.setNombreDeCase(list.get(i).size());
-        casePourLeJourController.setHeigth((double) 90 / ChronoUnit.MINUTES.between(list.get(i).get(j).get(q).getDateEvent().getStartDate(), list.get(i).get(j).get(q).getDateEvent().getEndDate()));
+        CaseDuJourController caseDuJourController;
+        caseDuJourController = fxmlLoader.getController();
+        caseDuJourController.setNombreDeCase(list.get(i).size());
+        caseDuJourController.setHeigth((double) 90 / ChronoUnit.MINUTES.between(list.get(i).get(j).get(q).getDateEvent().getStartDate(), list.get(i).get(j).get(q).getDateEvent().getEndDate()));
         Event event = list.get(i).get(j).get(q);
         if (event.getDescriptionEvent().getDescription("Enseignant ")!=null)
             this.listProffesseur.add(event.getDescriptionEvent().getDescription("Enseignant "));
@@ -407,7 +403,7 @@ public class CasDuJourController implements Initializable {
             this.listProffesseur.add(event.getDescriptionEvent().getDescription("Enseignants "));
         else
             this.listProffesseur.add(null);
-        casePourLeJourController.setInformation(event.getDescriptionEvent().getListDescription(),Integer.toString(event.getDateEvent().getStartDate().getHour()) + "h" + Integer.toString(event.getDateEvent().getStartDate().getMinute()) + "-" +
+        caseDuJourController.setInformation(event.getDescriptionEvent().getListDescription(),Integer.toString(event.getDateEvent().getStartDate().getHour()) + "h" + Integer.toString(event.getDateEvent().getStartDate().getMinute()) + "-" +
                 Integer.toString(event.getDateEvent().getEndDate().getHour()) + "h" + Integer.toString(event.getDateEvent().getEndDate().getMinute())
                 + "\\" );
         vBox.getChildren().add(anchorPane);

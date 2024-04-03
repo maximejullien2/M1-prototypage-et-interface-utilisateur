@@ -8,16 +8,12 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
-import javafx.stage.PopupWindow;
-import javafx.util.Duration;
 
 import java.awt.*;
 import java.io.IOException;
@@ -28,12 +24,11 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 import static java.awt.Desktop.getDesktop;
 
-public class CasDuSemaineController {
+public class CasDeLaSemaineController {
 
     public AnchorPane anchorPane;
     public AnchorPane anchorPaneLundi;
@@ -347,7 +342,7 @@ public class CasDuSemaineController {
                         Scene scene2 = null;
                         try {
                             scene2 = new Scene(fxmlLoader.load());
-                            CreationController controller = fxmlLoader.getController();
+                            ReservationDeSalleController controller = fxmlLoader.getController();
                             controller.setDateTime(localDateTimesList[finalI]);
                             controller.setMode(mode);
                             controller.setCalendar(apiCalendar);

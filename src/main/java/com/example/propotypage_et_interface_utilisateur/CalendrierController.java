@@ -13,12 +13,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -27,7 +23,6 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.io.*;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -190,13 +185,13 @@ public class CalendrierController implements Initializable {
         URL test ;
         FXMLLoader fxmlLoader;
         AnchorPane anchorPane;
-        test = CasDuSemaineController.class.getResource("CasDuSemaine.fxml");
+        test = CasDeLaSemaineController.class.getResource("CasDeLaSemaine.fxml");
         ArrayList<ArrayList<ArrayList<ArrayList<Event>>>> output = apiCalendar.getEventWeek(localDateTime,filtres);
         fxmlLoader =new FXMLLoader(test);
         try {
             LocalDateTime localDateTime1 = localDateTime.minusDays(localDateTime.getDayOfWeek().getValue()-1);
             anchorPane = fxmlLoader.load();
-            CasDuSemaineController controller = fxmlLoader.getController();
+            CasDeLaSemaineController controller = fxmlLoader.getController();
             controller.setArrayList(output);
             controller.setJourLundi(localDateTime1);
             controller.setJourMardi(localDateTime1.plusDays(1));
@@ -567,7 +562,7 @@ public class CalendrierController implements Initializable {
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             bufferedWriter.close();
             Stage stage = (Stage) deconnexionButton.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(ConnexionController.class.getResource("pageConnexion.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(ConnexionController.class.getResource("ConnexionPage.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             stage.setTitle("Page de Connexion");
             stage.setMinWidth(0);

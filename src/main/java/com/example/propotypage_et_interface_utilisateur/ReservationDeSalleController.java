@@ -11,18 +11,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.*;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -30,7 +27,7 @@ import java.util.ResourceBundle;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
-public class CreationController implements Initializable {
+public class ReservationDeSalleController implements Initializable {
     public Spinner heureDateDebutSpinner;
     public Spinner minDateDebutSpinner;
     public Spinner heureDateFinSpinner;

@@ -70,7 +70,7 @@ public class ConnexionController implements Initializable {
     public void inscriptionOnMouseClicked() throws IOException {
         CalendrierApplication.stage.removeEventFilter(KeyEvent.KEY_PRESSED,touches);
         Stage stage = (Stage) connexionButton.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(InscriptionController.class.getResource("inscriptionPage.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(InscriptionController.class.getResource("InscriptionPage.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Inscription");
         stage.setHeight(500);
@@ -91,7 +91,7 @@ public class ConnexionController implements Initializable {
                     bufferedWriter.write(Integer.toString(i));
                     bufferedWriter.close();
                     Stage stage = (Stage) connexionButton.getScene().getWindow();
-                    FXMLLoader fxmlLoader = new FXMLLoader(CalendrierController.class.getResource("test.fxml"));
+                    FXMLLoader fxmlLoader = new FXMLLoader(CalendrierController.class.getResource("Calendrier.fxml"));
                     ScrollPane scrollPane = fxmlLoader.load();
 
                     CalendrierApplication.stage.removeEventFilter(KeyEvent.KEY_PRESSED,touches);

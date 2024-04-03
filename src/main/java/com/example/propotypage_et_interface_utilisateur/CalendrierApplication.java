@@ -29,7 +29,7 @@ public class CalendrierApplication extends Application {
         BufferedReader bufferedReader = new BufferedReader(new FileReader("src/main/resources/com/example/connexion/connected.txt"));
         String id = bufferedReader.readLine();
         if (creationFile==1 || Objects.equals(id, null)) {
-            FXMLLoader fxmlLoader = new FXMLLoader(ConnexionController.class.getResource("pageConnexion.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(ConnexionController.class.getResource("ConnexionPage.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             stage.setTitle("Page de Connexion");
             stage.setScene(scene);
@@ -63,7 +63,7 @@ public class CalendrierApplication extends Application {
     }
     private void acceAuCalendrier(String id) throws IOException {
         ArrayList<HashMap<String,String>> list = getDB("src/main/resources/com/example/connexion/db.txt");
-        FXMLLoader fxmlLoader = new FXMLLoader(CalendrierController.class.getResource("test.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(CalendrierController.class.getResource("Calendrier.fxml"));
         ScrollPane anchorPane = fxmlLoader.load();
         CalendrierController controller = fxmlLoader.getController();
         CalendrierController.setCouleur(list.get(Integer.parseInt(id)).get("color"));

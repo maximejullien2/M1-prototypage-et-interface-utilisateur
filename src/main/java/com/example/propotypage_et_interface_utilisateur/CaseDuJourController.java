@@ -5,7 +5,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -15,7 +14,7 @@ import javafx.scene.text.Text;
 import java.net.URL;
 import java.util.*;
 
-public class CasePourLeJourController implements Initializable {
+public class CaseDuJourController implements Initializable {
     @FXML
     AnchorPane anchorPane;
     @FXML

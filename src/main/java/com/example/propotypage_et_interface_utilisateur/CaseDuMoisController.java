@@ -81,7 +81,15 @@ public class CaseDuMoisController implements Initializable {
             colorCode.add(couleur);
         }
         else{
-            colorCode.add("cyan");
+            if (Objects.equals(descriptionEvent.getListDescription().get("Type "), " Evaluation")){
+                colorCode.add("red");
+            }
+            else if (descriptionEvent.getListDescription().get("Matière ")!=null && descriptionEvent.getListDescription().get("Matière ").contains("UEO")){
+                colorCode.add("green");
+            }
+            else {
+                colorCode.add("cyan");
+            }
         }
         Circle circle = new Circle(7, Paint.valueOf("CYAN"));
         circle.setStroke(Paint.valueOf("BLACK"));
@@ -159,14 +167,6 @@ public class CaseDuMoisController implements Initializable {
             }
             list.get(i).setStroke(Paint.valueOf(couleurBordureCercle));
             list.get(i).setFill(Paint.valueOf(couleurCercle));
-            /*Tooltip tooltip = new Tooltip(listString.get(i));
-            tooltip.setPrefWidth(200);
-            tooltip.setWrapText(true);
-            tooltip.setStyle("-fx-text-fill:"+couleur+";");
-            tooltip.setShowDelay(Duration.seconds(0.1));
-            tooltip.setHideDelay(Duration.seconds(0.1));
-            tooltip.setAnchorLocation(PopupWindow.AnchorLocation.WINDOW_BOTTOM_LEFT);
-            Tooltip.install( list.get(i),tooltip);*/
         }
     }
 

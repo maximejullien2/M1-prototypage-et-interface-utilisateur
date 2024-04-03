@@ -9,26 +9,18 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
-import java.awt.*;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
-
-import static java.awt.Desktop.getDesktop;
 
 public class CasDuMoisController implements Initializable{
 
@@ -169,7 +161,7 @@ public class CasDuMoisController implements Initializable{
                     Scene scene2 = null;
                     try {
                         scene2 = new Scene(fxmlLoader.load());
-                        CreationController controller = fxmlLoader.getController();
+                        ReservationDeSalleController controller = fxmlLoader.getController();
                         controller.setDateTime(finalDateTime);
                         controller.setMode(mode);
                         controller.setCalendar(apiCalendar);
