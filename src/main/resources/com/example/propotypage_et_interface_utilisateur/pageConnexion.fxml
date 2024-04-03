@@ -17,7 +17,7 @@
       <Text fx:id="mailAdresseText" layoutX="164.0" layoutY="134.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adresse mail" />
       <Text fx:id="passwordText" layoutX="164.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mots de passe" />
       <TextField fx:id="mailAdresse" layoutX="166.0" layoutY="138.0" prefHeight="25.0" prefWidth="237.0" />
-      <Button fx:id="connexionButton" layoutX="216.0" layoutY="287.0" mnemonicParsing="false" onMouseClicked="#connexionOnMouseClicked" prefHeight="83.0" prefWidth="133.0" text="Button" />
+      <Button fx:id="connexionButton" layoutX="216.0" layoutY="287.0" mnemonicParsing="false" onMouseClicked="#connexionOnMouseClicked" prefHeight="83.0" prefWidth="133.0" text="Connexion" />
       <Text fx:id="inscriptionText" fill="#0095ff" layoutX="164.0" layoutY="244.0" onMouseClicked="#inscriptionOnMouseClicked" strokeType="OUTSIDE" strokeWidth="0.0" text="Inscription" underline="true" wrappingWidth="57.5" />
       <Text fx:id="errorText" fill="RED" layoutX="120.0" layoutY="275.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="360.0" />
       <PasswordField fx:id="password" layoutX="166.0" layoutY="200.0" prefHeight="25.0" prefWidth="237.0" />

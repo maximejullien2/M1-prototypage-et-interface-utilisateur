@@ -40,5 +40,6 @@
       <Text fx:id="typeText" layoutX="7.0" layoutY="462.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type de cours :" />
       <TextField fx:id="typeCoursTextField" layoutX="89.0" layoutY="445.0" />
       <Text fx:id="textModeSelectionne" layoutX="32.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+      <Text fx:id="messageUrlRequest" fill="RED" layoutX="28.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="200.0" />
    </AnchorPane>
 </ScrollPane>
