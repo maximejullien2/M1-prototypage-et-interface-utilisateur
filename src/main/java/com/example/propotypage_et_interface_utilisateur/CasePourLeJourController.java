@@ -34,6 +34,11 @@ public class CasePourLeJourController implements Initializable {
         double heightVbox = this.vBox.getLayoutY();
         if (hashMap.get("Type ")!= null)
             horraire = horraire + hashMap.get("Type ");
+        else{
+            if (hashMap.isEmpty()){
+                horraire = horraire + "Fériée";
+            }
+        }
         Text horaireAffichage = new Text(horraire);
         vBox.getChildren().add(horaireAffichage);
         while (horaireAffichage.getLayoutBounds().getWidth()>this.anchorPane.getPrefWidth()-10){
@@ -43,6 +48,9 @@ public class CasePourLeJourController implements Initializable {
         heightVbox = heightVbox+horaireAffichage.getLayoutBounds().getHeight();
         if (heightVbox>=height){
             vBox.getChildren().remove(horaireAffichage);
+        }
+        else{
+            list.add(horaireAffichage);
         }
         if (heightVbox<height && hashMap.get("Matière ")!= null) {
             String resultatMatiere = "Matière :"+hashMap.get("Matière ");

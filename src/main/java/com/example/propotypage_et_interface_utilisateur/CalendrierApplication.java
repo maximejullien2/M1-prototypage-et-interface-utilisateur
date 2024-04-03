@@ -76,8 +76,11 @@ public class CalendrierApplication extends Application {
         stage.setTitle("Calendrier");
         Scene scene = new Scene(anchorPane);
         stage.setScene(scene);
+        stage.setWidth(1075);
+        stage.setHeight(727);
         stage.setMinWidth(530);
         stage.setMinHeight(720);
+        stage.setResizable(true);
         stage.show();
     }
 

@@ -5,9 +5,12 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -74,6 +77,19 @@ public class CreationController implements Initializable {
 
     private LocalDateTime dateTime;
 
+    EventHandler<KeyEvent> touches = new EventHandler<KeyEvent>() {
+        @Override
+        public void handle(KeyEvent event) {
+            if (event.getCode()== KeyCode.ENTER){
+                try {
+                    enregistreOnMouseClicked();
+                } catch (IOException | URISyntaxException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    };
+
     private void setColor(Color color){
         typeText.setFill(color);
         debutText.setFill(color);
@@ -127,7 +143,7 @@ public class CreationController implements Initializable {
             setColor(Color.BLACK);
         }
         anchorPane.setStyle("-fx-background-color:" + CalendrierController.couleur.get() + ";");
-
+        CalendrierApplication.stage2.addEventFilter(KeyEvent.KEY_PRESSED,touches);
     }
 
     private void initializeDTSTAMP(BufferedWriter bufferedWriter) throws IOException {
@@ -258,6 +274,7 @@ public class CreationController implements Initializable {
                     bufferedWriter.close();
                     bufferedReader.close();
                     new File("src/main/resources/com/example/Icalendar/copie.ics").delete();
+                    CalendrierApplication.stage2.removeEventFilter(KeyEvent.KEY_PRESSED,touches);
                     Stage stage = (Stage) enregistreButton.getScene().getWindow();
                     stage.close();
                 }

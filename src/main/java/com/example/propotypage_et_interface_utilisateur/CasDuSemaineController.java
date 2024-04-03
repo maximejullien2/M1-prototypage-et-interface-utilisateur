@@ -10,11 +10,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
+import javafx.stage.PopupWindow;
+import javafx.util.Duration;
 
 import java.awt.*;
 import java.io.IOException;
@@ -161,6 +164,8 @@ public class CasDuSemaineController {
 
     ArrayList<ArrayList<String>> listProffesseur = new ArrayList<ArrayList<String>>();
 
+    ArrayList<ArrayList<String>> listToolTip = new ArrayList<>();
+
     public void setJourLundi(LocalDateTime localDateTime) {
         this.jourLundi.setText(String.valueOf(localDateTime.getDayOfMonth()));
         localDateTimesList[0] = localDateTime;
@@ -281,10 +286,10 @@ public class CasDuSemaineController {
             }
         });
         try {
-            CaseDeLaSemaineController casePourLeJourController ;
             VBox[] vBox = {vBoxLundi,vBoxMardi,vBoxMercredi,vBoxJeudi,vBoxVendredi};
             for (int pointeur = 0 ; pointeur<arrayList.size(); pointeur++) {
                 listProffesseur.add(new ArrayList<String>());
+                listToolTip.add(new ArrayList<String>());
                 ArrayList<ArrayList<ArrayList<Event>>> list = arrayList.get(pointeur);
                 for (int i = 0; i < list.size(); i++) {
                     if (list.get(i) != null) {
@@ -452,7 +457,7 @@ public class CasDuSemaineController {
         vBox.getChildren().add(anchorPane);
     }
 
-    private void setListenerOnHeigthStage(){
+     private void setListenerOnHeigthStage(){
         CalendrierApplication.stage.heightProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {

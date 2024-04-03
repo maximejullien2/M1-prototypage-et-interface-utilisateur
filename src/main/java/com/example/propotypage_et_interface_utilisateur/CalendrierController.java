@@ -16,6 +16,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -83,6 +85,9 @@ public class CalendrierController implements Initializable {
 
     @FXML
     Button aujourduiButton;
+
+    @FXML
+    Text messageUrlRequest;
 
     public void setMode(String mode) {
         this.mode = mode;
@@ -357,7 +362,7 @@ public class CalendrierController implements Initializable {
                         aujourduiButton.setLayoutX((newValue.doubleValue() / 3) - 50);
                         aujourduiButton.setLayoutY(380);
 
-                        buttonTheme.setLayoutY(225);
+                        buttonTheme.setLayoutY(280);
 
                         mouthText.setLayoutX(newValue.doubleValue() / 2);
                         mouthText.setLayoutY(400);
@@ -448,6 +453,7 @@ public class CalendrierController implements Initializable {
         this.choiceBox.getSelectionModel().select(0);
         this.setWidthChangeListenerOnStage();
         this.setHeightChangeListenerOnStage();
+
     }
 
     @FXML
@@ -534,8 +540,20 @@ public class CalendrierController implements Initializable {
                     in = new URL(urlTextField.getText()).openStream();
                     Files.copy(in, Paths.get("src/main/resources/com/example/connexion/" + this.list.get(this.idListe).get("mailAdresse") + "/" + mode + "/" + nameEdtTextField.getText() + ".ics"), StandardCopyOption.REPLACE_EXISTING);
                     this.selectionEdtComboBox.getItems().add(nameEdtTextField.getText());
+                    messageUrlRequest.setText("Edt enregistré");
                 } catch (IOException e) {
-                    System.out.println("Erreur");
+                    messageUrlRequest.setText("Erreur : Mauvais URL donnée");
+                }
+            }
+            else{
+                if (!Objects.equals(nameEdtTextField.getText(), "") && Objects.equals(urlTextField.getText(), "")){
+                    messageUrlRequest.setText("Nom de l'EDT Non Renseignée");
+                }
+                else if (Objects.equals(nameEdtTextField.getText(), "") && !Objects.equals(urlTextField.getText(), "")){
+                    messageUrlRequest.setText("Nom de l'EDT Non Renseignée");
+                }
+                else{
+                    messageUrlRequest.setText("Aucune information donnée");
                 }
             }
         }
@@ -552,6 +570,11 @@ public class CalendrierController implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader(ConnexionController.class.getResource("pageConnexion.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             stage.setTitle("Page de Connexion");
+            stage.setMinWidth(0);
+            stage.setMinHeight(0);
+            stage.setHeight(450);
+            stage.setWidth(600);
+            stage.setResizable(false);
             stage.setScene(scene);
         }
     }

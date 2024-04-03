@@ -1,12 +1,16 @@
 package com.example.propotypage_et_interface_utilisateur;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -42,12 +46,36 @@ public class ConnexionController implements Initializable {
 
     ArrayList<HashMap<String,String>> list = new ArrayList<HashMap<String,String>>();
 
+    EventHandler<KeyEvent> touches = new EventHandler<KeyEvent>() {
+        @Override
+        public void handle(KeyEvent event) {
+            if (event.getCode()== KeyCode.ENTER){
+                try {
+                    connexionOnMouseClicked();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if (event.getCode()== KeyCode.I){
+                try {
+                    inscriptionOnMouseClicked();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    };
+
     @FXML
     public void inscriptionOnMouseClicked() throws IOException {
+        CalendrierApplication.stage.removeEventFilter(KeyEvent.KEY_PRESSED,touches);
         Stage stage = (Stage) connexionButton.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(InscriptionController.class.getResource("inscriptionPage.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Inscription");
+        stage.setHeight(500);
+        stage.setWidth(600);
+        stage.setResizable(false);
         stage.setScene(scene);
     }
 
@@ -63,16 +91,26 @@ public class ConnexionController implements Initializable {
                     bufferedWriter.write(Integer.toString(i));
                     bufferedWriter.close();
                     Stage stage = (Stage) connexionButton.getScene().getWindow();
-                    FXMLLoader fxmlLoader = new FXMLLoader(CalendrierController.class.getResource("Calendrier.fxml"));
-                    AnchorPane anchorPane = fxmlLoader.load();
+                    FXMLLoader fxmlLoader = new FXMLLoader(CalendrierController.class.getResource("test.fxml"));
+                    ScrollPane scrollPane = fxmlLoader.load();
+
+                    CalendrierApplication.stage.removeEventFilter(KeyEvent.KEY_PRESSED,touches);
                     CalendrierController controller = fxmlLoader.getController();
+                    CalendrierController.setCouleur(list.get(i).get("color"));
                     controller.setMode("favoris");
+                    controller.couleur();
                     controller.setModeConnexion(list.get(i).get("type"));
                     controller.setList(list);
                     controller.setIdListe(i);
                     controller.creationListEdt();
+
+                stage.setWidth(1075);
+                stage.setHeight(727);
+                stage.setMinWidth(530);
+                stage.setMinHeight(720);
+                stage.setResizable(true);
                     stage.setTitle("Calendrier");
-                    Scene scene = new Scene(anchorPane);
+                    Scene scene = new Scene(scrollPane);
                     stage.setScene(scene);
                 return;
             }
@@ -100,5 +138,6 @@ public class ConnexionController implements Initializable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        CalendrierApplication.stage.addEventFilter(KeyEvent.KEY_PRESSED,touches);
     }
 }

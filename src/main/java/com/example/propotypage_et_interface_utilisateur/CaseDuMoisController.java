@@ -122,7 +122,7 @@ public class CaseDuMoisController implements Initializable {
         Tooltip tooltip = new Tooltip(tooltipMessage);
         tooltip.setPrefWidth(200);
         tooltip.setWrapText(true);
-        tooltip.setStyle("-fx-text-fill: red;");
+        tooltip.setStyle("-fx-text-fill:white;");
         tooltip.setShowDelay(Duration.seconds(0.1));
         tooltip.setHideDelay(Duration.seconds(0.1));
         tooltip.setAnchorLocation(PopupWindow.AnchorLocation.WINDOW_BOTTOM_LEFT);
@@ -159,14 +159,14 @@ public class CaseDuMoisController implements Initializable {
             }
             list.get(i).setStroke(Paint.valueOf(couleurBordureCercle));
             list.get(i).setFill(Paint.valueOf(couleurCercle));
-            Tooltip tooltip = new Tooltip(listString.get(i));
+            /*Tooltip tooltip = new Tooltip(listString.get(i));
             tooltip.setPrefWidth(200);
             tooltip.setWrapText(true);
             tooltip.setStyle("-fx-text-fill:"+couleur+";");
             tooltip.setShowDelay(Duration.seconds(0.1));
             tooltip.setHideDelay(Duration.seconds(0.1));
             tooltip.setAnchorLocation(PopupWindow.AnchorLocation.WINDOW_BOTTOM_LEFT);
-            Tooltip.install( list.get(i),tooltip);
+            Tooltip.install( list.get(i),tooltip);*/
         }
     }
 

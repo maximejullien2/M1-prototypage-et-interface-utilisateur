@@ -241,7 +241,15 @@ public class ApiCalendar {
 
     public boolean getIfPossibleToAddEvent(LocalDateTime dateTimeDebut,LocalDateTime dateTimeFin){
         ArrayList<LocalDateTime> arrayList=new ArrayList<LocalDateTime>();
-        arrayList.add(dateTimeDebut);
+        if (dateTimeDebut.isBefore(LocalDateTime.of(2023,10,11,0,0)) || dateTimeDebut.isAfter(LocalDateTime.of(2024,03,31,0,0))) {
+            dateTimeDebut=dateTimeDebut.minusHours(2);
+            dateTimeFin=dateTimeFin.minusHours(2);
+        }
+        else{
+            dateTimeDebut=dateTimeDebut.minusHours(1);
+            dateTimeFin=dateTimeFin.minusHours(1);
+        }
+            arrayList.add(dateTimeDebut);
         while (dateTimeFin.isAfter(dateTimeDebut)){
             dateTimeDebut = dateTimeDebut.plusMinutes(30);
             arrayList.add(dateTimeDebut);
@@ -249,11 +257,7 @@ public class ApiCalendar {
         for (int i=0 ; i< this.listApiCalendar.size();i++){
             if (listApiCalendar.get(i).getDateEvent().getStartDate().getDayOfYear() == dateTimeDebut.getDayOfYear() &&
                     listApiCalendar.get(i).getDateEvent().getStartDate().getYear() == dateTimeDebut.getYear()){
-                System.out.println(listApiCalendar.get(i).getDateEvent().getStartDate().toString());
-                System.out.println(listApiCalendar.get(i).getDateEvent().getEndDate().toString());
-                System.out.println("____________________________");
                 for (int j = 0 ; j< arrayList.size();j++){
-                    System.out.println(arrayList.get(j).toString());
                     if (listApiCalendar.get(i).getDateEvent().getStartDate().isEqual(arrayList.get(j)) ||
                             listApiCalendar.get(i).getDateEvent().getEndDate().isEqual(arrayList.get(j)) ||
                             (listApiCalendar.get(i).getDateEvent().getStartDate().isBefore(arrayList.get(j)) &&
@@ -262,7 +266,6 @@ public class ApiCalendar {
                         return false;
                     }
                 }
-                System.out.println("(((((((((((((((((((((((((((((((((");
             }
         }
         return true;

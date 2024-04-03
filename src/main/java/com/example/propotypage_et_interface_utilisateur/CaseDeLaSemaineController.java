@@ -1,15 +1,19 @@
 package com.example.propotypage_et_interface_utilisateur;
 
+import com.example.Icalendar.Event;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
+import javafx.stage.PopupWindow;
+import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.*;
@@ -23,6 +27,7 @@ public class CaseDeLaSemaineController implements Initializable {
     @FXML
     VBox vBox;
     Integer nombreDeCase = 1;
+
     public void setNombreDeCase(Integer nombreDeCase){
         this.nombreDeCase = nombreDeCase;
         this.anchorPane.setPrefWidth(128/nombreDeCase);
@@ -42,6 +47,11 @@ public class CaseDeLaSemaineController implements Initializable {
         double heightVbox = this.vBox.getLayoutY();
         if (hashMap.get("Type ")!= null)
             horraire = horraire + hashMap.get("Type ");
+        else{
+            if (hashMap.isEmpty()){
+                horraire = horraire + "Fériée";
+            }
+        }
         Text horaireAffichage = new Text(horraire);
         vBox.getChildren().add(horaireAffichage);
         while (horaireAffichage.getLayoutBounds().getWidth()>this.anchorPane.getPrefWidth()-10){
@@ -51,6 +61,9 @@ public class CaseDeLaSemaineController implements Initializable {
         heightVbox = heightVbox+horaireAffichage.getLayoutBounds().getHeight();
         if (heightVbox>=height){
             vBox.getChildren().remove(horaireAffichage);
+        }
+        else{
+            list.add(horaireAffichage);
         }
         if (heightVbox<height && hashMap.get("Matière ")!= null) {
             String resultatMatiere = "Matière :"+hashMap.get("Matière ");
