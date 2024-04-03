@@ -309,6 +309,10 @@ public class CasDuJourController implements Initializable {
             anchorPaneInGridPane.setPrefWidth(valeurWidth - suppression - 57 - 50);
             jour.setX(anchorPaneInGridPane.getPrefWidth() / 2.25);
         }
+        vBox.setPrefHeight(valeurWidth-suppression-57-50);
+        for (int i=0 ; i<vBox.getChildren().size();i++){
+            vBox.getChildren().get(i).prefWidth((valeurWidth-suppression-57-50)/vBox.getChildren().size());
+        }
         line9.setEndX(valeurWidth-suppression-57-67);
         line10.setEndX(valeurWidth-suppression-57-67);
         line11.setEndX(valeurWidth-suppression-57-67);
