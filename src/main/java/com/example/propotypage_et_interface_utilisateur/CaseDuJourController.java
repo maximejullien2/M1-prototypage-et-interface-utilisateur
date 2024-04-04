@@ -1,48 +1,34 @@
 package com.example.propotypage_et_interface_utilisateur;
 
-import com.example.Icalendar.Event;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
-import javafx.stage.PopupWindow;
-import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.*;
 
-public class CaseDeLaSemaineController implements Initializable {
+public class CaseDuJourController implements Initializable {
     @FXML
     AnchorPane anchorPane;
     @FXML
     Text salle;
-
     @FXML
     VBox vBox;
+
     Integer nombreDeCase = 1;
-
     public void setNombreDeCase(Integer nombreDeCase){
-        this.nombreDeCase = nombreDeCase;
-        this.anchorPane.setPrefWidth(128/nombreDeCase);
+        this.nombreDeCase = nombreDeCase;this.anchorPane.setPrefWidth(638/this.nombreDeCase);
     }
-
-    private void disableText(){
-        double height = this.anchorPane.getPrefHeight();
-        if (this.salle.getLayoutY()>height){
-            this.salle.setVisible(false);
-        }
-    }
-
     public void setInformation(HashMap<String,String> hashMap, String horraire){
+        this.anchorPane.setPrefWidth(638/nombreDeCase);
         final String horraireDebut = horraire;
-        this.anchorPane.setPrefWidth(128/nombreDeCase);
         List<Text> list = new ArrayList<Text>();
         double height = this.anchorPane.getPrefHeight()-10;
         double heightVbox = this.vBox.getLayoutY();
@@ -185,6 +171,7 @@ public class CaseDeLaSemaineController implements Initializable {
             else {
                 list.add(type);
             }
+
         }
         if (heightVbox<height && hashMap.get("Personnes ")!= null) {
             String resultatMemo = "Personnes :" +hashMap.get("Personnes ");
@@ -255,7 +242,7 @@ public class CaseDeLaSemaineController implements Initializable {
                 Color color2 = (Color) Paint.valueOf("red");
                 backgroundColor = color2.darker().toString().replace("0x","#");
             }
-            if (hashMap.get("Matière ")!=null && hashMap.get("Matière ").contains("UEO")){
+            if (hashMap.get("Matière ") !=null && hashMap.get("Matière ").contains("UEO")){
                 Color color2 = (Color) Paint.valueOf("green");
                 backgroundColor = color2.darker().toString().replace("0x","#");
             }
@@ -296,9 +283,9 @@ public class CaseDeLaSemaineController implements Initializable {
                     String backgroundColor = "blue";
                     if (Objects.equals(hashMap.get("Type "), " Evaluation")){
                         Color color2 = (Color) Paint.valueOf("red");
-                        backgroundColor = color2.darker().toString();
+                        backgroundColor = color2.darker().toString().replace("0x","#");
                     }
-                    if (hashMap.get("Matière ")!=null && hashMap.get("Matière ").contains("UEO")){
+                    if (hashMap.get("Matière ") !=null && hashMap.get("Matière ").contains("UEO")){
                         Color color2 = (Color) Paint.valueOf("green");
                         backgroundColor = color2.darker().toString().replace("0x","#");
                     }
@@ -311,11 +298,10 @@ public class CaseDeLaSemaineController implements Initializable {
                     anchorPane.setStyle("-fx-background-color:"+backgroundColor+";-fx-border-color: white;");
                 }
                 salle.setFill(color);
-                for (int i = 0; i< finalList.size(); i++){
-                    finalList.get(i).setFill(color);
+                for (int i = 0; i< list.size(); i++){
+                    list.get(i).setFill(color);
                 }
             }
-
         });
         CalendrierApplication.stage.widthProperty().addListener(new ChangeListener<Number>() {
             @Override
@@ -536,7 +522,7 @@ public class CaseDeLaSemaineController implements Initializable {
                         Color color2 = (Color) Paint.valueOf("red");
                         backgroundColor = color2.darker().toString().replace("0x","#");
                     }
-                    if (hashMap.get("Matière ")!=null && hashMap.get("Matière ").contains("UEO")){
+                    if (hashMap.get("Matière ") !=null && hashMap.get("Matière ").contains("UEO")){
                         Color color2 = (Color) Paint.valueOf("green");
                         backgroundColor = color2.darker().toString().replace("0x","#");
                     }
@@ -555,7 +541,6 @@ public class CaseDeLaSemaineController implements Initializable {
             }
         });
         this.setWidth(CalendrierApplication.stage.getWidth());
-
         CalendrierApplication.stage.heightProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -800,11 +785,20 @@ public class CaseDeLaSemaineController implements Initializable {
         if (CalendrierApplication.stage.getWidth()<791){
             suppression=10;
         }
-        anchorPane.setPrefWidth(((newValue-suppression-57-20)/(nombreDeCase*5)));
+        anchorPane.setPrefWidth((newValue-suppression-57-50)/nombreDeCase);
+        vBox.setPrefWidth((newValue-suppression-57-50)/nombreDeCase);
     }
+
     public void setOpacity(double value){
         this.anchorPane.setOpacity(value);
         if (value==0){
+            CalendrierApplication.stage.heightProperty().addListener(new ChangeListener<Number>() {
+                @Override
+                public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                    anchorPane.setPrefHeight((anchorPane.getPrefHeight() * (newValue.doubleValue() - 116)) / (oldValue.doubleValue() - 116));
+                }
+            });
+            anchorPane.setPrefHeight((anchorPane.getPrefHeight()*(CalendrierApplication.stage.getHeight()-116))/(727-116));
             CalendrierApplication.stage.widthProperty().addListener(new ChangeListener<Number>() {
                 @Override
                 public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -812,21 +806,20 @@ public class CaseDeLaSemaineController implements Initializable {
                 }
             });
             this.setWidth(CalendrierApplication.stage.getWidth());
-
-            CalendrierApplication.stage.heightProperty().addListener(new ChangeListener<Number>() {
-                @Override
-                public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                    anchorPane.setPrefHeight((anchorPane.getPrefHeight()*(newValue.doubleValue()-116))/(oldValue.doubleValue()-116));
-                }
-            });
-            anchorPane.setPrefHeight((anchorPane.getPrefHeight()*(CalendrierApplication.stage.getHeight()-116))/(727-116));
         }
+
     }
     public void setHeigth(double valueADiviser){
-        this.anchorPane.setPrefHeight(this.anchorPane.getPrefHeight()/valueADiviser);
+        this.anchorPane.setPrefHeight((double)this.anchorPane.getPrefHeight()/valueADiviser);
+    }
+
+    private void disableText(){
+        double height = this.anchorPane.getPrefHeight();
+        if (this.salle.getLayoutY()>height){
+            this.salle.setVisible(false);
+        }
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
     }
 }

@@ -1,5 +1,6 @@
 package com.example.propotypage_et_interface_utilisateur;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -8,6 +9,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
@@ -40,8 +43,20 @@ public class InscriptionController implements Initializable {
 
     ArrayList<HashMap<String,String>> list = new ArrayList<HashMap<String,String>>();
 
-    @FXML
-    public void inscriptionOnMouseClicked() throws IOException {
+    EventHandler<KeyEvent> touches = new EventHandler<KeyEvent>() {
+        @Override
+        public void handle(KeyEvent event) {
+            if (event.getCode()== KeyCode.ENTER){
+                try {
+                    inscriptionOnMouseClicked();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    };
+
+    private void testIfTextElementIsEmpty(){
         this.name.setStyle("");
         this.firstName.setStyle("");
         this.password.setStyle("");
@@ -64,6 +79,11 @@ public class InscriptionController implements Initializable {
             this.eleveCheckbox.setStyle("-fx-border-color: red;");
             this.ensignantCheckbox.setStyle("-fx-border-color: red;");
         }
+    }
+
+    @FXML
+    public void inscriptionOnMouseClicked() throws IOException {
+        this.testIfTextElementIsEmpty();
         if (Objects.equals(this.name.getText(), "") || Objects.equals(this.firstName.getText(), "")||
                 Objects.equals(this.password.getText(), "") || Objects.equals(this.mailAdresse.getText(), "") ||
                 (!this.eleveCheckbox.isSelected() && !this.ensignantCheckbox.isSelected())){
@@ -79,15 +99,36 @@ public class InscriptionController implements Initializable {
             }
             BufferedWriter bufferedWriter = getBufferedWriter();
             bufferedWriter.close();
+            CalendrierApplication.stage.removeEventFilter(KeyEvent.KEY_PRESSED,touches);
             Stage stage = (Stage) inscriptionButton.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(ConnexionController.class.getResource("pageConnexion.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(ConnexionController.class.getResource("ConnexionPage.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
+            stage.setMinWidth(0);
+            stage.setMinHeight(0);
+            stage.setHeight(450);
+            stage.setWidth(600);
+            stage.setResizable(false);
             stage.setTitle("Page de Connexion");
             stage.setScene(scene);
         }
     }
 
-    private BufferedWriter getBufferedWriter() throws IOException {
+    @FXML
+    public void connexionPageOnMouseClicked() throws IOException {
+        CalendrierApplication.stage.removeEventFilter(KeyEvent.KEY_PRESSED,touches);
+        Stage stage = (Stage) inscriptionButton.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(ConnexionController.class.getResource("ConnexionPage.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setMinWidth(0);
+        stage.setMinHeight(0);
+        stage.setHeight(450);
+        stage.setWidth(600);
+        stage.setResizable(false);
+        stage.setTitle("Page de Connexion");
+        stage.setScene(scene);
+    }
+
+    private BufferedWriter writeInDbFile() throws IOException {
         File file = new File("src/main/resources/com/example/connexion/db.txt");
         FileWriter fileWriter = new FileWriter(file,true);
         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
@@ -100,7 +141,7 @@ public class InscriptionController implements Initializable {
         bufferedWriter.write("color:white");
         bufferedWriter.newLine();
         if (ensignantCheckbox.isSelected())
-            bufferedWriter.write("type:ensignant");
+            bufferedWriter.write("type:enseignant");
         else
             bufferedWriter.write("type:eleve");
         bufferedWriter.newLine();
@@ -108,6 +149,11 @@ public class InscriptionController implements Initializable {
         bufferedWriter.newLine();
         bufferedWriter.write("password:"+this.password.getText());
         bufferedWriter.newLine();
+        return bufferedWriter;
+    }
+
+    private BufferedWriter getBufferedWriter() throws IOException {
+        BufferedWriter bufferedWriter = this.writeInDbFile();
         File file1 = new File("src/main/resources/com/example/connexion/"+this.mailAdresse.getText());
         file1.mkdir();
         file1 = new File("src/main/resources/com/example/connexion/"+this.mailAdresse.getText()+"/favoris");
@@ -151,5 +197,6 @@ public class InscriptionController implements Initializable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        CalendrierApplication.stage.addEventFilter(KeyEvent.KEY_PRESSED,touches);
     }
 }

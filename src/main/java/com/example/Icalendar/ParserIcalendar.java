@@ -17,8 +17,8 @@ public class ParserIcalendar {
      * @return Return an Object ApiCalendar
      * @throws IOException
      */
-    public ApiCalendar createCalendar(BufferedReader bufferedReader) throws IOException {
-        ApiCalendar apiCalendar = new ApiCalendar();
+    public ApiCalendar createCalendar(BufferedReader bufferedReader,String filename) throws IOException {
+        ApiCalendar apiCalendar = new ApiCalendar(filename);
         String line = bufferedReader.readLine();
         while(!line.equals("BEGIN:VEVENT") && !line.equals("END:VCALENDAR")){
             line = bufferedReader.readLine();}
@@ -37,7 +37,7 @@ public class ParserIcalendar {
      */
     public ApiCalendar parse(String filename) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new FileReader(filename));
-        return createCalendar(bufferedReader);
+        return createCalendar(bufferedReader,filename);
     }
 
     /**
@@ -137,7 +137,8 @@ public class ParserIcalendar {
             }
             descriptionEvent.addDescription(key, value);
         }
-        while (!bufferedReader.readLine().equals("BEGIN:VEVENT")) {}
+        line = bufferedReader.readLine();
+        while (line != null && !line.equals("BEGIN:VEVENT") && !line.equals("END:VCALENDAR")) {line =bufferedReader.readLine(); }
         return new Event(dateEvent, summary, location, descriptionEvent);
     }
 }

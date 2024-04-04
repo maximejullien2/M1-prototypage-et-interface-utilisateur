@@ -8,10 +8,10 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="639.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.propotypage_et_interface_utilisateur.CasDuMoisController">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="639.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.propotypage_et_interface_utilisateur.CasDuMoisController">
    <children>
       <FlowPane fx:id="jourMois" layoutY="59.0" prefHeight="228.0" prefWidth="635.0" />
-      <GridPane prefHeight="58.0" prefWidth="635.0">
+      <GridPane fx:id="gridPane" prefHeight="58.0" prefWidth="635.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -23,16 +23,31 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Text fx:id="lundi" strokeType="OUTSIDE" strokeWidth="0.0" text="Lundi" textAlignment="CENTER" wrappingWidth="125.7294921875" />
-            <Text fx:id="mardi" strokeType="OUTSIDE" strokeWidth="0.0" text="Mardi" textAlignment="CENTER" wrappingWidth="124.7294921875" GridPane.columnIndex="1" />
-            <Text fx:id="mercredi" strokeType="OUTSIDE" strokeWidth="0.0" text="Mercredi" textAlignment="CENTER" wrappingWidth="126.7294921875" GridPane.columnIndex="2" />
-            <Text fx:id="jeudi" strokeType="OUTSIDE" strokeWidth="0.0" text="Jeudi" textAlignment="CENTER" wrappingWidth="126.7294921875" GridPane.columnIndex="3" />
-            <Text fx:id="vendredi" strokeType="OUTSIDE" strokeWidth="0.0" text="Vendredi" textAlignment="CENTER" wrappingWidth="127.7294921875" GridPane.columnIndex="4" />
-            <Pane fx:id="paneLundi" prefHeight="58.0" prefWidth="683.0" style="-fx-border-color: black;" />
-            <Pane fx:id="paneMardi" prefHeight="58.0" prefWidth="147.0" style="-fx-border-color: black;" GridPane.columnIndex="1" />
-            <Pane fx:id="paneMercredi" prefHeight="58.0" prefWidth="147.0" style="-fx-border-color: black;" GridPane.columnIndex="2" />
-            <Pane fx:id="paneJeudi" prefHeight="58.0" prefWidth="147.0" style="-fx-border-color: black;" GridPane.columnIndex="3" />
-            <Pane fx:id="paneVendredi" prefHeight="58.0" prefWidth="372.0" style="-fx-border-color: black;" GridPane.columnIndex="4" />
+             <AnchorPane fx:id="paneLundi" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: black;" GridPane.columnIndex="0">
+                 <children>
+                     <Text fx:id="lundi" strokeType="OUTSIDE" layoutY="35" strokeWidth="0.0" text="Lundi" textAlignment="CENTER" />
+                 </children>
+             </AnchorPane>
+             <AnchorPane fx:id="paneMardi" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: black;" GridPane.columnIndex="1">
+                 <children>
+                     <Text fx:id="mardi" strokeType="OUTSIDE" layoutY="35" strokeWidth="0.0" text="Mardi" textAlignment="CENTER" />
+                 </children>
+             </AnchorPane>
+             <AnchorPane fx:id="paneMercredi" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: black;" GridPane.columnIndex="2">
+                 <children>
+                     <Text fx:id="mercredi" strokeType="OUTSIDE" layoutY="35" strokeWidth="0.0" text="Mercredi" textAlignment="CENTER" />
+                 </children>
+             </AnchorPane>
+             <AnchorPane fx:id="paneJeudi" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: black;" GridPane.columnIndex="3">
+                 <children>
+                     <Text fx:id="jeudi" strokeType="OUTSIDE" layoutY="35" strokeWidth="0.0" text="Jeudi" textAlignment="CENTER" />
+                 </children>
+             </AnchorPane>
+             <AnchorPane fx:id="paneVendredi" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: black;" GridPane.columnIndex="4">
+                 <children>
+                     <Text fx:id="vendredi" strokeType="OUTSIDE" layoutY="35" strokeWidth="0.0" text="Vendredi" textAlignment="CENTER" />
+                 </children>
+             </AnchorPane>
          </children>
       </GridPane>
    </children>
