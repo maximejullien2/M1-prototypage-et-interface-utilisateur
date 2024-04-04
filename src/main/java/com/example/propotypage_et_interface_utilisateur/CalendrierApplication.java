@@ -1,13 +1,10 @@
 package com.example.propotypage_et_interface_utilisateur;
 
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -43,8 +40,10 @@ public class CalendrierApplication extends Application {
     private int creationFichier(){
         File file = new File("src/main/resources/com/example/connexion/db.txt");
         File file2 = new File("src/main/resources/com/example/connexion/connected.txt");
+        File dossier = new File("src/main/resources/com/example/connexion");
         int creationFile=0;
         try {
+            dossier.mkdir();
             if (!file.exists()) {
                 file.createNewFile();
                 if (file2.exists()) {
