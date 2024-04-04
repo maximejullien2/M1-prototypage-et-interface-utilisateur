@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="639.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.propotypage_et_interface_utilisateur.CasDuMoisController">
+   <children>
+      <FlowPane fx:id="jourMois" layoutY="59.0" prefHeight="228.0" prefWidth="635.0" />
+      <GridPane fx:id="gridPane" prefHeight="58.0" prefWidth="635.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+             <AnchorPane fx:id="paneLundi" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: black;" GridPane.columnIndex="0">
+                 <children>
+                     <Text fx:id="lundi" strokeType="OUTSIDE" layoutY="35" strokeWidth="0.0" text="Lundi" textAlignment="CENTER" />
+                 </children>
+             </AnchorPane>
+             <AnchorPane fx:id="paneMardi" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: black;" GridPane.columnIndex="1">
+                 <children>
+                     <Text fx:id="mardi" strokeType="OUTSIDE" layoutY="35" strokeWidth="0.0" text="Mardi" textAlignment="CENTER" />
+                 </children>
+             </AnchorPane>
+             <AnchorPane fx:id="paneMercredi" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: black;" GridPane.columnIndex="2">
+                 <children>
+                     <Text fx:id="mercredi" strokeType="OUTSIDE" layoutY="35" strokeWidth="0.0" text="Mercredi" textAlignment="CENTER" />
+                 </children>
+             </AnchorPane>
+             <AnchorPane fx:id="paneJeudi" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: black;" GridPane.columnIndex="3">
+                 <children>
+                     <Text fx:id="jeudi" strokeType="OUTSIDE" layoutY="35" strokeWidth="0.0" text="Jeudi" textAlignment="CENTER" />
+                 </children>
+             </AnchorPane>
+             <AnchorPane fx:id="paneVendredi" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: black;" GridPane.columnIndex="4">
+                 <children>
+                     <Text fx:id="vendredi" strokeType="OUTSIDE" layoutY="35" strokeWidth="0.0" text="Vendredi" textAlignment="CENTER" />
+                 </children>
+             </AnchorPane>
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>
