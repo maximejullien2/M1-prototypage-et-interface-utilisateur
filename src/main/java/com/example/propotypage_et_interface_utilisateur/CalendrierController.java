@@ -545,7 +545,7 @@ public class CalendrierController implements Initializable {
                     messageUrlRequest.setText("Nom de l'EDT Non Renseignée");
                 }
                 else if (Objects.equals(nameEdtTextField.getText(), "") && !Objects.equals(urlTextField.getText(), "")){
-                    messageUrlRequest.setText("Nom de l'EDT Non Renseignée");
+                    messageUrlRequest.setText("URL de l'EDT Non Renseignée");
                 }
                 else{
                     messageUrlRequest.setText("Aucune information donnée");

@@ -1,0 +1,3 @@
+.choice-box.context-menu {
+    -fx-pref-width: 220; /* Set the width for the context menu background */
+}
